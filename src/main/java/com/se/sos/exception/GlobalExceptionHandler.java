@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
 
     // 일반 예외 처리
     protected ResponseEntity<?> handleException(final Exception e) {
-        ErrorRes error = new ErrorRes(INTERNAL_SERVER_ERROR.getStatusCode(), INTERNAL_SERVER_ERROR.getMessage());;
+        ErrorRes error = new ErrorRes(INTERNAL_SERVER_ERROR.getStatusCode(), INTERNAL_SERVER_ERROR.getMessage());
         log.error("Error occured : [errorCode={}, message={}]",error.status(), error.message());
         return ResponseEntity.status(error.status()).body(error);
     }
