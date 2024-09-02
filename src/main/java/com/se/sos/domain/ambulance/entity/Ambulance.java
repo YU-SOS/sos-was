@@ -23,6 +23,9 @@ public class Ambulance {
     @GeneratedValue(strategy = IDENTITY)
     Long id;
 
+    String loginId;
+    String password;
+
     String name;
     String address;
     String telephoneNumber;
