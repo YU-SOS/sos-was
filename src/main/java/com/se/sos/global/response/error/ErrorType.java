@@ -1,4 +1,4 @@
-package com.se.sos.common.response.error;
+package com.se.sos.global.response.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
