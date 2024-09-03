@@ -36,13 +36,6 @@ public class Reception {
     public Reception(TransferStatus status, LocalDateTime startTime,
                      Ambulance ambulance,
                      Patient patient) {
-        if(ambulance == null){
-            throw new IllegalArgumentException("ambulance is required");
-        }
-        if(patient == null){
-            throw new IllegalArgumentException("patient is required");
-        }
-
         this.status = status;
         this.startTime = startTime;
         this.ambulance = ambulance;
