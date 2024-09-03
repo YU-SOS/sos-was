@@ -25,6 +25,8 @@ public class Hospital {
     private String hospitalId;
     private String password;
 
+    private String name;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
