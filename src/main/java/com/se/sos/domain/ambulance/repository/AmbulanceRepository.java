@@ -7,6 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AmbulanceRepository extends JpaRepository<Ambulance, UUID> {
-//    Optional<Ambulance> findByAmbulanceId(String ambulanceId);
-    Ambulance findByAmbulanceId(String ambulanceId);
+    Optional<Ambulance> findByAmbulanceId(String ambulanceId);
 }
