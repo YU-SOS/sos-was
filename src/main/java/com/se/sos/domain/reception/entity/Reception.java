@@ -4,7 +4,6 @@ import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.hospital.entity.Hospital;
 import jakarta.persistence.*;
 import lombok.*;
-import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.time.LocalDateTime;
 
