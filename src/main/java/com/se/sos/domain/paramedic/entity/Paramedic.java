@@ -31,10 +31,5 @@ public class Paramedic {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.ambulance = ambulance;
-
-        if (ambulance != null) {
-            ambulance.getParamedics().add(this);
-        }
-
     }
 }
