@@ -1,4 +1,4 @@
-package com.se.sos.common.response.error;
+package com.se.sos.global.response.error;
 
 public record ErrorRes (
         int status,

@@ -1,6 +1,6 @@
-package com.se.sos.exception;
+package com.se.sos.global.exception;
 
-import com.se.sos.common.response.error.ErrorType;
+import com.se.sos.global.response.error.ErrorType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

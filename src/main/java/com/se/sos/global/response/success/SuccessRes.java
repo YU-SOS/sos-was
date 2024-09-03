@@ -1,4 +1,4 @@
-package com.se.sos.common.response.success;
+package com.se.sos.global.response.success;
 
 import org.springframework.http.ResponseEntity;
 
