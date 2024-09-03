@@ -28,8 +28,8 @@ public class AmbulanceAndHospitalDetailsService implements UserDetailsService {
 
         if(role.equals("AMB")){
 
-            Ambulance ambulance = ambulanceRepository.findByAmbulanceId(id);
-            // Optional 설정?
+            Ambulance ambulance = ambulanceRepository.findByAmbulanceId(id)
+                    .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
             
             return new AmbulanceDetails(ambulance);
 
@@ -38,7 +38,6 @@ public class AmbulanceAndHospitalDetailsService implements UserDetailsService {
                     .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
 
             return new HospitalDetails(hospital);
-
         }
 
         return null;
