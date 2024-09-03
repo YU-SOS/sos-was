@@ -1,8 +1,10 @@
 package com.se.sos.domain.reception.entity;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
+import com.se.sos.domain.hospital.entity.Hospital;
 import jakarta.persistence.*;
 import lombok.*;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.time.LocalDateTime;
 
@@ -32,13 +34,15 @@ public class Reception {
     @JoinColumn(name = "PATIENT_ID")
     Patient patient;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "HOSPITAL_ID")
+    Hospital hospital;
+
     @Builder
     public Reception(LocalDateTime startTime, Ambulance ambulance,
                      Patient patient) {
         this.startTime = startTime;
         this.ambulance = ambulance;
         this.patient = patient;
-
-        ambulance.getReceptions().add(this);
     }
 }
