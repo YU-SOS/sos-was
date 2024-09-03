@@ -19,7 +19,7 @@ public class Reception {
     Long id;
 
     @Enumerated(EnumType.STRING)
-    TransferStatus status;
+    TransferStatus status = TransferStatus.MOVE;
 
     LocalDateTime startTime; // 이송 시작 시간
     LocalDateTime endTime; // 이송 완료 시간
@@ -33,10 +33,8 @@ public class Reception {
     Patient patient;
 
     @Builder
-    public Reception(TransferStatus status, LocalDateTime startTime,
-                     Ambulance ambulance,
+    public Reception(LocalDateTime startTime, Ambulance ambulance,
                      Patient patient) {
-        this.status = status;
         this.startTime = startTime;
         this.ambulance = ambulance;
         this.patient = patient;
