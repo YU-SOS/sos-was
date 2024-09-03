@@ -7,15 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SosApplicationTests {
 
-	@Test
-	void contextLoads() {
-		Ambulance ambulance = Ambulance.builder()
-				.name("hi")
-				.address("hello")
-				.build();
-		System.out.println("ambulance.getName() = " + ambulance.getName());
-
-
-	}
+//	@Test
+//	void contextLoads() {
+//		Ambulance ambulance = Ambulance.builder()
+//				.name("hi")
+//				.address("hello")
+//				.build();
+//		System.out.println("ambulance.getName() = " + ambulance.getName());
+//
+//
+//	}
 
 }

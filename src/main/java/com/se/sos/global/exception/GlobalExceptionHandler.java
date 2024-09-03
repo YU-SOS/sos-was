@@ -1,7 +1,7 @@
-package com.se.sos.exception;
+package com.se.sos.global.exception;
 
-import com.se.sos.common.response.error.ErrorRes;
-import com.se.sos.common.response.error.ErrorType;
+import com.se.sos.global.response.error.ErrorRes;
+import com.se.sos.global.response.error.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.se.sos.common.response.error.ErrorType.INTERNAL_SERVER_ERROR;
+import static com.se.sos.global.response.error.ErrorType.INTERNAL_SERVER_ERROR;
 
 import java.util.HashMap;
 import java.util.Map;
