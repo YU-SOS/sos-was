@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -29,8 +30,6 @@ public class Comment {
     @Column(updatable = false)
     LocalDateTime createdAt; // 작성시간
 
-
-
     @ManyToOne
     @JoinColumn(name = "RECEPTION_ID")
     Reception reception;
@@ -39,5 +38,9 @@ public class Comment {
     public Comment(String description, Reception reception) {
         this.description = description;
         this.reception = reception;
+    }
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 }
