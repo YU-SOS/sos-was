@@ -9,16 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Getter
 public class AmbulanceSignupReq extends SignupReq {
 
-
-    private String name;
-    private String address;
-    private String telephoneNumber;
-
-    public AmbulanceSignupReq(String id, String password, String role, String name, String address, String telephoneNumber) {
-        super(id, password, role); // 부모 클래스의 생성자 호출
-        this.name = name;
-        this.address = address;
-        this.telephoneNumber = telephoneNumber;
+    public AmbulanceSignupReq(String id, String password,String name, String address, String telephoneNumber) {
+        super(id, password, name, address, telephoneNumber);
     }
 
     public static Ambulance toEntity(AmbulanceSignupReq ambulanceSignupReq, String encodedPassword) {
