@@ -8,4 +8,8 @@ import java.util.UUID;
 
 public interface HospitalRepository extends JpaRepository<Hospital, UUID> {
     Optional<Hospital> findByHospitalId(String hospitalId);
+
+    boolean existsByHospitalId(String hospitalId);
+
+    boolean existsByName(String name);
 }
