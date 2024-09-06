@@ -28,3 +28,7 @@ jwt:
   issuer: ${JWT_ISSUER}
   access-expiration: ${JWT_ACCESS_EXPIRATION}
   refresh-expiration: ${JWT_REFRESH_EXPIRATION}
+
+--- #cookie
+cookie:
+  refresh-expirtaion: ${COOKIE_REFRESH_EXPIRATION}
