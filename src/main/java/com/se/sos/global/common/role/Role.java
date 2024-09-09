@@ -11,6 +11,7 @@ public enum Role {
     AMB_GUEST("ROLE_AMB_GUEST"),
     HOS("ROLE_HOS"),
     HOS_GUEST("ROLE_HOS_GUEST"),
+    USER("ROLE_USER")
     ;
 
     private final String role;

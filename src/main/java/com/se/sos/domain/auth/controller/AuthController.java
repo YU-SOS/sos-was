@@ -2,7 +2,7 @@ package com.se.sos.domain.auth.controller;
 
 import com.se.sos.domain.auth.dto.AmbulanceSignupReq;
 import com.se.sos.domain.auth.dto.HospitalSignupReq;
-import com.se.sos.domain.auth.dto.SignupReq;
+import com.se.sos.domain.auth.dto.UserSignupReq;
 import com.se.sos.domain.auth.service.AuthService;
 import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
@@ -28,5 +28,10 @@ public class AuthController {
     public ResponseEntity<?> signup(@RequestBody HospitalSignupReq hospitalSignupReq) {
         authService.signupForHospital(hospitalSignupReq);
         return SuccessRes.from(SuccessType.CREATED);
+    }
+
+    @PostMapping("/login/user")
+    public ResponseEntity<?> login(@RequestBody UserSignupReq userSignupReq) {
+        return authService.loginForUser(userSignupReq);
     }
 }
