@@ -5,6 +5,8 @@ import com.se.sos.domain.security.form.dto.CustomUserDetails;
 import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.util.jwt.JwtUtil;
+import com.se.sos.global.util.redis.RedisProperties;
+import com.se.sos.global.util.redis.RedisUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -30,6 +32,7 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final RedisUtil redisUtil;
 
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -72,6 +75,7 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refreshToken", refreshToken));
+        redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX+id, refreshToken);
     }
 
     @Override
