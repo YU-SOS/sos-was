@@ -69,12 +69,6 @@ public class AuthService {
         String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString(), user.getRole().toString());
         redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX + user.getId(), refreshToken);
 
-        String redisStoredValue = (String) redisUtil.get(RedisProperties.REFRESH_TOKEN_PREFIX + user.getId());
-        System.out.println(redisStoredValue);
-        Claims claims =  jwtUtil.parseToken(redisStoredValue);
-        String subject = claims.getSubject();
-        String role = claims.get("role", String.class);
-        System.out.println("subject & role =" + subject  + "&" + role);
         return ResponseEntity.status(SuccessType.USER_CREATED.getStatus())
                 .header("Set-Cookie", cookieUtil.addRefreshTokenCookie(refreshToken).toString())
                 .header("Authorization", accessToken)
