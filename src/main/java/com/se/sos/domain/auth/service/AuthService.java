@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import static com.se.sos.global.response.success.SuccessType.LOGOUT_SUCCESS;
 
 
 @Service
@@ -89,7 +90,7 @@ public class AuthService {
         boolean deleteRefreshToken = redisUtil.delete(RedisProperties.REFRESH_TOKEN_PREFIX + userId);
 
         if (deleteRefreshToken) {
-            return ResponseEntity.status(SuccessType.OK.getStatus())
+            return ResponseEntity.status(LOGOUT_SUCCESS.getStatus())
                     .header(HttpHeaders.SET_COOKIE, cookieUtil.deleteRefreshTokenCookie().toString())
                     .body(null);
         } else {
