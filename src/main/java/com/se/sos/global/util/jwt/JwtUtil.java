@@ -49,6 +49,7 @@ public class JwtUtil {
                 .expiration(createExpire(refreshTokenDuration.toMillis()))
                 .claim("role", role)
                 .claim("tokenType", "refresh")
+                .signWith(secretKey)
                 .compact();
     }
 

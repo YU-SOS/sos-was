@@ -14,14 +14,14 @@ import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.response.success.SuccessType;
 import com.se.sos.global.util.cookie.CookieUtil;
 import com.se.sos.global.util.jwt.JwtUtil;
+import com.se.sos.global.util.redis.RedisProperties;
+import com.se.sos.global.util.redis.RedisUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +33,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
+    private final RedisUtil redisUtil;
 
     public void signupForAmbulance(AmbulanceSignupReq ambulanceSignupReq){
         if(ambulanceRepository.existsByName(ambulanceSignupReq.getName()))
@@ -66,6 +67,7 @@ public class AuthService {
 
         String accessToken  = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().toString());
         String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString(), user.getRole().toString());
+        redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX + user.getId(), refreshToken);
 
         return ResponseEntity.status(SuccessType.USER_CREATED.getStatus())
                 .header("Set-Cookie", cookieUtil.addRefreshTokenCookie(refreshToken).toString())
