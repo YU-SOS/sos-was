@@ -26,7 +26,7 @@ public enum ErrorType {
     AMBULANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 구급대입니다."),
     HOSPITAL_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 병원입니다."),
     RECEPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 접수 입니다."),
-
+    LOGOUT_FAILED(HttpStatus.NOT_FOUND,"존재하지 않는 토큰입니다."),
     // 데이터 충돌
     ALREADY_USED_ID(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다."),
     ALREADY_EXISTS_AMBULANCE(HttpStatus.CONFLICT, "이미 존재하는 구급대입니다."),
