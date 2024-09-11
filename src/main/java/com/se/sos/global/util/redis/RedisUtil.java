@@ -28,7 +28,7 @@ public class RedisUtil {
         return Boolean.TRUE.equals(redisTemplate.delete(key));
     }
 
-    public void blacklistToken(String key, long remainingTime) {
+    public void setBlacklistToken(String key, long remainingTime) {
         redisTemplate.opsForValue().set(key, "blacklisted", remainingTime, TimeUnit.MILLISECONDS);
     }
 

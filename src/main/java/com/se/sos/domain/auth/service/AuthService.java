@@ -83,7 +83,7 @@ public class AuthService {
         // AccessToken Redis 블랙리스트 추가 (남은 시간 동안)
         long remainingTime = jwtUtil.extractTokenExpirationDate(accessToken).getTime() - System.currentTimeMillis();
         if(remainingTime > 0){
-            redisUtil.blacklistToken(RedisProperties.ACCESS_TOKEN_PREFIX + userId,remainingTime);
+            redisUtil.setBlacklistToken(RedisProperties.ACCESS_TOKEN_PREFIX + userId,remainingTime);
         }
 
         // RefreshToken Redis에서 삭제
