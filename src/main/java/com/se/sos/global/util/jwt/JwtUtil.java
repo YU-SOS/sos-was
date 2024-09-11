@@ -83,12 +83,7 @@ public class JwtUtil {
         return accessTokenDuration.toMillis();
     }
     public Date extractTokenExpirationDate(String token){
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration();
+        return this.parseToken(token).getExpiration();
     }
 
     private Date createExpire(Long expiration){
