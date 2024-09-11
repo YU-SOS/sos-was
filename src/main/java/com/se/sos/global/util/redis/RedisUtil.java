@@ -17,21 +17,15 @@ public class RedisUtil {
         redisTemplate.opsForValue().set(key, value, expiration, TimeUnit.MILLISECONDS);
     }
 
-    public void saveExpire(String key, Long seconds) {
-        redisTemplate.expire(key, Duration.ofSeconds(seconds));
-    }
-
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
 
-    public Boolean delete(String userId) {
-        if (containsKey(userId)) {
-            redisTemplate.delete(userId);
-            return true;
-        } else {
+    public boolean delete(String key) {
+        if (!containsKey(key)) {
             return false;
         }
+        return Boolean.TRUE.equals(redisTemplate.delete(key));
     }
 
     public void blacklistToken(String key, long remainingTime) {
@@ -41,6 +35,7 @@ public class RedisUtil {
     public boolean containsKey(String key) {
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
+
     public boolean isTokenBlacklisted(String key) {
         return containsKey(key);
     }
