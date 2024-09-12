@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,5 +34,10 @@ public class AuthController {
     @PostMapping("/login/user")
     public ResponseEntity<?> login(@RequestBody UserSignupReq userSignupReq) {
         return authService.loginForUser(userSignupReq);
+    }
+    @PostMapping("/logout/user")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader.substring(7);
+        return authService.logoutForUser(token);
     }
 }

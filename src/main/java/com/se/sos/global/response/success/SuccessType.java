@@ -10,6 +10,7 @@ public enum SuccessType {
 
     // 200
     OK(HttpStatus.OK, "요청이 성공했습니다."),
+    LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공하였습니다."),
 
     // 201
     CREATED(HttpStatus.CREATED, "등록을 성공하였습니다."),

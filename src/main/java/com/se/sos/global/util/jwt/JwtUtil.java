@@ -38,6 +38,7 @@ public class JwtUtil {
                 .expiration(createExpire(accessTokenDuration.toMillis()))
                 .claim("role", role)
                 .claim("tokenType", "access")
+                .signWith(secretKey)
                 .compact();
     }
 
@@ -74,6 +75,15 @@ public class JwtUtil {
     public String getTokenType (String token){
         Claims claims = parseToken(token);
         return claims.get("tokenType", String.class);
+    }
+    public long getRefreshTokenDuration(){
+        return refreshTokenDuration.toMillis();
+    }
+    public long getAccessTokenDuration(){
+        return accessTokenDuration.toMillis();
+    }
+    public Date extractTokenExpirationDate(String token){
+        return this.parseToken(token).getExpiration();
     }
 
     private Date createExpire(Long expiration){

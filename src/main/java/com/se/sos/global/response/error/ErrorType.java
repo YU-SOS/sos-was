@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorType {
 
+    // 400 잘못된 요청
+    LOGOUT_FAILED(HttpStatus.BAD_REQUEST,"로그아웃 실패되었습니다."),
+
     // 인증
     // 401
     UN_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "인증이 실패되었습니다."),

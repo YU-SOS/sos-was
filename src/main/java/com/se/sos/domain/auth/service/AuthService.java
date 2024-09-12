@@ -11,23 +11,26 @@ import com.se.sos.domain.user.entity.User;
 import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
+import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
 import com.se.sos.global.util.cookie.CookieUtil;
 import com.se.sos.global.util.jwt.JwtUtil;
 import com.se.sos.global.util.redis.RedisProperties;
 import com.se.sos.global.util.redis.RedisUtil;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.se.sos.global.response.success.SuccessType.LOGOUT_SUCCESS;
 
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AmbulanceRepository ambulanceRepository;;
+    private final AmbulanceRepository ambulanceRepository;
     private final HospitalRepository hospitalRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
@@ -35,28 +38,28 @@ public class AuthService {
     private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
 
-    public void signupForAmbulance(AmbulanceSignupReq ambulanceSignupReq){
-        if(ambulanceRepository.existsByName(ambulanceSignupReq.getName()))
+    public void signupForAmbulance(AmbulanceSignupReq ambulanceSignupReq) {
+        if (ambulanceRepository.existsByName(ambulanceSignupReq.getName()))
             throw new CustomException(ErrorType.ALREADY_EXISTS_AMBULANCE);
 
         Ambulance newAmbulance = AmbulanceSignupReq.toEntity(ambulanceSignupReq, bCryptPasswordEncoder.encode(ambulanceSignupReq.getPassword()));
         ambulanceRepository.save(newAmbulance);
     }
 
-    public void signupForHospital(HospitalSignupReq hospitalSignupReq){
-        if(hospitalRepository.existsByHospitalId(hospitalSignupReq.getName()))
+    public void signupForHospital(HospitalSignupReq hospitalSignupReq) {
+        if (hospitalRepository.existsByHospitalId(hospitalSignupReq.getName()))
             throw new CustomException(ErrorType.ALREADY_EXISTS_HOSPITAL);
 
         Hospital newHospital = HospitalSignupReq.toEntity(hospitalSignupReq, bCryptPasswordEncoder.encode(hospitalSignupReq.getPassword()));
         hospitalRepository.save(newHospital);
     }
 
-    public ResponseEntity<?> loginForUser(UserSignupReq req){
+    public ResponseEntity<?> loginForUser(UserSignupReq req) {
         String providerUserInfo = req.provider() + " " + req.providerId();
 
         User user = userRepository.findByProviderUserInfo(providerUserInfo);
 
-        if(user == null){ // 가입 X
+        if (user == null) { // 가입 X
             User newUser = UserSignupReq.toEntity(req);
             userRepository.save(newUser);
             user = newUser;
@@ -65,13 +68,34 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        String accessToken  = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().toString());
+        String accessToken = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().toString());
         String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString(), user.getRole().toString());
-        redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX + user.getId(), refreshToken);
+        redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX + user.getId(), refreshToken, jwtUtil.getRefreshTokenDuration());
 
         return ResponseEntity.status(SuccessType.USER_CREATED.getStatus())
                 .header("Set-Cookie", cookieUtil.addRefreshTokenCookie(refreshToken).toString())
                 .header("Authorization", accessToken)
                 .body(null);
+    }
+
+    public ResponseEntity<?> logoutForUser(String accessToken) {
+
+        String userId = jwtUtil.parseToken(accessToken).getSubject();
+
+        // AccessToken Redis 블랙리스트 추가 (남은 시간 동안)
+        long remainingTime = jwtUtil.extractTokenExpirationDate(accessToken).getTime() - System.currentTimeMillis();
+        redisUtil.setBlacklistToken(RedisProperties.ACCESS_TOKEN_PREFIX + userId, remainingTime);
+
+        // RefreshToken Redis에서 삭제
+        boolean deleteRefreshToken = redisUtil.delete(RedisProperties.REFRESH_TOKEN_PREFIX + userId);
+
+        if (deleteRefreshToken) {
+            return ResponseEntity.status(LOGOUT_SUCCESS.getStatus())
+                    .header(HttpHeaders.SET_COOKIE, cookieUtil.deleteRefreshTokenCookie().toString())
+                    .body(null);
+        } else {
+            return ResponseEntity.status(ErrorType.LOGOUT_FAILED.getStatus())
+                    .body(ErrorType.LOGOUT_FAILED.getMessage());
+        }
     }
 }

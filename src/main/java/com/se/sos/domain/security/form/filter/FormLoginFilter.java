@@ -75,7 +75,7 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refreshToken", refreshToken));
-        redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX+id, refreshToken);
+        redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX+id, refreshToken, jwtUtil.getRefreshTokenDuration());
     }
 
     @Override
