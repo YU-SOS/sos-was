@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import static com.se.sos.global.response.success.SuccessType.LOGOUT_SUCCESS;
 
 
@@ -82,9 +83,7 @@ public class AuthService {
 
         // AccessToken Redis 블랙리스트 추가 (남은 시간 동안)
         long remainingTime = jwtUtil.extractTokenExpirationDate(accessToken).getTime() - System.currentTimeMillis();
-        if(remainingTime > 0){
-            redisUtil.setBlacklistToken(RedisProperties.ACCESS_TOKEN_PREFIX + userId,remainingTime);
-        }
+        redisUtil.setBlacklistToken(RedisProperties.ACCESS_TOKEN_PREFIX + userId, remainingTime);
 
         // RefreshToken Redis에서 삭제
         boolean deleteRefreshToken = redisUtil.delete(RedisProperties.REFRESH_TOKEN_PREFIX + userId);
