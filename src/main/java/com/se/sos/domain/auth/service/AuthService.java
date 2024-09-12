@@ -11,6 +11,7 @@ import com.se.sos.domain.user.entity.User;
 import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
+import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
 import com.se.sos.global.util.cookie.CookieUtil;
 import com.se.sos.global.util.jwt.JwtUtil;
@@ -94,7 +95,7 @@ public class AuthService {
                     .body(null);
         } else {
             return ResponseEntity.status(ErrorType.LOGOUT_FAILED.getStatus())
-                    .body("Logout Failed");
+                    .body(ErrorType.LOGOUT_FAILED.getMessage());
         }
     }
 }
