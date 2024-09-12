@@ -22,9 +22,6 @@ public class RedisUtil {
     }
 
     public boolean delete(String key) {
-        if (!containsKey(key)) {
-            return false;
-        }
         return Boolean.TRUE.equals(redisTemplate.delete(key));
     }
 
