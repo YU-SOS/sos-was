@@ -1,6 +1,7 @@
 package com.se.sos.domain.reception.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +17,21 @@ public class Patient {  // 환자
     @GeneratedValue
     Long id;
 
+    @NotNull
     String name;
+
+    @NotNull
     int age;
-    String number;
+
+    @NotNull
+    String phoneNumber;
+
+    @NotNull
     String symptom; // 증상
-    String medication; // 복용약
+
+    @NotNull
+    String medication; // 복용약 List
+
     String reference; // 특이사항
 
     @Enumerated(EnumType.STRING)
@@ -30,12 +41,12 @@ public class Patient {  // 환자
     TransferStatus status;
 
     @Builder
-    public Patient(String name, int age, String number, String symptom,
+    public Patient(String name, int age, String phoneNumber, String symptom,
                    String medication, String reference, Gender gender,
                    TransferStatus status) {
         this.name = name;
         this.age = age;
-        this.number = number;
+        this.phoneNumber = phoneNumber;
         this.symptom = symptom;
         this.medication = medication;
         this.reference = reference;

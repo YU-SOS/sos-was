@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -17,7 +19,7 @@ public class Paramedic {
 
     @Id
     @GeneratedValue
-    Long id;
+    UUID id;
 
     String name;
     String phoneNumber;

@@ -1,11 +1,12 @@
 package com.se.sos.domain.auth.dto;
 
 import com.se.sos.domain.user.entity.User;
+import jakarta.validation.constraints.NotBlank;
 
 public record UserSignupReq(
-        String name,
-        String providerId,
-        String provider,
+        @NotBlank String name,
+        @NotBlank String providerId,
+        @NotBlank String provider,
         String email
 ) {
     public static User toEntity(UserSignupReq req) {

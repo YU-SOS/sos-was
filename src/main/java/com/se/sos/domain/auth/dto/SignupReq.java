@@ -1,14 +1,21 @@
 package com.se.sos.domain.auth.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class SignupReq {
+
+    @NotBlank
     private final String id;
+    @NotBlank
     private final String password;
+    @NotBlank
     private final String name;
+    @NotBlank
     private final String address;
+    @NotBlank
     private final String telephoneNumber;
 
     @Builder
