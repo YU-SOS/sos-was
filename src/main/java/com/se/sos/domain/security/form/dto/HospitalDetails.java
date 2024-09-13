@@ -34,6 +34,6 @@ public class HospitalDetails implements CustomUserDetails {
 
     @Override
     public String getId() {
-        return hospital.getId();
+        return hospital.getId().toString();
     }
 }

@@ -1,17 +1,18 @@
 package com.se.sos.domain.comment.entity;
 
+import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.reception.entity.Reception;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -22,8 +23,9 @@ import static lombok.AccessLevel.PROTECTED;
 public class Comment {
     @Id
     @GeneratedValue
-    Long id;
+    UUID id;
 
+    @NotNull
     String description; // 내용
 
     @CreatedDate

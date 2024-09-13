@@ -1,7 +1,9 @@
 package com.se.sos.domain.auth.dto;
 
+import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.global.common.role.Role;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.util.List;
@@ -9,17 +11,15 @@ import java.util.List;
 @Getter
 public class HospitalSignupReq extends SignupReq {
 
-    private final String logitude;
-    private final String latitude;
+    @NotNull
+    private final Location location;
     private final String imageUrl;
-    private final List<String> category;
+//    private final List<String> category;
 
-    public HospitalSignupReq(String id, String password, String name, String address, String telephoneNumber, String latitude, String logitude, String imageUrl, List<String> category) {
+    public HospitalSignupReq(String id, String password, String name, String address, String telephoneNumber, String imageUrl, Location location) {
         super(id, password, name, address, telephoneNumber);
-        this.logitude = logitude;
-        this.latitude = latitude;
+        this.location = location;
         this.imageUrl = imageUrl;
-        this.category = category;
     }
 
     public static Hospital toEntity(HospitalSignupReq hospitalSignupReq, String encodedPassword) {
@@ -27,6 +27,11 @@ public class HospitalSignupReq extends SignupReq {
                 .hospitalId(hospitalSignupReq.getId())
                 .password(encodedPassword)
                 .role(Role.HOS_GUEST)
+                .name(hospitalSignupReq.getName())
+                .address(hospitalSignupReq.getAddress())
+                .telephoneNumber(hospitalSignupReq.getTelephoneNumber())
+                .imageUrl(hospitalSignupReq.getImageUrl())
+                .location(hospitalSignupReq.getLocation())
                 .build();
     }
 }
