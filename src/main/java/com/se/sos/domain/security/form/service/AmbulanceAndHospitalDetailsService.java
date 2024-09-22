@@ -17,8 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
-@Qualifier("loginDetailsService")
 @RequiredArgsConstructor
 public class AmbulanceAndHospitalDetailsService implements UserDetailsService {
 
@@ -27,6 +25,7 @@ public class AmbulanceAndHospitalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("excuted!!!!!!!!!!");
         String role = username.split(" ")[0];
         String id = username.split(" ")[1];
 

@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Paramedic {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
     String name;
