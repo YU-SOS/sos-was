@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Ambulance {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
     @NotNull
