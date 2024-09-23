@@ -1,16 +1,12 @@
 package com.se.sos.global.security;
 
-import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
-import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.security.form.dto.AmbulanceDetails;
 import com.se.sos.domain.security.form.dto.HospitalDetails;
 import com.se.sos.domain.security.form.dto.SecurityUserDetails;
-import com.se.sos.domain.user.entity.User;
-import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.domain.user.entity.Role;
-import com.se.sos.global.exception.CustomException;
+import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.util.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -65,26 +61,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         UserDetails userDetails = null;
 
-        if(role.equals(Role.AMB.getRole()) || role.equals(Role.AMB_GUEST.getRole())){
-            Ambulance ambulance = ambulanceRepository.findById(id)
-                    .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND)); // not have handler
-
-            userDetails = new AmbulanceDetails(ambulance);
-        } else if(role.equals(Role.HOS.getRole()) || role.equals(Role.HOS_GUEST.getRole())){
-            Hospital hospital = hospitalRepository.findById(id)
-                    .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
-
-            userDetails = new HospitalDetails(hospital);
-        } else if(role.equals(Role.USER.getRole())){
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new CustomException(ErrorType.USER_NOT_FOUND));
-
-            userDetails = new SecurityUserDetails(user);
-        } else {
-            return null;
+        if (role.equals(Role.AMB.getRole()) || role.equals(Role.AMB_GUEST.getRole())) {
+            userDetails = ambulanceRepository.findById(id)
+                    .map(AmbulanceDetails::new)
+                    .orElseGet(() -> {
+                        log.error(ErrorType.AMBULANCE_NOT_FOUND.getMessage());
+                        return null;
+                    });
+        } else if (role.equals(Role.HOS.getRole()) || role.equals(Role.HOS_GUEST.getRole())) {
+            userDetails = hospitalRepository.findById(id)
+                    .map(HospitalDetails::new)
+                    .orElseGet(() -> {
+                        log.error(ErrorType.HOSPITAL_NOT_FOUND.getMessage());
+                        return null;
+                    });
+        } else if (role.equals(Role.USER.getRole())) {
+            userDetails = userRepository.findById(id)
+                    .map(SecurityUserDetails::new)
+                    .orElseGet(() -> {
+                        log.error(ErrorType.USER_NOT_FOUND.getMessage());
+                        return null;
+                    });
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return userDetails == null ? null : new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
     }
 }
