@@ -1,4 +1,4 @@
-package com.se.sos.domain.security.filter;
+package com.se.sos.global.security;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
@@ -9,7 +9,7 @@ import com.se.sos.domain.security.form.dto.HospitalDetails;
 import com.se.sos.domain.security.form.dto.SecurityUserDetails;
 import com.se.sos.domain.user.entity.User;
 import com.se.sos.domain.user.repository.UserRepository;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.util.jwt.JwtUtil;
@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(authorization == null || !authorization.startsWith("Bearer ")) {
-            log.warn("TOKEN NOT FOUND or TOKEN HEADER IS WRONG");
+            log.warn("TOKEN NOT FOUND or TOKEN HEADER IS WRONG : " + authorization);
         } else {
             String accessToken = authorization.split(" ")[1];
 
