@@ -6,14 +6,16 @@ import com.se.sos.domain.user.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class AmbulanceSignupReq extends SignupReq {
 
     @NotNull
-    private Location location;
+    private  Location location;
     @NotBlank
-    private String imageUrl;
+    private  String imageUrl;
 
     public AmbulanceSignupReq(String id, String password, String name, String address, String telephoneNumber, Location location, String imageUrl) {
         super(id, password, name, address, telephoneNumber);
