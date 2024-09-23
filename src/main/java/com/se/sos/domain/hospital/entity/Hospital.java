@@ -1,15 +1,15 @@
 package com.se.sos.domain.hospital.entity;
 
 import com.se.sos.domain.ambulance.entity.Location;
+import com.se.sos.domain.category.entity.Category;
+import com.se.sos.domain.category.entity.CategoryHospital;
+import com.se.sos.domain.category.repository.CategoryHospitalRepository;
 import com.se.sos.domain.comment.entity.Comment;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.global.common.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,9 @@ public class Hospital {
     @OneToMany(mappedBy = "hospital")
     List<Reception> receptions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "hospital",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<CategoryHospital> categoryHospitals = new ArrayList<>();
+
     @Builder
     public Hospital(String hospitalId, String password, Role role, String name, String address, String telephoneNumber, String imageUrl, Location location) {
         this.hospitalId = hospitalId;
@@ -67,5 +70,13 @@ public class Hospital {
         this.imageUrl = imageUrl;
         this.location = location;
     }
-
+    public void addCategories(List<Category> categories) {
+        for (Category category : categories) {
+            CategoryHospital categoryHospital = CategoryHospital.builder()
+                    .category(category)
+                    .hospital(this)
+                    .build();
+            this.categoryHospitals.add(categoryHospital);
+        }
+    }
 }
