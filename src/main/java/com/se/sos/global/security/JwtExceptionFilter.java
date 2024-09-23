@@ -25,20 +25,24 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         ErrorType error = null;
 
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
         try{
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e){
             log.error("token expired");
             error = ErrorType.TOKEN_EXPIRED;
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(ErrorRes.of(error.getStatusCode(), e.getMessage())));
+
         } catch (JwtException e){
             log.error("token authentication failed : " + e.getMessage()); // e출력?
             error = ErrorType.UN_AUTHENTICATION;
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(ErrorRes.of(error.getStatusCode(), e.getMessage())));
+
         }
     }
 }
