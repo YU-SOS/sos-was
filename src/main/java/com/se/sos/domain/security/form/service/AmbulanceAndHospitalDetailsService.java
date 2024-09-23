@@ -9,8 +9,6 @@ import com.se.sos.domain.security.form.dto.HospitalDetails;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +23,6 @@ public class AmbulanceAndHospitalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("excuted!!!!!!!!!!");
         String role = username.split(" ")[0];
         String id = username.split(" ")[1];
 
