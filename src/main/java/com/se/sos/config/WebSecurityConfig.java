@@ -1,9 +1,10 @@
 package com.se.sos.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
-import com.se.sos.domain.security.filter.JwtAuthenticationFilter;
-import com.se.sos.domain.security.filter.JwtExceptionFilter;
+import com.se.sos.global.security.JwtAuthenticationFilter;
+import com.se.sos.global.security.JwtExceptionFilter;
 import com.se.sos.domain.security.form.filter.FormLoginFilter;
 import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.util.jwt.JwtUtil;
@@ -18,7 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,6 +35,7 @@ public class WebSecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
+    private final ObjectMapper objectMapper;
 
     private final AccessDeniedHandler accessDeniedHandler;
     private final AuthenticationEntryPoint authenticationEntryPoint;
@@ -73,7 +74,7 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(objectMapper), JwtAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptionConfig ->
