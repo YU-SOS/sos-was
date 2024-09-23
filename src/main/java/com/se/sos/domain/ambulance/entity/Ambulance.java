@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -22,7 +21,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Ambulance {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
     @NotNull
