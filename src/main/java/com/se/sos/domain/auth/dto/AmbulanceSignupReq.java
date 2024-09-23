@@ -2,12 +2,10 @@ package com.se.sos.domain.auth.dto;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 public class AmbulanceSignupReq extends SignupReq {
