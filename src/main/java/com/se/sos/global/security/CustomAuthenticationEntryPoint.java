@@ -1,4 +1,4 @@
-package com.se.sos.domain.security.filter;
+package com.se.sos.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sos.global.response.error.ErrorRes;
