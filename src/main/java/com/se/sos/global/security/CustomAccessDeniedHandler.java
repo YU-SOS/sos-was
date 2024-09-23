@@ -1,4 +1,4 @@
-package com.se.sos.domain.security.filter;
+package com.se.sos.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sos.global.response.error.ErrorRes;
@@ -23,7 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        log.error(accessDeniedException.getMessage(), accessDeniedException); // error log check
+        log.error(accessDeniedException.getMessage());
 
         ErrorType error = ErrorType.UN_AUTHORIZATION;
         response.setContentType("application/json");
