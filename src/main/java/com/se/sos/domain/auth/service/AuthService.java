@@ -5,6 +5,8 @@ import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.auth.dto.AmbulanceSignupReq;
 import com.se.sos.domain.auth.dto.HospitalSignupReq;
 import com.se.sos.domain.auth.dto.UserSignupReq;
+import com.se.sos.domain.category.entity.Category;
+import com.se.sos.domain.category.repository.CategoryRepository;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.user.entity.User;
@@ -23,6 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.se.sos.global.response.success.SuccessType.LOGOUT_SUCCESS;
 
 
@@ -32,6 +36,7 @@ public class AuthService {
 
     private final AmbulanceRepository ambulanceRepository;
     private final HospitalRepository hospitalRepository;
+    private final CategoryRepository categoryRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
@@ -51,7 +56,9 @@ public class AuthService {
             throw new CustomException(ErrorType.ALREADY_EXISTS_HOSPITAL);
 
         Hospital newHospital = HospitalSignupReq.toEntity(hospitalSignupReq, bCryptPasswordEncoder.encode(hospitalSignupReq.getPassword()));
-        hospitalRepository.save(newHospital);
+        List<Category> categories = categoryRepository.findByNameIn(hospitalSignupReq.getCategories());
+        newHospital.addCategories(categories);
+        hospitalRepository.save(newHospital);   // 중간테이블까지 업데이트된다.
     }
 
     public ResponseEntity<?> loginForUser(UserSignupReq req) {
