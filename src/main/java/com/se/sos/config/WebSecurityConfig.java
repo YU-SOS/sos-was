@@ -68,7 +68,8 @@ public class WebSecurityConfig {
                         authorizeHttpRequest
                                 .requestMatchers(
                                         "/login/**",
-                                        "/signup/**"
+                                        "/signup/**",
+                                        "/test"
                                 ).permitAll()
                                 .requestMatchers("/test/amb").hasRole("AMB")
                         .anyRequest().authenticated())
