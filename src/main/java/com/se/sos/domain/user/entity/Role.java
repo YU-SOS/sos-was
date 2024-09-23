@@ -1,4 +1,4 @@
-package com.se.sos.global.common.role;
+package com.se.sos.domain.user.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

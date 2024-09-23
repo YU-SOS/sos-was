@@ -1,6 +1,5 @@
 package com.se.sos.domain.user.entity;
 
-import com.se.sos.global.common.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
