@@ -8,15 +8,18 @@ import lombok.Getter;
 public class SignupReq {
 
     @NotBlank
-    private final String id;
+    private String id;
     @NotBlank
-    private final String password;
+    private String password;
     @NotBlank
-    private final String name;
+    private String name;
     @NotBlank
-    private final String address;
+    private String address;
     @NotBlank
-    private final String telephoneNumber;
+    private String telephoneNumber;
+
+    public SignupReq(){
+    }
 
     @Builder
     public SignupReq(String id, String password, String name, String address, String telephoneNumber ) {
