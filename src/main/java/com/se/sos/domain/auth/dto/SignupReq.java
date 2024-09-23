@@ -1,10 +1,13 @@
 package com.se.sos.domain.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignupReq {
 
     @NotBlank
@@ -17,16 +20,4 @@ public class SignupReq {
     private String address;
     @NotBlank
     private String telephoneNumber;
-
-    public SignupReq(){
-    }
-
-    @Builder
-    public SignupReq(String id, String password, String name, String address, String telephoneNumber ) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.address = address;
-        this.telephoneNumber = telephoneNumber;
-    }
 }
