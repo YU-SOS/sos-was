@@ -12,14 +12,19 @@ import java.util.List;
 public class HospitalSignupReq extends SignupReq {
 
     @NotNull
-    private final Location location;
-    private final String imageUrl;
-//    private final List<String> category;
+    private Location location;
+    private String imageUrl;
+    private List<String> categories;
 
-    public HospitalSignupReq(String id, String password, String name, String address, String telephoneNumber, String imageUrl, Location location) {
+
+    public HospitalSignupReq() {
+    }
+
+    public HospitalSignupReq(String id, String password, String name, String address, String telephoneNumber, String imageUrl, Location location, List<String> categories) {
         super(id, password, name, address, telephoneNumber);
         this.location = location;
         this.imageUrl = imageUrl;
+        this.categories = categories;
     }
 
     public static Hospital toEntity(HospitalSignupReq hospitalSignupReq, String encodedPassword) {
