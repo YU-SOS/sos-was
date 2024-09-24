@@ -8,7 +8,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import com.se.sos.domain.category.entity.Category;
+import com.se.sos.domain.category.entity.CategoryHospital;
+import com.se.sos.domain.category.repository.CategoryHospitalRepository;
+import com.se.sos.domain.comment.entity.Comment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
