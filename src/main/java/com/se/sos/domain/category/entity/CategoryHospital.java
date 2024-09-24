@@ -12,7 +12,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class CategoryHospital {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "CATEGORY_HOSPITAL_ID")
+    @Column
     UUID id;
 
     @ManyToOne(fetch = LAZY)
