@@ -19,16 +19,17 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<String> categories = Arrays.asList(
-                "내과", "정형외과", "소아과", "피부과", "이비인후과",
-                "정신건강의학과", "산부인과", "치과", "신경과", "응급의학과"
-        );
+        if (categoryRepository.count() == 0) {
+            List<String> categories = Arrays.asList(
+                    "내과", "정형외과", "소아과", "피부과", "이비인후과",
+                    "정신건강의학과", "산부인과", "치과", "신경과", "응급의학과"
+            );
 
-        for (String categoryName : categories) {
+            for (String categoryName : categories) {
                 Category category = new Category(categoryName);
                 categoryRepository.save(category);
+            }
         }
     }
 }
-
 
