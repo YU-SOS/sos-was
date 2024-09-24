@@ -113,9 +113,9 @@ public class AuthService {
         String role = claims.get("role", String.class);
         String key = RedisProperties.REFRESH_TOKEN_PREFIX + id;
 
-        String existedToken = redisUtil.get(key).toString();
+        Object existedToken = redisUtil.get(key);
 
-        if(refreshToken.equals(existedToken)){
+        if(existedToken != null && refreshToken.equals(existedToken.toString())){
             String newAccessToken = jwtUtil.generateAccessToken(id,role);
             String newRefreshToken = jwtUtil.generateRefreshToken(id,role);
 
