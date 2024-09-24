@@ -1,10 +1,6 @@
 package com.se.sos.domain.hospital.entity;
 
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.domain.category.entity.Category;
-import com.se.sos.domain.category.entity.CategoryHospital;
-import com.se.sos.domain.category.repository.CategoryHospitalRepository;
-import com.se.sos.domain.comment.entity.Comment;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.global.common.role.Role;
 import jakarta.persistence.*;
