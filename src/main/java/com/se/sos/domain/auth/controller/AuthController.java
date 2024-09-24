@@ -8,10 +8,7 @@ import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,22 +19,32 @@ public class AuthController {
     @PostMapping("/signup/ambulance")
     public ResponseEntity<?> signup(@RequestBody AmbulanceSignupReq ambulanceSignupReq) {
         authService.signupForAmbulance(ambulanceSignupReq);
-        return SuccessRes.from(SuccessType.CREATED);
+        return ResponseEntity
+                .status(SuccessType.AMBULANCE_CREATED.getStatus())
+                .body(SuccessRes.from(SuccessType.AMBULANCE_CREATED));
     }
 
     @PostMapping("/signup/hospital")
     public ResponseEntity<?> signup(@RequestBody HospitalSignupReq hospitalSignupReq) {
         authService.signupForHospital(hospitalSignupReq);
-        return SuccessRes.from(SuccessType.CREATED);
+        return ResponseEntity
+                .status(SuccessType.HOSPITAL_CREATED.getStatus())
+                .body(SuccessRes.from(SuccessType.HOSPITAL_CREATED));
     }
 
     @PostMapping("/login/user")
     public ResponseEntity<?> login(@RequestBody UserSignupReq userSignupReq) {
         return authService.loginForUser(userSignupReq);
     }
+
     @PostMapping("/logout/user")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         return authService.logoutForUser(token);
+    }
+
+    @GetMapping("/reissue-token")
+    public ResponseEntity<?> reissueToken(@CookieValue("refreshToken") String refreshToken){
+        return authService.reissueToken(refreshToken);
     }
 }
