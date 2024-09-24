@@ -9,7 +9,9 @@ import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.global.common.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
