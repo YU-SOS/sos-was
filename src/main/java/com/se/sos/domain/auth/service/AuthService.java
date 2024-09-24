@@ -112,7 +112,6 @@ public class AuthService {
         String id = claims.getSubject();
         String role = claims.get("role", String.class);
         String key = RedisProperties.REFRESH_TOKEN_PREFIX + id;
-        System.out.println(key);
 
         String existedToken = redisUtil.get(key).toString();
 
