@@ -51,6 +51,7 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
             String password = (String) loginInfo.get("password");
 
             String username = role + " " + id;
+            System.out.println("username : " + username);
 
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
 

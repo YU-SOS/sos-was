@@ -1,12 +1,10 @@
 package com.se.sos.domain.hospital.entity;
 
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.domain.comment.entity.Comment;
 import com.se.sos.domain.reception.entity.Reception;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

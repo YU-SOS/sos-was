@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -14,8 +16,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class Patient {  // 환자
     @Id
-    @GeneratedValue
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID id;
 
     @NotNull
     String name;

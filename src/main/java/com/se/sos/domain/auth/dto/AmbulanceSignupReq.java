@@ -2,20 +2,20 @@ package com.se.sos.domain.auth.dto;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class AmbulanceSignupReq extends SignupReq {
 
     @NotNull
-    private Location location;
+    private  Location location;
     @NotBlank
-    private String imageUrl;
+    private  String imageUrl;
 
     public AmbulanceSignupReq(String id, String password, String name, String address, String telephoneNumber, Location location, String imageUrl) {
         super(id, password, name, address, telephoneNumber);

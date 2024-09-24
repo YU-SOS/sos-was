@@ -2,7 +2,7 @@ package com.se.sos.domain.ambulance.entity;
 
 import com.se.sos.domain.paramedic.entity.Paramedic;
 import com.se.sos.domain.reception.entity.Reception;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -22,7 +21,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Ambulance {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
     @NotNull

@@ -1,7 +1,7 @@
 package com.se.sos.domain.user.dto;
 
 import com.se.sos.domain.user.entity.User;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 
 public record LogoutUserReq(
         String name,

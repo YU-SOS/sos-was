@@ -1,9 +1,14 @@
 package com.se.sos.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
+import com.se.sos.domain.hospital.repository.HospitalRepository;
+import com.se.sos.global.security.JwtAuthenticationFilter;
+import com.se.sos.global.security.JwtExceptionFilter;
 import com.se.sos.domain.security.form.filter.FormLoginFilter;
+import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.util.jwt.JwtUtil;
 import com.se.sos.global.util.redis.RedisUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +20,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -28,6 +35,15 @@ public class WebSecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
+    private final ObjectMapper objectMapper;
+
+    private final AccessDeniedHandler accessDeniedHandler;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    private final UserRepository userRepository;
+    private final HospitalRepository hospitalRepository;
+    private final AmbulanceRepository ambulanceRepository;
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -41,16 +57,30 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .formLogin(FormLoginConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-
+                .authorizeHttpRequests(authorizeHttpRequest ->
+                        authorizeHttpRequest
+                                .requestMatchers(
+                                        "/login/**",
+                                        "/signup/**",
+                                        "/test"
+                                ).permitAll()
+                                .requestMatchers("/test/amb").hasRole("AMB")
+                        .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil), UsernamePasswordAuthenticationFilter.class)
-
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(objectMapper), JwtAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptionConfig ->
+                        exceptionConfig.authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler)
+                )
         ;
 
 

@@ -2,11 +2,9 @@ package com.se.sos.domain.auth.dto;
 
 import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.hospital.entity.Hospital;
-import com.se.sos.global.common.role.Role;
+import com.se.sos.domain.user.entity.Role;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class HospitalSignupReq extends SignupReq {
