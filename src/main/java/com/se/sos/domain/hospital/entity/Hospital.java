@@ -12,7 +12,8 @@ import com.se.sos.domain.category.entity.CategoryHospital;
 import com.se.sos.domain.category.repository.CategoryHospitalRepository;
 import com.se.sos.domain.comment.entity.Comment;
 import java.util.ArrayList;
-import java.utigl.List;
+import java.util.List;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PROTECTED;
 
