@@ -4,21 +4,20 @@ import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.user.entity.Role;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class HospitalSignupReq extends SignupReq {
 
     @NotNull
-    private final Location location;
-    private final String imageUrl;
-//    private final List<String> category;
+    private Location location;
+    private String imageUrl;
+    private List<String> categories;
 
-    public HospitalSignupReq(String id, String password, String name, String address, String telephoneNumber, String imageUrl, Location location) {
-        super(id, password, name, address, telephoneNumber);
-        this.location = location;
-        this.imageUrl = imageUrl;
-    }
 
     public static Hospital toEntity(HospitalSignupReq hospitalSignupReq, String encodedPassword) {
         return Hospital.builder()

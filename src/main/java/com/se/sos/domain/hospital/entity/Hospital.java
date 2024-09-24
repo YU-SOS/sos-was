@@ -54,6 +54,9 @@ public class Hospital {
     @OneToMany(mappedBy = "hospital")
     List<Reception> receptions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "hospital",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<CategoryHospital> categoryHospitals = new ArrayList<>();
+
     @Builder
     public Hospital(String hospitalId, String password, Role role, String name, String address, String telephoneNumber, String imageUrl, Location location) {
         this.hospitalId = hospitalId;
@@ -65,5 +68,13 @@ public class Hospital {
         this.imageUrl = imageUrl;
         this.location = location;
     }
-
+    public void addCategories(List<Category> categories) {
+        for (Category category : categories) {
+            CategoryHospital categoryHospital = CategoryHospital.builder()
+                    .category(category)
+                    .hospital(this)
+                    .build();
+            this.categoryHospitals.add(categoryHospital);
+        }
+    }
 }
