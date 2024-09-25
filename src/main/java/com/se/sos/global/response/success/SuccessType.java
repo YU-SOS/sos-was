@@ -10,6 +10,7 @@ public enum SuccessType {
 
     // 200
     OK(HttpStatus.OK, "요청이 성공했습니다."),
+    LOGIN_SUCCESS(HttpStatus.OK, "로그인에 성공하였습니다."),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공하였습니다."),
     REISSUE_TOKEN_SUCCESS(HttpStatus.OK, "토큰 재발급에 성공하였습니다."),
 

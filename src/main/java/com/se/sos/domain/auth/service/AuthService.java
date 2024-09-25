@@ -84,7 +84,7 @@ public class AuthService {
         return ResponseEntity.status(SuccessType.USER_CREATED.getStatus())
                 .header("Set-Cookie", cookieUtil.addRefreshTokenCookie(refreshToken).toString())
                 .header("Authorization", accessToken)
-                .body(null);
+                .body(SuccessRes.from(SuccessType.LOGIN_SUCCESS));
     }
 
     public ResponseEntity<?> logoutForUser(String accessToken) {
