@@ -102,7 +102,7 @@ public class AuthService {
     }
 
     public ResponseEntity<?> reissueToken(String refreshToken){
-        if(refreshToken == null || refreshToken.startsWith("Bearer ")){
+        if(refreshToken == null){
             throw new CustomException(ErrorType.INVALID_TOKEN);
         }
 
