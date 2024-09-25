@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sos.domain.security.form.dto.CustomUserDetails;
 import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
+import com.se.sos.global.response.success.SuccessRes;
+import com.se.sos.global.response.success.SuccessType;
 import com.se.sos.global.util.jwt.JwtUtil;
 import com.se.sos.global.util.redis.RedisProperties;
 import com.se.sos.global.util.redis.RedisUtil;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,18 +29,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-
+@Slf4j
 @RequiredArgsConstructor
 public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
-
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
+    private final ObjectMapper objectMapper;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -51,7 +50,6 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
             String password = (String) loginInfo.get("password");
 
             String username = role + " " + id;
-            System.out.println("username : " + username);
 
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
 
@@ -76,6 +74,11 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refreshToken", refreshToken));
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(SuccessRes.from(SuccessType.LOGIN_SUCCESS)));
+
         redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX+id, refreshToken, jwtUtil.getRefreshTokenDuration());
     }
 
