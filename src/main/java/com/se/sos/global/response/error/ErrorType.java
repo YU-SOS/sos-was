@@ -10,6 +10,8 @@ public enum ErrorType {
 
     // 400 잘못된 요청
     LOGOUT_FAILED(HttpStatus.BAD_REQUEST,"로그아웃 실패되었습니다."),
+    REISSUE_TOKEN_FAILED(HttpStatus.BAD_REQUEST, "토큰 재발급에 실패했습니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "리프레시 토큰이 없습니다."),
 
     // 인증
     // 401

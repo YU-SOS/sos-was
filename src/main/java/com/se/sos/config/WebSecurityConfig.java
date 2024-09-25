@@ -69,7 +69,8 @@ public class WebSecurityConfig {
                                 .requestMatchers(
                                         "/login/**",
                                         "/signup/**",
-                                        "/test"
+                                        "/test/**",
+                                        "/reissue-token"
                                 ).permitAll()
                                 .requestMatchers("/test/amb").hasRole("AMB")
                         .anyRequest().authenticated())

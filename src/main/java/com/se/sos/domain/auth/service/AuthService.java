@@ -12,6 +12,7 @@ import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.user.entity.User;
 import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.exception.CustomException;
+import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
@@ -19,6 +20,7 @@ import com.se.sos.global.util.cookie.CookieUtil;
 import com.se.sos.global.util.jwt.JwtUtil;
 import com.se.sos.global.util.redis.RedisProperties;
 import com.se.sos.global.util.redis.RedisUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -99,10 +101,43 @@ public class AuthService {
         if (deleteRefreshToken) {
             return ResponseEntity.status(LOGOUT_SUCCESS.getStatus())
                     .header(HttpHeaders.SET_COOKIE, cookieUtil.deleteRefreshTokenCookie().toString())
-                    .body(null);
+                    .body(SuccessRes.from(LOGOUT_SUCCESS));
         } else {
             return ResponseEntity.status(ErrorType.LOGOUT_FAILED.getStatus())
-                    .body(ErrorType.LOGOUT_FAILED.getMessage());
+                    .body(ErrorRes.from(ErrorType.LOGOUT_FAILED));
         }
+    }
+
+    public ResponseEntity<?> reissueToken(String refreshToken){
+        if(refreshToken == null){
+            throw new CustomException(ErrorType.REFRESH_TOKEN_NOT_FOUND);
+        }
+
+        refreshToken = refreshToken.replace("Bearer ", "");
+        Claims claims = jwtUtil.parseToken(refreshToken);
+
+        String id = claims.getSubject();
+        String role = claims.get("role", String.class);
+        String key = RedisProperties.REFRESH_TOKEN_PREFIX + id;
+
+        Object existedToken = redisUtil.get(key);
+
+        if(existedToken != null && refreshToken.equals(existedToken.toString())){
+            String newAccessToken = jwtUtil.generateAccessToken(id,role);
+            String newRefreshToken = jwtUtil.generateRefreshToken(id,role);
+
+            redisUtil.save(key,newRefreshToken, jwtUtil.getRefreshTokenDuration());
+
+            return ResponseEntity
+                    .status(SuccessType.REISSUE_TOKEN_SUCCESS.getStatus())
+                    .header(HttpHeaders.AUTHORIZATION, newAccessToken)
+                    .header(HttpHeaders.SET_COOKIE, cookieUtil.addRefreshTokenCookie(newRefreshToken).toString())
+                    .body(SuccessRes.from(SuccessType.REISSUE_TOKEN_SUCCESS));
+        } else {
+            return ResponseEntity
+                    .status(ErrorType.REISSUE_TOKEN_FAILED.getStatus())
+                    .body(ErrorRes.from(ErrorType.REISSUE_TOKEN_FAILED));
+        }
+
     }
 }
