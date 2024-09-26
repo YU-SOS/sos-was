@@ -2,6 +2,7 @@ package com.se.sos;
 
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
+import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +19,7 @@ public class TestController {
         System.out.println(user);
         System.out.println(user.getUsername());
         return ResponseEntity.status(SuccessType.OK.getStatus()).
-                body(SuccessType.OK);
+                body(SuccessRes.from(SuccessType.OK));
     }
 
     @GetMapping("/test/{val}")
@@ -33,7 +34,7 @@ public class TestController {
         }
 
         return ResponseEntity.status(SuccessType.OK.getStatus()).
-                body(SuccessType.OK.getStatusCode() + SuccessType.OK.getMessage());
+                body(SuccessType.LOGIN_SUCCESS);
     }
 
     @GetMapping("/test/amb")
