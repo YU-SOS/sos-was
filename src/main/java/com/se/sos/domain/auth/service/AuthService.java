@@ -1,7 +1,10 @@
 package com.se.sos.domain.auth.service;
 
+import com.se.sos.domain.admin.entity.Admin;
+import com.se.sos.domain.admin.repository.AdminRepository;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
+import com.se.sos.domain.auth.dto.AdminLoginReq;
 import com.se.sos.domain.auth.dto.AmbulanceSignupReq;
 import com.se.sos.domain.auth.dto.HospitalSignupReq;
 import com.se.sos.domain.auth.dto.UserSignupReq;
@@ -9,6 +12,7 @@ import com.se.sos.domain.category.entity.Category;
 import com.se.sos.domain.category.repository.CategoryRepository;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
+import com.se.sos.domain.user.entity.Role;
 import com.se.sos.domain.user.entity.User;
 import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.exception.CustomException;
@@ -22,6 +26,7 @@ import com.se.sos.global.util.redis.RedisProperties;
 import com.se.sos.global.util.redis.RedisUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.se.sos.global.response.success.SuccessType.LOGIN_SUCCESS;
 import static com.se.sos.global.response.success.SuccessType.LOGOUT_SUCCESS;
 
 
@@ -39,8 +45,11 @@ public class AuthService {
     private final AmbulanceRepository ambulanceRepository;
     private final HospitalRepository hospitalRepository;
     private final CategoryRepository categoryRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
+    private final AdminRepository adminRepository;
+
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
@@ -105,6 +114,25 @@ public class AuthService {
         } else {
             return ResponseEntity.status(ErrorType.LOGOUT_FAILED.getStatus())
                     .body(ErrorRes.from(ErrorType.LOGOUT_FAILED));
+        }
+    }
+
+    public ResponseEntity<?> loginForAdmin(AdminLoginReq adminLoginReq) {
+
+        String adminId = adminLoginReq.adminId();
+
+        Admin admin = adminRepository.findByAdminId(adminId)
+                .orElseThrow(() -> new CustomException(ErrorType.UN_AUTHENTICATION));
+
+
+        if(admin.getPassword().equals(adminLoginReq.password())) {
+            String accessToken = jwtUtil.generateAccessToken("admin", Role.ADMIN.getRole());
+
+            return ResponseEntity.status(LOGIN_SUCCESS.getStatus())
+                    .header(HttpHeaders.AUTHORIZATION, accessToken)
+                    .body(SuccessRes.from(LOGIN_SUCCESS));
+        } else {
+            throw new CustomException(ErrorType.UN_AUTHENTICATION);
         }
     }
 

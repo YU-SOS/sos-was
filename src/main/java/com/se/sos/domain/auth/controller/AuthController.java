@@ -1,5 +1,6 @@
 package com.se.sos.domain.auth.controller;
 
+import com.se.sos.domain.auth.dto.AdminLoginReq;
 import com.se.sos.domain.auth.dto.AmbulanceSignupReq;
 import com.se.sos.domain.auth.dto.HospitalSignupReq;
 import com.se.sos.domain.auth.dto.UserSignupReq;
@@ -35,6 +36,11 @@ public class AuthController {
     @PostMapping("/login/user")
     public ResponseEntity<?> login(@RequestBody UserSignupReq userSignupReq) {
         return authService.loginForUser(userSignupReq);
+    }
+
+    @PostMapping("/login/admin")
+    public ResponseEntity<?> loginForAdmin(@RequestBody AdminLoginReq adminLoginReq) {
+        return authService.loginForAdmin(adminLoginReq);
     }
 
     @PostMapping("/logout/user")
