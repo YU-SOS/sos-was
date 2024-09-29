@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<?> handleException(Exception e) {
         ErrorRes error = new ErrorRes(INTERNAL_SERVER_ERROR.getStatusCode(), INTERNAL_SERVER_ERROR.getMessage());
-        log.error("Error occured : [errorCode={}, message={}]",error.status(), error.message());
+        log.error("Error occured : [message={}]",e.getMessage()); // 차후 stackTrace 적용 
         return ResponseEntity.status(error.status()).body(error);
     }
 }
