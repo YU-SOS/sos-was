@@ -21,11 +21,11 @@ public class SecurityUserDetails implements CustomUserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        Collection<GrantedAuthority> authorties = new ArrayList<>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorties.add(new SimpleGrantedAuthority(user.getRole().getRole()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getRole()));
 
-        return authorties;
+        return authorities;
 
     }
 
