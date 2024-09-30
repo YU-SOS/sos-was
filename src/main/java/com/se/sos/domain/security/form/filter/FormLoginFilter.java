@@ -28,7 +28,9 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -74,8 +76,15 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setCharacterEncoding("UTF-8");
 
         if(userDetails.hasRole(Role.BLACKLIST)){
-            response.setStatus(ErrorType.BLACKLIST.getStatusCode());
-            response.getWriter().write(objectMapper.writeValueAsString(ErrorRes.from(ErrorType.BLACKLIST)));
+            ErrorType e = ErrorType.BLACKLIST;
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("status", e.getStatusCode());
+            map.put("message", e.getMessage());
+            map.put("data", id);
+
+            response.setStatus(e.getStatusCode());
+            response.getWriter().write(objectMapper.writeValueAsString(map));
             return;
         }
 
