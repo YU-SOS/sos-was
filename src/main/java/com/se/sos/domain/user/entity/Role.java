@@ -12,7 +12,8 @@ public enum Role {
     HOS("ROLE_HOS"),
     HOS_GUEST("ROLE_HOS_GUEST"),
     USER("ROLE_USER"),
-    ADMIN("ROLE_ADMIN")
+    ADMIN("ROLE_ADMIN"),
+    BLACKLIST("ROLE_BLACKLIST")
     ;
 
     private final String role;
