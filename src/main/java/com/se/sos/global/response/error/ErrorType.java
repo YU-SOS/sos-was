@@ -24,6 +24,7 @@ public enum ErrorType {
     // 인가
     // 403
     UN_AUTHORIZATION(HttpStatus.FORBIDDEN, "허용되지 않은 접근입니다."),
+    BLACKLIST(HttpStatus.FORBIDDEN, "블랙리스트된 사용자입니다."),
 
     // 데이터
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효성 검증 실패. 잘못된 요청입니다."), // 400
