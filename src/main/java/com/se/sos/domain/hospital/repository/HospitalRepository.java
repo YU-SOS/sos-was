@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface HospitalRepository extends JpaRepository<Hospital, UUID> {
+    Optional<Hospital> findById(UUID id);
     Optional<Hospital> findByHospitalId(String hospitalId);
 
     boolean existsByHospitalId(String hospitalId);
