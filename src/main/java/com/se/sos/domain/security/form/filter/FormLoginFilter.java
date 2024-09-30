@@ -2,6 +2,7 @@ package com.se.sos.domain.security.form.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sos.domain.security.form.dto.CustomUserDetails;
+import com.se.sos.domain.user.entity.Role;
 import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.response.success.SuccessRes;
@@ -69,12 +70,21 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
         String id = userDetails.getId(); // 고유 번호
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        if(userDetails.hasRole(Role.BLACKLIST)){
+            response.setStatus(ErrorType.BLACKLIST.getStatusCode());
+            response.getWriter().write(objectMapper.writeValueAsString(ErrorRes.from(ErrorType.BLACKLIST)));
+            return;
+        }
+
         String accessToken = jwtUtil.generateAccessToken(id, role);
         String refreshToken = jwtUtil.generateRefreshToken(id, role);
 
         response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refreshToken", refreshToken));
-        response.setContentType("application/json");
+
         response.setStatus(HttpServletResponse.SC_OK);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(SuccessRes.from(SuccessType.LOGIN_SUCCESS)));
