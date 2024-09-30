@@ -32,18 +32,18 @@ public class HospitalController {
 
     @GetMapping("/{hospitalId}")
     public ResponseEntity<?> getHospitalDetails(@PathVariable(name = "hospitalId") String id){
-        return ResponseEntity.ok(hospitalService.findHospitalById(id));
+        return ResponseEntity.ok().body(hospitalService.findHospitalById(id));
     }
 
     @GetMapping("/{hospitalId}/reception")
     public ResponseEntity<?> getReceptionsByHospital(@PathVariable(name = "hospitalId") String id,
                                            @PageableDefault(size = 10) Pageable pageable){
-        return ResponseEntity.ok(hospitalService.findReceptionsById(id,pageable));
+        return ResponseEntity.ok().body(hospitalService.findReceptionsById(id,pageable));
     }
 
     @PutMapping("/{hospitalId}")
     public ResponseEntity<?> updateHospital(@PathVariable(name = "hospitalId") String id,
                                             @RequestBody HospitalUpdateReq hospitalUpdateReq){
-        return ResponseEntity.ok(hospitalService.updateHospitalById(id,hospitalUpdateReq));
+        return ResponseEntity.ok().body(hospitalService.updateHospitalById(id,hospitalUpdateReq));
     }
 }
