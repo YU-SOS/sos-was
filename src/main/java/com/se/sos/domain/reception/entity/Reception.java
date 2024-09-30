@@ -44,9 +44,11 @@ public class Reception {
     public Reception(
             LocalDateTime startTime,
             Ambulance ambulance,
+            Hospital hospital,
             Patient patient) {
         this.startTime = startTime;
         this.ambulance = ambulance;
         this.patient = patient;
+        this.hospital = hospital;
     }
 }
