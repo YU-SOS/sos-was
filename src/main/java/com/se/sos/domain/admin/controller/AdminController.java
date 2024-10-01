@@ -1,12 +1,12 @@
 package com.se.sos.domain.admin.controller;
 
+import com.se.sos.domain.admin.dto.RegApproveReq;
 import com.se.sos.domain.admin.service.AdminService;
 import com.se.sos.domain.user.entity.Role;
 import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -30,6 +30,15 @@ public class AdminController {
         else
             return ResponseEntity.status(ErrorType.BAD_REQUEST.getStatus())
                     .body(ErrorRes.from(ErrorType.BAD_REQUEST));
+    }
+
+    @PutMapping("/registration")
+    public ResponseEntity<?> approveRegistration(
+            @RequestParam(name = "role") Role role,
+            @RequestParam(name = "id") UUID id,
+            @RequestBody RegApproveReq regApproveReq
+    ){
+        return adminService.approveRegistration(role, id, regApproveReq.isApproved());
     }
 
 }

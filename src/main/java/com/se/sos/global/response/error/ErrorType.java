@@ -24,11 +24,12 @@ public enum ErrorType {
     // 인가
     // 403
     UN_AUTHORIZATION(HttpStatus.FORBIDDEN, "허용되지 않은 접근입니다."),
+    BLACKLIST(HttpStatus.FORBIDDEN, "블랙리스트된 사용자입니다."),
 
     // 데이터
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효성 검증 실패. 잘못된 요청입니다."), // 400
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 사용자입니다."),        // 404
-    ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 관리자입니다."),
+    ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 관리자입니다."),
     AMBULANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 구급대입니다."),
     HOSPITAL_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 병원입니다."),
     RECEPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 접수 입니다."),

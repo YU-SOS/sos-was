@@ -80,4 +80,8 @@ public class Hospital {
             this.categoryHospitals.add(categoryHospital);
         }
     }
+
+    public void updateRole(Role role){
+        this.role = role;
+    }
 }

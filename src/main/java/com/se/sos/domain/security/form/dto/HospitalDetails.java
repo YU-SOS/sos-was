@@ -1,6 +1,7 @@
 package com.se.sos.domain.security.form.dto;
 
 import com.se.sos.domain.hospital.entity.Hospital;
+import com.se.sos.domain.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,5 +36,10 @@ public class HospitalDetails implements CustomUserDetails {
     @Override
     public String getId() {
         return hospital.getId().toString();
+    }
+
+    @Override
+    public boolean hasRole(Role role) {
+        return role.equals(hospital.getRole());
     }
 }
