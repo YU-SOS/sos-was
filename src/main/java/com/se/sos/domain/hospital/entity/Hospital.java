@@ -53,9 +53,6 @@ public class Hospital {
     @Enumerated(EnumType.STRING)
     private EmergencyRoomStatus emergencyRoomStatus = EmergencyRoomStatus.AVAILABLE;
 
-    @Enumerated(EnumType.STRING)
-    Speciality speciality; // 현재는 하나의 진료과목만 담을 수 있어서 추후 처리 필요
-
     @OneToMany(mappedBy = "hospital")
     List<Reception> receptions = new ArrayList<>();
 
