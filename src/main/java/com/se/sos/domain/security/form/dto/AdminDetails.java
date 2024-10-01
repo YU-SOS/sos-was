@@ -1,6 +1,6 @@
 package com.se.sos.domain.security.form.dto;
 
-import com.se.sos.domain.hospital.entity.Hospital;
+import com.se.sos.domain.admin.entity.Admin;
 import com.se.sos.domain.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,36 +10,36 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @RequiredArgsConstructor
-public class HospitalDetails implements CustomUserDetails {
+public class AdminDetails implements CustomUserDetails {
 
-    private final Hospital hospital;
+    private final Admin admin;
+
+    @Override
+    public String getId() {
+        return admin.getId().toString();
+    }
+
+    @Override
+    public boolean hasRole(Role role) {
+        return role.equals(admin.getRole());
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(new SimpleGrantedAuthority(hospital.getRole().toString()));
+        authorities.add(new SimpleGrantedAuthority(admin.getRole().getRole()));
 
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return hospital.getPassword();
+        return admin.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return hospital.getHospitalId();
-    }
-
-    @Override
-    public String getId() {
-        return hospital.getId().toString();
-    }
-
-    @Override
-    public boolean hasRole(Role role) {
-        return role.equals(hospital.getRole());
+        return admin.getAdminId();
     }
 }

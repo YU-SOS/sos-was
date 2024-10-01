@@ -2,6 +2,7 @@ package com.se.sos.domain.security.form.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sos.domain.security.form.dto.CustomUserDetails;
+import com.se.sos.domain.user.entity.Role;
 import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.response.success.SuccessRes;
@@ -27,7 +28,9 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -69,12 +72,28 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
         String id = userDetails.getId(); // 고유 번호
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        if(userDetails.hasRole(Role.BLACKLIST)){
+            ErrorType e = ErrorType.BLACKLIST;
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("status", e.getStatusCode());
+            map.put("message", e.getMessage());
+            map.put("data", id);
+
+            response.setStatus(e.getStatusCode());
+            response.getWriter().write(objectMapper.writeValueAsString(map));
+            return;
+        }
+
         String accessToken = jwtUtil.generateAccessToken(id, role);
         String refreshToken = jwtUtil.generateRefreshToken(id, role);
 
         response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refreshToken", refreshToken));
-        response.setContentType("application/json");
+
         response.setStatus(HttpServletResponse.SC_OK);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(SuccessRes.from(SuccessType.LOGIN_SUCCESS)));

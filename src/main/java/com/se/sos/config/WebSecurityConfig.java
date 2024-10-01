@@ -1,12 +1,13 @@
 package com.se.sos.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.se.sos.domain.admin.repository.AdminRepository;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
-import com.se.sos.global.security.JwtAuthenticationFilter;
-import com.se.sos.global.security.JwtExceptionFilter;
 import com.se.sos.domain.security.form.filter.FormLoginFilter;
 import com.se.sos.domain.user.repository.UserRepository;
+import com.se.sos.global.security.JwtAuthenticationFilter;
+import com.se.sos.global.security.JwtExceptionFilter;
 import com.se.sos.global.util.jwt.JwtUtil;
 import com.se.sos.global.util.redis.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class WebSecurityConfig {
     private final UserRepository userRepository;
     private final HospitalRepository hospitalRepository;
     private final AmbulanceRepository ambulanceRepository;
+    private final AdminRepository adminRepository;
 
 
     @Bean
@@ -72,10 +74,11 @@ public class WebSecurityConfig {
                                         "/test/**",
                                         "/reissue-token"
                                 ).permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/test/amb").hasRole("AMB")
                         .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil, objectMapper), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository, adminRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtExceptionFilter(objectMapper), JwtAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

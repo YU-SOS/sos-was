@@ -1,6 +1,7 @@
 package com.se.sos.domain.security.form.dto;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
+import com.se.sos.domain.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,4 +38,10 @@ public class AmbulanceDetails implements CustomUserDetails {
     public String getId() {
         return ambulance.getId().toString();
     }
+
+    @Override
+    public boolean hasRole(Role role) {
+        return role.equals(ambulance.getRole());
+    }
 }
+

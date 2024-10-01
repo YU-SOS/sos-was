@@ -1,7 +1,9 @@
 package com.se.sos.global.security;
 
+import com.se.sos.domain.admin.repository.AdminRepository;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
+import com.se.sos.domain.security.form.dto.AdminDetails;
 import com.se.sos.domain.security.form.dto.AmbulanceDetails;
 import com.se.sos.domain.security.form.dto.HospitalDetails;
 import com.se.sos.domain.security.form.dto.SecurityUserDetails;
@@ -36,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserRepository userRepository;
     private final AmbulanceRepository ambulanceRepository;
     private final HospitalRepository hospitalRepository;
+    private final AdminRepository adminRepository;
 
 
     @Override
@@ -80,6 +83,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .map(SecurityUserDetails::new)
                     .orElseGet(() -> {
                         log.error(ErrorType.USER_NOT_FOUND.getMessage());
+                        return null;
+                    });
+        } else if(role.equals(Role.ADMIN.getRole())){
+            userDetails = adminRepository.findById(id)
+                    .map(AdminDetails::new)
+                    .orElseGet(() -> {
+                        log.error(ErrorType.ADMIN_NOT_FOUND.getMessage());
                         return null;
                     });
         }

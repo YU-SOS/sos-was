@@ -1,5 +1,6 @@
 package com.se.sos.domain.security.form.dto;
 
+import com.se.sos.domain.user.entity.Role;
 import com.se.sos.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,11 +22,11 @@ public class SecurityUserDetails implements CustomUserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        Collection<GrantedAuthority> authorties = new ArrayList<>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorties.add(new SimpleGrantedAuthority(user.getRole().getRole()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getRole()));
 
-        return authorties;
+        return authorities;
 
     }
 
@@ -37,5 +38,10 @@ public class SecurityUserDetails implements CustomUserDetails {
     @Override
     public String getUsername() {
         return user.getEmail(); // user의 경우에는 email 리턴
+    }
+
+    @Override
+    public boolean hasRole(Role role){
+        return role.equals(user.getRole());
     }
 }
