@@ -91,4 +91,9 @@ public class Hospital {
         this.emergencyRoomStatus = hospitalUpdateReq.getEmergencyRoomStatus();
     }
 
+
+
+    public void updateRole(Role role){
+        this.role = role;
+    }
 }
