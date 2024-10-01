@@ -1,6 +1,7 @@
 package com.se.sos.domain.hospital.entity;
 
 import com.se.sos.domain.ambulance.entity.Location;
+import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.domain.user.entity.Role;
 import jakarta.persistence.*;
@@ -10,8 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.se.sos.domain.category.entity.Category;
 import com.se.sos.domain.category.entity.CategoryHospital;
-import com.se.sos.domain.category.repository.CategoryHospitalRepository;
-import com.se.sos.domain.comment.entity.Comment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -52,7 +51,7 @@ public class Hospital {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    Speciality speciality; // 현재는 하나의 진료과목만 담을 수 있어서 추후 처리 필요
+    private EmergencyRoomStatus emergencyRoomStatus = EmergencyRoomStatus.AVAILABLE;
 
     @OneToMany(mappedBy = "hospital")
     List<Reception> receptions = new ArrayList<>();
@@ -61,7 +60,8 @@ public class Hospital {
     List<CategoryHospital> categoryHospitals = new ArrayList<>();
 
     @Builder
-    public Hospital(String hospitalId, String password, Role role, String name, String address, String telephoneNumber, String imageUrl, Location location) {
+    public Hospital(String hospitalId, String password, Role role, String name, String address, String telephoneNumber,
+                    String imageUrl, Location location, EmergencyRoomStatus emergencyRoomStatus) {
         this.hospitalId = hospitalId;
         this.password = password;
         this.role = role;
@@ -70,6 +70,7 @@ public class Hospital {
         this.telephoneNumber = telephoneNumber;
         this.imageUrl = imageUrl;
         this.location = location;
+        this.emergencyRoomStatus = emergencyRoomStatus;
     }
     public void addCategories(List<Category> categories) {
         for (Category category : categories) {
@@ -79,6 +80,15 @@ public class Hospital {
                     .build();
             this.categoryHospitals.add(categoryHospital);
         }
+    }
+
+    public void updateHospital(HospitalUpdateReq hospitalUpdateReq) {
+        this.name = hospitalUpdateReq.getName();
+        this.address = hospitalUpdateReq.getAddress();
+        this.telephoneNumber = hospitalUpdateReq.getTelephoneNumber();
+        this.imageUrl = hospitalUpdateReq.getImageUrl();
+        this.location = hospitalUpdateReq.getLocation();
+        this.emergencyRoomStatus = hospitalUpdateReq.getEmergencyRoomStatus();
     }
 
     public void updateRole(Role role){

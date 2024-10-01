@@ -3,12 +3,17 @@ package com.se.sos.domain.category.entity;
 import com.se.sos.domain.hospital.entity.Hospital;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public class CategoryHospital {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
