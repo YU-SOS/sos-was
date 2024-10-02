@@ -26,7 +26,6 @@ import com.se.sos.global.util.redis.RedisProperties;
 import com.se.sos.global.util.redis.RedisUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -167,5 +166,29 @@ public class AuthService {
                     .body(ErrorRes.from(ErrorType.REISSUE_TOKEN_FAILED));
         }
 
+    }
+
+    public ResponseEntity<?> dupCheck(String id, String role){
+        if(role.equals("AMB")){
+            if(ambulanceRepository.existsByAmbulanceId(id))
+                return ResponseEntity.status(ErrorType.ALREADY_USED_ID.getStatus())
+                        .body(ErrorRes.from(ErrorType.ALREADY_USED_ID));
+            else
+                return ResponseEntity.status(SuccessType.AVAILABE_ID.getStatus())
+                        .body(SuccessRes.from(SuccessType.AVAILABE_ID));
+
+
+        } else if (role.equals("HOS")){
+            if(hospitalRepository.existsByHospitalId(id))
+                return ResponseEntity.status(ErrorType.ALREADY_USED_ID.getStatus())
+                        .body(ErrorRes.from(ErrorType.ALREADY_USED_ID));
+            else
+                return ResponseEntity.status(SuccessType.AVAILABE_ID.getStatus())
+                        .body(SuccessRes.from(SuccessType.AVAILABE_ID));
+
+        } else {
+            return ResponseEntity.status(ErrorType.BAD_REQUEST.getStatus())
+                    .body(ErrorRes.from(ErrorType.BAD_REQUEST));
+        }
     }
 }
