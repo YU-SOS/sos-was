@@ -18,7 +18,7 @@ public class HospitalDetails implements CustomUserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(new SimpleGrantedAuthority(hospital.getRole().toString()));
+        authorities.add(new SimpleGrantedAuthority(hospital.getRole().getValue()));
 
         return authorities;
     }

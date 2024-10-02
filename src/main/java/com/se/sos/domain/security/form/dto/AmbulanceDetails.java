@@ -19,7 +19,7 @@ public class AmbulanceDetails implements CustomUserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(new SimpleGrantedAuthority(ambulance.getRole().toString()));
+        authorities.add(new SimpleGrantedAuthority(ambulance.getRole().getValue()));
 
         return authorities;
     }
