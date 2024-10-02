@@ -1,5 +1,6 @@
 package com.se.sos.domain.auth.controller;
 
+import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.auth.dto.AdminLoginReq;
 import com.se.sos.domain.auth.dto.AmbulanceSignupReq;
 import com.se.sos.domain.auth.dto.HospitalSignupReq;
@@ -52,5 +53,10 @@ public class AuthController {
     @GetMapping("/reissue-token")
     public ResponseEntity<?> reissueToken(@CookieValue("refreshToken") String refreshToken){
         return authService.reissueToken(refreshToken);
+    }
+
+    @GetMapping("/dup-check")
+    public ResponseEntity<?> dupCheck(@RequestParam(name = "id")String id, @RequestParam(name = "role")String role){
+        return authService.dupCheck(id, role);
     }
 }
