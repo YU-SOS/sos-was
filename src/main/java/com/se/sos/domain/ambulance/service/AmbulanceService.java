@@ -2,7 +2,7 @@ package com.se.sos.domain.ambulance.service;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
-import com.se.sos.domain.paramedic.dto.ParamedicRegisterReq;
+import com.se.sos.domain.paramedic.dto.ParamedicReq;
 import com.se.sos.domain.paramedic.entity.Paramedic;
 import com.se.sos.domain.paramedic.repository.ParamedicRepository;
 import com.se.sos.global.exception.CustomException;
@@ -24,11 +24,11 @@ public class AmbulanceService {
     private final ParamedicRepository paramedicRepository;
 
     @Transactional
-    public ResponseEntity<?> addParamedic(UUID id, ParamedicRegisterReq paramedicRegisterReq) {
+    public ResponseEntity<?> addParamedic(UUID id, ParamedicReq paramedicReq) {
         Ambulance ambulance = ambulanceRepository.findById(id)
                 .orElseThrow(()-> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
 
-        Paramedic paramedic = ParamedicRegisterReq.toEntity(paramedicRegisterReq, ambulance);
+        Paramedic paramedic = ParamedicReq.toEntity(paramedicReq, ambulance);
 
         ambulance.addParamedic(paramedic);
 
@@ -39,6 +39,26 @@ public class AmbulanceService {
                 .body(SuccessRes.from(SuccessType.PARAMEDIC_ADDED));
     }
 
+    @Transactional
+    public ResponseEntity<?> updateParamedic(UUID ambulanceId, UUID memberId, ParamedicReq paramedicReq) {
+
+        Paramedic paramedic = paramedicRepository.findByIdAndAmbulanceId(memberId, ambulanceId)
+                .orElseThrow(()-> new CustomException(ErrorType.PARAMEDIC_NOT_FOUND));
+
+        paramedic.updateInfo(paramedicReq);
+        paramedicRepository.save(paramedic);
+
+        return ResponseEntity.status(SuccessType.OK.getStatus())
+                .body(SuccessRes.from(SuccessType.OK));
+    }
+
+    @Transactional
+    public ResponseEntity<?> deleteParamedic(UUID ambulanceId, UUID memberId) {
+        paramedicRepository.deleteByIdAndAmbulanceId(memberId, ambulanceId);
+
+        return ResponseEntity.status(SuccessType.OK.getStatus())
+                .body(SuccessRes.from(SuccessType.OK));
+    }
 
 
 }
