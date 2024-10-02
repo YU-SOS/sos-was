@@ -13,6 +13,8 @@ public interface AmbulanceRepository extends JpaRepository<Ambulance, UUID> {
 
     List<Ambulance> findByRole(Role role);
 
+    boolean existsById(UUID id);
+
     boolean existsByAmbulanceId(String ambulanceId);
 
     boolean existsByName(String name);
