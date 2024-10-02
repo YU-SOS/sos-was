@@ -46,6 +46,14 @@ public class WebSecurityConfig {
     private final AmbulanceRepository ambulanceRepository;
     private final AdminRepository adminRepository;
 
+    private static final String[] PUBLIC_EP = {
+            "/login/**",
+            "/signup/**",
+            "/test/**",
+            "/reissue-token",
+            "/dup-check"
+    };
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -69,10 +77,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequest ->
                         authorizeHttpRequest
                                 .requestMatchers(
-                                        "/login/**",
-                                        "/signup/**",
-                                        "/test/**",
-                                        "/reissue-token"
+                                        PUBLIC_EP
                                 ).permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/test/amb").hasRole("AMB")
