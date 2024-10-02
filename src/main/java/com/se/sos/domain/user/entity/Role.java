@@ -16,5 +16,5 @@ public enum Role {
     BLACKLIST("ROLE_BLACKLIST")
     ;
 
-    private final String role;
+    private final String value;
 }
