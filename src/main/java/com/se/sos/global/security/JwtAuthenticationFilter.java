@@ -60,32 +60,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private Authentication getAuthentication(String token){
         Claims claims = jwtUtil.parseToken(token); // throws Error
         UUID id = UUID.fromString(claims.getSubject());
-        String role = "ROLE_"+ claims.get("role").toString();
+        String role = claims.get("role").toString();
 
         UserDetails userDetails = null;
 
-        if (role.equals(Role.AMB.getRole()) || role.equals(Role.AMB_GUEST.getRole())) {
+        if (role.equals(Role.AMB.getValue()) || role.equals(Role.AMB_GUEST.getValue())) {
             userDetails = ambulanceRepository.findById(id)
                     .map(AmbulanceDetails::new)
                     .orElseGet(() -> {
                         log.error(ErrorType.AMBULANCE_NOT_FOUND.getMessage());
                         return null;
                     });
-        } else if (role.equals(Role.HOS.getRole()) || role.equals(Role.HOS_GUEST.getRole())) {
+        } else if (role.equals(Role.HOS.getValue()) || role.equals(Role.HOS_GUEST.getValue())) {
             userDetails = hospitalRepository.findById(id)
                     .map(HospitalDetails::new)
                     .orElseGet(() -> {
                         log.error(ErrorType.HOSPITAL_NOT_FOUND.getMessage());
                         return null;
                     });
-        } else if (role.equals(Role.USER.getRole())) {
+        } else if (role.equals(Role.USER.getValue())) {
             userDetails = userRepository.findById(id)
                     .map(SecurityUserDetails::new)
                     .orElseGet(() -> {
                         log.error(ErrorType.USER_NOT_FOUND.getMessage());
                         return null;
                     });
-        } else if(role.equals(Role.ADMIN.getRole())){
+        } else if(role.equals(Role.ADMIN.getValue())){
             userDetails = adminRepository.findById(id)
                     .map(AdminDetails::new)
                     .orElseGet(() -> {

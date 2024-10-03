@@ -174,8 +174,8 @@ public class AuthService {
                 return ResponseEntity.status(ErrorType.ALREADY_USED_ID.getStatus())
                         .body(ErrorRes.from(ErrorType.ALREADY_USED_ID));
             else
-                return ResponseEntity.status(SuccessType.AVAILABE_ID.getStatus())
-                        .body(SuccessRes.from(SuccessType.AVAILABE_ID));
+                return ResponseEntity.status(SuccessType.AVAILABLE_ID.getStatus())
+                        .body(SuccessRes.from(SuccessType.AVAILABLE_ID));
 
 
         } else if (role.equals("HOS")){
@@ -183,8 +183,8 @@ public class AuthService {
                 return ResponseEntity.status(ErrorType.ALREADY_USED_ID.getStatus())
                         .body(ErrorRes.from(ErrorType.ALREADY_USED_ID));
             else
-                return ResponseEntity.status(SuccessType.AVAILABE_ID.getStatus())
-                        .body(SuccessRes.from(SuccessType.AVAILABE_ID));
+                return ResponseEntity.status(SuccessType.AVAILABLE_ID.getStatus())
+                        .body(SuccessRes.from(SuccessType.AVAILABLE_ID));
 
         } else {
             return ResponseEntity.status(ErrorType.BAD_REQUEST.getStatus())

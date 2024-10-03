@@ -1,8 +1,8 @@
 package com.se.sos.domain.paramedic.entity;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
+import com.se.sos.domain.paramedic.dto.ParamedicReq;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,5 +33,10 @@ public class Paramedic {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.ambulance = ambulance;
+    }
+
+    public void updateInfo(ParamedicReq paramedicReq){
+        this.name = paramedicReq.name();
+        this.phoneNumber = paramedicReq.phoneNumber();
     }
 }

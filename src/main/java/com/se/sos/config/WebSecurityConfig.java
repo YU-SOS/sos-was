@@ -80,6 +80,7 @@ public class WebSecurityConfig {
                                         PUBLIC_EP
                                 ).permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/ambulance/**").hasRole("AMB")
                                 .requestMatchers("/test/amb").hasRole("AMB")
                         .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil, objectMapper), UsernamePasswordAuthenticationFilter.class)

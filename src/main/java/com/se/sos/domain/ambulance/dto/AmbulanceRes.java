@@ -1,4 +1,4 @@
-package com.se.sos.domain.ambulance.response;
+package com.se.sos.domain.ambulance.dto;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.entity.Location;
