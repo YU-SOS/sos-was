@@ -3,13 +3,13 @@ package com.se.sos.global.util.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Duration;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -61,6 +61,10 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+    public UUID getAmbulanceIdFromToken(String token){
+        Claims claims = parseToken(token);
+        return UUID.fromString(claims.getSubject());
     }
 
     public String getUsername(String token){
