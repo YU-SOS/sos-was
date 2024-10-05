@@ -10,7 +10,8 @@ import java.util.UUID;
 @Getter
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @NotNull
