@@ -15,8 +15,7 @@ public record PatientRes (
     String phoneNumber,
     String medication,
     String reference,
-    Gender gender,
-    TransferStatus status
+    Gender gender
 ){
     public static PatientRes from(Patient patient){
         return new PatientRes(
@@ -26,8 +25,7 @@ public record PatientRes (
                 patient.getPhoneNumber(),
                 patient.getMedication(),
                 patient.getReference(),
-                patient.getGender(),
-                patient.getStatus()
+                patient.getGender()
         );
     }
 }
