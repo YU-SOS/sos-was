@@ -62,7 +62,7 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    public UUID getAmbulanceIdFromToken(String token){
+    public UUID getIdFromToken(String token){
         Claims claims = parseToken(token);
         return UUID.fromString(claims.getSubject());
     }
