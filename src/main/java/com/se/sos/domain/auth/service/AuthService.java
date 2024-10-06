@@ -127,7 +127,7 @@ public class AuthService {
         System.out.println("admin = " + admin);
 
         if(admin.getPassword().equals(adminLoginReq.password())) {
-            String accessToken = jwtUtil.generateAccessToken(admin.getId().toString(), Role.ADMIN.toString());
+            String accessToken = jwtUtil.generateAccessToken(admin.getId().toString(), Role.ADMIN.getValue());
 
             return ResponseEntity.status(LOGIN_SUCCESS.getStatus())
                     .header(HttpHeaders.AUTHORIZATION, accessToken)
