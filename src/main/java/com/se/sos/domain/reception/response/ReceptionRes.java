@@ -1,7 +1,7 @@
 package com.se.sos.domain.reception.response;
 
 import com.se.sos.domain.ambulance.dto.AmbulanceRes;
-import com.se.sos.domain.hospital.response.HospitalRes;
+import com.se.sos.domain.hospital.dto.HospitalRes;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.domain.reception.entity.TransferStatus;
 
