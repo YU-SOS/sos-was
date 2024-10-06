@@ -5,6 +5,7 @@ import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.reception.dto.ReceptionCreateReq;
+import com.se.sos.domain.reception.dto.ReceptionRes;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.domain.reception.repository.PatientRepository;
 import com.se.sos.domain.reception.repository.ReceptionRepository;
@@ -34,4 +35,11 @@ public class ReceptionService {
         receptionRepository.save(reception);
     }
 
+    public ReceptionRes findReceptionById(String id) {
+        UUID receptionId = UUID.fromString(id);
+        Reception reception = receptionRepository.findReceptionById(receptionId)
+                .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
+
+        return ReceptionRes.from(reception);
+    }
 }
