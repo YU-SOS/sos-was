@@ -62,7 +62,9 @@ public class AuthService {
     }
 
     public void signupForHospital(HospitalSignupReq hospitalSignupReq) {
-        if (hospitalRepository.existsByHospitalId(hospitalSignupReq.getName()))
+        if (hospitalRepository.existsByHospitalId(hospitalSignupReq.getId()))
+            throw new CustomException(ErrorType.ALREADY_USED_ID);
+        if(hospitalRepository.existsByName(hospitalSignupReq.getName()))
             throw new CustomException(ErrorType.ALREADY_EXISTS_HOSPITAL);
 
         Hospital newHospital = HospitalSignupReq.toEntity(hospitalSignupReq, bCryptPasswordEncoder.encode(hospitalSignupReq.getPassword()));
@@ -119,10 +121,10 @@ public class AuthService {
     public ResponseEntity<?> loginForAdmin(AdminLoginReq adminLoginReq) {
 
         String adminId = adminLoginReq.adminId();
-
+        System.out.println("adminId = " + adminId);
         Admin admin = adminRepository.findByAdminId(adminId)
                 .orElseThrow(() -> new CustomException(ErrorType.UN_AUTHENTICATION));
-
+        System.out.println("admin = " + admin);
 
         if(admin.getPassword().equals(adminLoginReq.password())) {
             String accessToken = jwtUtil.generateAccessToken(admin.getId().toString(), Role.ADMIN.toString());
