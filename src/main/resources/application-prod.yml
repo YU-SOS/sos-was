@@ -1,7 +1,7 @@
 spring:
-#  profiles:
-#    active: ${PROFILE}
-
+  config:
+    activate:
+      on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?serverTimezone=Asia/Seoul
@@ -20,30 +20,3 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           time_zone: Asia/Seoul
-  data:
-    jpa:
-      repositories:
-        bootstrap-mode: deferred # 비동기적 리포지토리 검사
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      repositories:
-        enabled: false
-
-
-
-server:
-  port: 8080
-
-
-
---- #jwt
-jwt:
-  secret-key: ${JWT_SECRET_KEY}
-  issuer: ${JWT_ISSUER}
-  access-expiration: ${JWT_ACCESS_EXPIRATION}
-  refresh-expiration: ${JWT_REFRESH_EXPIRATION}
-
---- #cookie
-cookie:
-  refresh-expirtaion: ${COOKIE_REFRESH_EXPIRATION}
