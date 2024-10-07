@@ -1,16 +1,18 @@
 package com.se.sos.domain.reception.entity;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
+import com.se.sos.domain.comment.entity.Comment;
 import com.se.sos.domain.hospital.entity.Hospital;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -39,6 +41,9 @@ public class Reception {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "HOSPITAL_ID")
     Hospital hospital;
+
+    @OneToMany(mappedBy = "reception", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public Reception(

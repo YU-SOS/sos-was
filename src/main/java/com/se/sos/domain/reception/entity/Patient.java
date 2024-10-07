@@ -2,7 +2,6 @@ package com.se.sos.domain.reception.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,13 +38,11 @@ public class Patient {  // 환자
     @Enumerated(EnumType.STRING)
     Gender gender;
 
-    @Enumerated(EnumType.STRING)
-    TransferStatus status;
 
     @Builder
     public Patient(String name, int age, String phoneNumber, String symptom,
-                   String medication, String reference, Gender gender,
-                   TransferStatus status) {
+                   String medication, String reference, Gender gender)
+    {
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
@@ -53,6 +50,5 @@ public class Patient {  // 환자
         this.medication = medication;
         this.reference = reference;
         this.gender = gender;
-        this.status = status;
     }
 }

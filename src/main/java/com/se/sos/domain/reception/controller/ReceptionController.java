@@ -21,9 +21,13 @@ public class ReceptionController {
     public ResponseEntity<?> createReception(@RequestHeader("Authorization") String authorizationHeader,
                                              @RequestBody ReceptionCreateReq receptionCreateDto) {
         String token = authorizationHeader.substring(7);
-        UUID ambulanceId = jwtUtil.getAmbulanceIdFromToken(token);
+        UUID ambulanceId = jwtUtil.getIdFromToken(token);
         receptionService.createReception(receptionCreateDto, ambulanceId);
 
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/{receptionId}")
+    public ResponseEntity<?> getReceptionDetail(@PathVariable(name = "receptionId") String id) {
+        return ResponseEntity.ok().body(receptionService.findReceptionById(id));
     }
 }
