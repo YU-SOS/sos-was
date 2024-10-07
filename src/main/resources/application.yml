@@ -1,25 +1,7 @@
 spring:
-#  profiles:
-#    active: ${PROFILE}
+  profiles:
+    active: ${PROFILE}
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?serverTimezone=Asia/Seoul
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 1000
-        dialect: org.hibernate.dialect.MySQLDialect
-        jdbc:
-          time_zone: Asia/Seoul
   data:
     jpa:
       repositories:
@@ -30,12 +12,8 @@ spring:
       repositories:
         enabled: false
 
-
-
 server:
   port: 8080
-
-
 
 --- #jwt
 jwt:
