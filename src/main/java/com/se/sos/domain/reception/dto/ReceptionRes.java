@@ -5,6 +5,7 @@ import com.se.sos.domain.ambulance.dto.AmbulanceRes;
 import com.se.sos.domain.comment.dto.CommentRes;
 import com.se.sos.domain.hospital.dto.HospitalRes;
 import com.se.sos.domain.reception.entity.Reception;
+import com.se.sos.domain.reception.entity.ReceptionStatus;
 import com.se.sos.domain.reception.entity.TransferStatus;
 import com.se.sos.domain.reception.response.PatientRes;
 
@@ -20,7 +21,8 @@ public record ReceptionRes(
         AmbulanceRes ambulance,
         HospitalRes hospital,
         PatientRes patient,
-        List<CommentRes> comments
+        List<CommentRes> comments,
+        ReceptionStatus receptionStatus
 ) {
     public static ReceptionRes from(Reception reception) {
 
@@ -36,7 +38,8 @@ public record ReceptionRes(
                 AmbulanceRes.from(reception.getAmbulance()),
                 HospitalRes.from(reception.getHospital()),
                 PatientRes.from(reception.getPatient()),
-                commentResList
+                commentResList,
+                reception.getReceptionStatus()
         );
     }
 }
