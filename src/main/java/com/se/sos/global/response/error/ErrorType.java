@@ -12,7 +12,7 @@ public enum ErrorType {
     LOGOUT_FAILED(HttpStatus.BAD_REQUEST,"로그아웃 실패되었습니다."),
     REISSUE_TOKEN_FAILED(HttpStatus.BAD_REQUEST, "토큰 재발급에 실패했습니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "리프레시 토큰이 없습니다."),
-
+    INVALID_RECEPTION_STATUS(HttpStatus.BAD_REQUEST, "잘못된 접수 상태입니다."),
     // 인증
     // 401
     UN_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "인증이 실패되었습니다."),
@@ -34,7 +34,7 @@ public enum ErrorType {
     HOSPITAL_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 병원입니다."),
     RECEPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 접수 입니다."),
     PARAMEDIC_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 구급대원 입니다."),
-
+    RECEPTION_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 접수 상태 입니다."),
     // 데이터 충돌
     ALREADY_USED_ID(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다."),
     ALREADY_EXISTS_AMBULANCE(HttpStatus.CONFLICT, "이미 존재하는 구급대입니다."),
