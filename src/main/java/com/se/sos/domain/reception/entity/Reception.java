@@ -37,7 +37,7 @@ public class Reception {
     @JoinColumn(name = "AMBULANCE_ID")
     Ambulance ambulance;
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "PATIENT_ID")
     Patient patient;
 
