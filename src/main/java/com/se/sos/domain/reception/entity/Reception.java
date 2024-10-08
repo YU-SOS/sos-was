@@ -26,6 +26,9 @@ public class Reception {
     @Enumerated(EnumType.STRING)
     TransferStatus status = TransferStatus.MOVE;
 
+    @Enumerated(EnumType.STRING)
+    ReceptionStatus receptionStatus = ReceptionStatus.PENDING;
+
     @NotNull
     LocalDateTime startTime; // 이송 시작 시간
     LocalDateTime endTime; // 이송 완료 시간
@@ -56,4 +59,9 @@ public class Reception {
         this.patient = patient;
         this.hospital = hospital;
     }
+
+    public void updateReceptionStatus(ReceptionStatus newStatus) {
+        this.receptionStatus = newStatus;
+    }
+
 }
