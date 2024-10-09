@@ -7,10 +7,13 @@ import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.reception.dto.ReceptionCreateReq;
 import com.se.sos.domain.reception.dto.ReceptionRes;
 import com.se.sos.domain.reception.entity.Reception;
+import com.se.sos.domain.reception.entity.ReceptionStatus;
 import com.se.sos.domain.reception.repository.PatientRepository;
 import com.se.sos.domain.reception.repository.ReceptionRepository;
+import com.se.sos.domain.reception.response.PatientRes;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +43,26 @@ public class ReceptionService {
         Reception reception = receptionRepository.findReceptionById(receptionId)
                 .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
 
+        return ReceptionRes.from(reception);
+    }
+    @Transactional
+    public PatientRes rejectedVisitRequest(String id) {
+        System.out.println("id = " + id);
+        UUID receptionId = UUID.fromString(id);
+        Reception reception = receptionRepository.findReceptionById(receptionId)
+                .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
+
+        receptionRepository.delete(reception);
+        return PatientRes.from(reception.getPatient());
+    }
+
+    @Transactional
+    public ReceptionRes approvedVisitRequest (String id){
+        UUID receptionId = UUID.fromString(id);
+        Reception reception = receptionRepository.findReceptionById(receptionId)
+                .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
+
+        reception.updateReceptionStatus(ReceptionStatus.APPROVED);
         return ReceptionRes.from(reception);
     }
 }
