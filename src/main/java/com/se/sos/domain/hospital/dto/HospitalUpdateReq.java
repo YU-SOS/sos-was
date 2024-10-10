@@ -4,6 +4,7 @@ import com.se.sos.domain.ambulance.entity.Location;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import java.util.List;
 
 
 @Getter
@@ -18,4 +19,6 @@ public class HospitalUpdateReq {
     private String imageUrl;
     @NotNull
     private Location location;
+    @NotNull
+    private List<String> categories;
 }
