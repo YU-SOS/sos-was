@@ -70,7 +70,8 @@ public class HospitalService {
         Hospital hospital = hospitalRepository.findById(hospitalId)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         hospital.updateHospital(hospitalUpdateReq);
-
+        List<Category> categories = categoryRepository.findByNameIn(hospitalUpdateReq.getCategories());
+        hospital.updateCategories(categories);
         return HospitalRes.from(hospital);
     }
 
