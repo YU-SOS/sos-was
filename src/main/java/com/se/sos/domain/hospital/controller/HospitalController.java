@@ -46,4 +46,9 @@ public class HospitalController {
                                             @RequestBody HospitalUpdateReq hospitalUpdateReq){
         return ResponseEntity.ok().body(hospitalService.updateHospitalById(id,hospitalUpdateReq));
     }
+    @PutMapping("/{hospitalId}/emergencyStatus")
+    public ResponseEntity<?> updateStatus(@PathVariable(name = "hospitalId") String id,
+                                          @RequestParam(name = "emergencyStatus") boolean emergencyStatus){
+        return ResponseEntity.ok().body(hospitalService.updateEmergencyStatus(id,emergencyStatus));
+    }
 }
