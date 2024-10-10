@@ -88,10 +88,17 @@ public class Hospital {
         this.telephoneNumber = hospitalUpdateReq.getTelephoneNumber();
         this.imageUrl = hospitalUpdateReq.getImageUrl();
         this.location = hospitalUpdateReq.getLocation();
-        this.emergencyRoomStatus = hospitalUpdateReq.getEmergencyRoomStatus();
     }
 
     public void updateRole(Role role){
         this.role = role;
+    }
+
+    public void updateEmergencyStatus(boolean emergencyStatus) {
+        if(emergencyStatus){
+            this.emergencyRoomStatus = EmergencyRoomStatus.AVAILABLE;
+        }else{
+            this.emergencyRoomStatus = EmergencyRoomStatus.FULL;
+        }
     }
 }
