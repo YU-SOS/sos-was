@@ -44,7 +44,7 @@ public class AuthController {
         return authService.loginForAdmin(adminLoginReq);
     }
 
-    @PostMapping("/logout/user")
+    @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
         return authService.logoutForUser(token);
