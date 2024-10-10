@@ -101,4 +101,9 @@ public class Hospital {
             this.emergencyRoomStatus = EmergencyRoomStatus.FULL;
         }
     }
+
+    public void updateCategories(List<Category> categories) {
+        this.categoryHospitals.clear();
+        addCategories(categories);
+    }
 }
