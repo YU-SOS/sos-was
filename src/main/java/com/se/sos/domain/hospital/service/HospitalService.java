@@ -73,4 +73,14 @@ public class HospitalService {
 
         return HospitalRes.from(hospital);
     }
+
+    @Transactional
+    public HospitalRes updateEmergencyStatus(String id, boolean emergencyStatus) {
+        UUID hospitalId = UUID.fromString(id);
+        Hospital hospital = hospitalRepository.findById(hospitalId)
+                .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
+        hospital.updateEmergencyStatus(emergencyStatus);
+
+        return HospitalRes.from(hospital);
+    }
 }
