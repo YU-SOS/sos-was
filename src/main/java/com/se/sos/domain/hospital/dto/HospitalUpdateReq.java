@@ -1,10 +1,10 @@
 package com.se.sos.domain.hospital.dto;
 
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.domain.hospital.entity.EmergencyRoomStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import java.util.List;
 
 
 @Getter
@@ -20,5 +20,5 @@ public class HospitalUpdateReq {
     @NotNull
     private Location location;
     @NotNull
-    private EmergencyRoomStatus emergencyRoomStatus;
+    private List<String> categories;
 }

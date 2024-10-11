@@ -3,6 +3,7 @@ package com.se.sos.domain.hospital.dto;
 
 import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.category.response.CategoryRes;
+import com.se.sos.domain.hospital.entity.EmergencyRoomStatus;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.user.entity.Role;
 
@@ -18,7 +19,8 @@ public record HospitalRes (
         String imageUrl,
         Location location,
         Role role,
-        List<CategoryRes> categories
+        List<CategoryRes> categories,
+        EmergencyRoomStatus emergencyRoomStatus
 )
 {
     public static HospitalRes from(Hospital hospital) {
@@ -35,7 +37,8 @@ public record HospitalRes (
                 hospital.getImageUrl(),
                 hospital.getLocation(),
                 hospital.getRole(),
-                categoryResList
+                categoryResList,
+                hospital.getEmergencyRoomStatus()
         );
     }
 }

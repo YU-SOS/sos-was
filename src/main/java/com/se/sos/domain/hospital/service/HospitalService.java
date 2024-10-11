@@ -48,13 +48,9 @@ public class HospitalService {
 
     public HospitalRes findHospitalById(String id) {
         UUID uuid = UUID.fromString(id);
-        Optional<Hospital> hospitalOpt = hospitalRepository.findById(uuid);
-
-        if (hospitalOpt.isPresent()) {
-            return HospitalRes.from(hospitalOpt.get());
-        } else {
-            throw new CustomException(ErrorType.HOSPITAL_NOT_FOUND);
-        }
+        Hospital hospital = hospitalRepository.findById(uuid).orElseThrow(
+                () -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
+        return HospitalRes.from(hospital);
     }
 
     @Transactional(readOnly = true)
@@ -70,6 +66,17 @@ public class HospitalService {
         Hospital hospital = hospitalRepository.findById(hospitalId)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         hospital.updateHospital(hospitalUpdateReq);
+        List<Category> categories = categoryRepository.findByNameIn(hospitalUpdateReq.getCategories());
+        hospital.updateCategories(categories);
+        return HospitalRes.from(hospital);
+    }
+
+    @Transactional
+    public HospitalRes updateEmergencyStatus(String id, boolean emergencyStatus) {
+        UUID hospitalId = UUID.fromString(id);
+        Hospital hospital = hospitalRepository.findById(hospitalId)
+                .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
+        hospital.updateEmergencyStatus(emergencyStatus);
 
         return HospitalRes.from(hospital);
     }
