@@ -1,29 +1,7 @@
 package com.se.sos;
 
-import com.se.sos.domain.ambulance.entity.Ambulance;
-import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
-import com.se.sos.domain.comment.entity.Comment;
-import com.se.sos.domain.comment.repository.CommentRepository;
-import com.se.sos.domain.hospital.entity.Hospital;
-import com.se.sos.domain.hospital.repository.HospitalRepository;
-import com.se.sos.domain.reception.entity.Gender;
-import com.se.sos.domain.reception.entity.Patient;
-import com.se.sos.domain.reception.entity.Reception;
-import com.se.sos.domain.reception.entity.TransferStatus;
-import com.se.sos.domain.reception.repository.PatientRepository;
-import com.se.sos.domain.reception.repository.ReceptionRepository;
-import com.se.sos.domain.user.entity.Role;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.UUID;
 
 @SpringBootTest
 @EnableJpaAuditing
