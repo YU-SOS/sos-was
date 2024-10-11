@@ -1,4 +1,4 @@
-package com.se.sos.domain.reception.entity;
+package com.se.sos.domain.patient.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

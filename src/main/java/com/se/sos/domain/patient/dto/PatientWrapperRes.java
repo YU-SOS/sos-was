@@ -1,7 +1,6 @@
-package com.se.sos.domain.reception.dto;
+package com.se.sos.domain.patient.dto;
 
 import com.se.sos.domain.reception.entity.ReceptionStatus;
-import com.se.sos.domain.reception.response.PatientRes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
