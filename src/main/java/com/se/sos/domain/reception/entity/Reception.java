@@ -3,6 +3,8 @@ package com.se.sos.domain.reception.entity;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.comment.entity.Comment;
 import com.se.sos.domain.hospital.entity.Hospital;
+import com.se.sos.domain.paramedic.entity.Paramedic;
+import com.se.sos.domain.patient.entity.Patient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -24,9 +26,6 @@ public class Reception {
     UUID id;
 
     @Enumerated(EnumType.STRING)
-    TransferStatus status = TransferStatus.MOVE;
-
-    @Enumerated(EnumType.STRING)
     ReceptionStatus receptionStatus = ReceptionStatus.PENDING;
 
     @NotNull
@@ -45,6 +44,9 @@ public class Reception {
     @JoinColumn(name = "HOSPITAL_ID")
     Hospital hospital;
 
+    @OneToOne
+    Paramedic paramedic;
+
     @OneToMany(mappedBy = "reception", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> commentList = new ArrayList<>();
 
@@ -53,15 +55,25 @@ public class Reception {
             LocalDateTime startTime,
             Ambulance ambulance,
             Hospital hospital,
-            Patient patient) {
+            Patient patient,
+            Paramedic paramedic) {
         this.startTime = startTime;
         this.ambulance = ambulance;
         this.patient = patient;
         this.hospital = hospital;
+        this.paramedic = paramedic;
     }
 
-    public void updateReceptionStatus(ReceptionStatus newStatus) {
-        this.receptionStatus = newStatus;
+    public void updateReceptionStatus(ReceptionStatus status) {
+        this.receptionStatus = status;
+    }
+
+    public void updateHospital(Hospital hospital){
+        this.hospital = hospital;
+    }
+
+    public void closeReception(){
+        this.receptionStatus = ReceptionStatus.ARRIVAL;
     }
 
 }
