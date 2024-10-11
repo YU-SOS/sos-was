@@ -27,6 +27,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import static com.se.sos.config.EndpointProperties.*;
+
 @Configuration
 @EnableWebSecurity(debug=true)
 @RequiredArgsConstructor
@@ -46,13 +48,24 @@ public class WebSecurityConfig {
     private final AmbulanceRepository ambulanceRepository;
     private final AdminRepository adminRepository;
 
-    private static final String[] PUBLIC_EP = {
+    /*private static final String[] PUBLIC_EP = {
             "/login/**",
             "/signup/**",
             "/test/**",
             "/reissue-token",
-            "/dup-check"
+            "/dup-check",
+            "/reception/{receptionId}/guest",
     };
+
+    private static final String[] AMB_EP = {
+            "/ambulance/**",
+    };
+
+    private static final String[] HOS_EP = {
+            "/hospital/**",
+    };*/
+
+
 
 
     @Bean
@@ -80,9 +93,10 @@ public class WebSecurityConfig {
                                         PUBLIC_EP
                                 ).permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/ambulance/**").hasRole("AMB")
+                                .requestMatchers(AMB_EP).hasRole("AMB")
                                 .requestMatchers("/test/amb").hasRole("AMB")
                                 .requestMatchers("/reception/**").hasRole("AMB")
+                                .requestMatchers(HOS_EP).hasRole("HOS")
                         .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil, objectMapper), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository, adminRepository), UsernamePasswordAuthenticationFilter.class)
