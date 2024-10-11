@@ -48,7 +48,6 @@ public class HospitalService {
 
     public HospitalRes findHospitalById(String id) {
         UUID uuid = UUID.fromString(id);
-        Optional<Hospital> hospitalOpt = hospitalRepository.findById(uuid);
         Hospital hospital = hospitalRepository.findById(uuid).orElseThrow(
                 () -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         return HospitalRes.from(hospital);
