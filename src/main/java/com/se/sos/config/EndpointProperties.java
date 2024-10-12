@@ -14,6 +14,8 @@ public class EndpointProperties {
             "/ambulance/**",
             "/reception",
             "/reception/{receptionId}/re",
+            "/hospital",
+            "/hospital/{hospitalId}",
     };
 
     public static final String[] HOS_EP = {
