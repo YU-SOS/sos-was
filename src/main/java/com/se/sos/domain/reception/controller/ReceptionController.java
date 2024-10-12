@@ -1,13 +1,16 @@
 package com.se.sos.domain.reception.controller;
 
+import com.se.sos.domain.comment.dto.CommentReq;
 import com.se.sos.domain.reception.dto.ReceptionApproveReq;
 import com.se.sos.domain.reception.dto.ReceptionCreateReq;
 import com.se.sos.domain.reception.dto.ReceptionReVisitReq;
 import com.se.sos.domain.reception.service.ReceptionService;
+import com.se.sos.domain.security.form.dto.CustomUserDetails;
 import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,4 +78,16 @@ public class ReceptionController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{receptionId}/comment")
+    public ResponseEntity<?> addComment(
+            @PathVariable(name = "receptionId") UUID id,
+            @RequestBody CommentReq req,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+            ) {
+        receptionService.addComment(id, req);
+        System.out.println(userDetails.getUsername());
+        System.out.println(userDetails.getAuthorities().iterator().next().getAuthority());
+        System.out.println(userDetails.getAuthorities().iterator().next().getAuthority());
+        return ResponseEntity.ok().build();
+    }
 }

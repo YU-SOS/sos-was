@@ -48,26 +48,6 @@ public class WebSecurityConfig {
     private final AmbulanceRepository ambulanceRepository;
     private final AdminRepository adminRepository;
 
-    /*private static final String[] PUBLIC_EP = {
-            "/login/**",
-            "/signup/**",
-            "/test/**",
-            "/reissue-token",
-            "/dup-check",
-            "/reception/{receptionId}/guest",
-    };
-
-    private static final String[] AMB_EP = {
-            "/ambulance/**",
-    };
-
-    private static final String[] HOS_EP = {
-            "/hospital/**",
-    };*/
-
-
-
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -89,14 +69,11 @@ public class WebSecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequest ->
                         authorizeHttpRequest
-                                .requestMatchers(
-                                        PUBLIC_EP
-                                ).permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers(PUBLIC_EP).permitAll()
+                                .requestMatchers(ADMIN_EP).hasRole("ADMIN")
                                 .requestMatchers(AMB_EP).hasRole("AMB")
-                                .requestMatchers("/test/amb").hasRole("AMB")
-                                .requestMatchers("/reception/**").hasRole("AMB")
                                 .requestMatchers(HOS_EP).hasRole("HOS")
+
                         .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil, objectMapper), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository, adminRepository), UsernamePasswordAuthenticationFilter.class)
