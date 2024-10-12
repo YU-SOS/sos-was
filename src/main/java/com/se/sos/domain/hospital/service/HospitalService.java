@@ -3,12 +3,12 @@ package com.se.sos.domain.hospital.service;
 import com.se.sos.domain.category.entity.Category;
 import com.se.sos.domain.category.repository.CategoryHospitalRepository;
 import com.se.sos.domain.category.repository.CategoryRepository;
+import com.se.sos.domain.hospital.dto.HospitalRes;
 import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
-import com.se.sos.domain.hospital.dto.HospitalRes;
+import com.se.sos.domain.reception.dto.ReceptionRes;
 import com.se.sos.domain.reception.repository.ReceptionRepository;
-import com.se.sos.domain.reception.response.ReceptionRes;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

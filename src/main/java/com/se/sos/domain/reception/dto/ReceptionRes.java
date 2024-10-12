@@ -4,10 +4,10 @@ package com.se.sos.domain.reception.dto;
 import com.se.sos.domain.ambulance.dto.AmbulanceRes;
 import com.se.sos.domain.comment.dto.CommentRes;
 import com.se.sos.domain.hospital.dto.HospitalRes;
+import com.se.sos.domain.paramedic.dto.ParamedicRes;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.domain.reception.entity.ReceptionStatus;
-import com.se.sos.domain.reception.entity.TransferStatus;
-import com.se.sos.domain.reception.response.PatientRes;
+import com.se.sos.domain.patient.dto.PatientRes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,12 +17,12 @@ public record ReceptionRes(
         UUID id,
         LocalDateTime startTime,
         LocalDateTime endTime,
-        TransferStatus status,
         AmbulanceRes ambulance,
         HospitalRes hospital,
         PatientRes patient,
         List<CommentRes> comments,
-        ReceptionStatus receptionStatus
+        ReceptionStatus receptionStatus,
+        ParamedicRes paramedicRes
 ) {
     public static ReceptionRes from(Reception reception) {
 
@@ -34,12 +34,12 @@ public record ReceptionRes(
                 reception.getId(),
                 reception.getStartTime(),
                 reception.getEndTime(),
-                reception.getStatus(),
                 AmbulanceRes.from(reception.getAmbulance()),
                 HospitalRes.from(reception.getHospital()),
                 PatientRes.from(reception.getPatient()),
                 commentResList,
-                reception.getReceptionStatus()
+                reception.getReceptionStatus(),
+                ParamedicRes.fromEntity(reception.getParamedic())
         );
     }
 }
