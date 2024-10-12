@@ -87,8 +87,8 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        String accessToken = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().toString());
-        String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString(), user.getRole().toString());
+        String accessToken = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().getValue());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString(), user.getRole().getValue());
         redisUtil.save(RedisProperties.REFRESH_TOKEN_PREFIX + user.getId(), refreshToken, jwtUtil.getRefreshTokenDuration());
 
         return ResponseEntity.status(SuccessType.USER_CREATED.getStatus())
