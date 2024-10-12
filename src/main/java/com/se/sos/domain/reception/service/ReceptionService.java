@@ -65,10 +65,10 @@ public class ReceptionService {
 
         if(isApproved)
             reception.updateReceptionStatus(ReceptionStatus.MOVE);
-        else
-            reception.updateReceptionStatus(ReceptionStatus.REJECTED); // 되면서 병원 아예 reception에서 삭제?
-
-        receptionRepository.save(reception);
+        else{
+            reception.updateReceptionStatus(ReceptionStatus.REJECTED);
+            reception.deleteHospital();
+        }
     }
 
     @Transactional
@@ -80,8 +80,6 @@ public class ReceptionService {
                 .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
 
         reception.updateHospital(hospital);
-
-        receptionRepository.save(reception);
     }
 
     @Transactional
