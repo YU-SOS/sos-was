@@ -66,6 +66,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .formLogin(FormLoginConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequest ->
                         authorizeHttpRequest
@@ -73,7 +74,6 @@ public class WebSecurityConfig {
                                 .requestMatchers(ADMIN_EP).hasRole("ADMIN")
                                 .requestMatchers(AMB_EP).hasRole("AMB")
                                 .requestMatchers(HOS_EP).hasRole("HOS")
-
                         .anyRequest().authenticated())
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil, objectMapper), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository, adminRepository), UsernamePasswordAuthenticationFilter.class)

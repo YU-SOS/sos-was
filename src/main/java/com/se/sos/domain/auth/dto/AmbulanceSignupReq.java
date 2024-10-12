@@ -3,25 +3,21 @@ package com.se.sos.domain.auth.dto;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.user.entity.Role;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class AmbulanceSignupReq extends SignupReq {
 
-    @NotNull
+    @Valid
     private  Location location;
-    @NotBlank
     private  String imageUrl;
-
-    public AmbulanceSignupReq(String id, String password, String name, String address, String telephoneNumber, Location location, String imageUrl) {
-        super(id, password, name, address, telephoneNumber);
-        this.location = location;
-        this.imageUrl = imageUrl;
-    }
 
     public static Ambulance toEntity(AmbulanceSignupReq ambulanceSignupReq, String encodedPassword) {
         return Ambulance.builder()

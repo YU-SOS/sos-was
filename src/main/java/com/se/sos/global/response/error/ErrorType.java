@@ -13,6 +13,8 @@ public enum ErrorType {
     REISSUE_TOKEN_FAILED(HttpStatus.BAD_REQUEST, "토큰 재발급에 실패했습니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "리프레시 토큰이 없습니다."),
     INVALID_RECEPTION_STATUS(HttpStatus.BAD_REQUEST, "잘못된 접수 상태입니다."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효성 검증 실패. 잘못된 요청입니다."), // 400
+
     // 인증
     // 401
     UN_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "인증이 실패되었습니다."),
@@ -27,7 +29,6 @@ public enum ErrorType {
     BLACKLIST(HttpStatus.FORBIDDEN, "블랙리스트된 사용자입니다."),
 
     // 데이터
-    BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효성 검증 실패. 잘못된 요청입니다."), // 400
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 사용자입니다."),        // 404
     ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 관리자입니다."),
     AMBULANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 구급대입니다."),

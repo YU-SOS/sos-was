@@ -3,6 +3,7 @@ package com.se.sos.domain.auth.dto;
 import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.user.entity.Role;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 public class HospitalSignupReq extends SignupReq {
 
-    @NotNull
+    @Valid
     private Location location;
     private String imageUrl;
+    @NotNull(message = "카테고리는 필수 입력값입니다.")
     private List<String> categories;
 
 

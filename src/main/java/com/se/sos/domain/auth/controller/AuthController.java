@@ -8,8 +8,10 @@ import com.se.sos.domain.auth.dto.UserSignupReq;
 import com.se.sos.domain.auth.service.AuthService;
 import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.response.success.SuccessType;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup/ambulance")
-    public ResponseEntity<?> signup(@RequestBody AmbulanceSignupReq ambulanceSignupReq) {
+    public ResponseEntity<?> signup(@Valid @RequestBody AmbulanceSignupReq ambulanceSignupReq) {
         authService.signupForAmbulance(ambulanceSignupReq);
         return ResponseEntity
                 .status(SuccessType.AMBULANCE_CREATED.getStatus())
@@ -27,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup/hospital")
-    public ResponseEntity<?> signup(@RequestBody HospitalSignupReq hospitalSignupReq) {
+    public ResponseEntity<?> signup(@Valid @RequestBody HospitalSignupReq hospitalSignupReq) {
         authService.signupForHospital(hospitalSignupReq);
         return ResponseEntity
                 .status(SuccessType.HOSPITAL_CREATED.getStatus())
@@ -35,12 +37,12 @@ public class AuthController {
     }
 
     @PostMapping("/login/user")
-    public ResponseEntity<?> login(@RequestBody UserSignupReq userSignupReq) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserSignupReq userSignupReq) {
         return authService.loginForUser(userSignupReq);
     }
 
     @PostMapping("/login/admin")
-    public ResponseEntity<?> loginForAdmin(@RequestBody AdminLoginReq adminLoginReq) {
+    public ResponseEntity<?> loginForAdmin(@Valid @RequestBody AdminLoginReq adminLoginReq) {
         return authService.loginForAdmin(adminLoginReq);
     }
 

@@ -142,7 +142,6 @@ public class AuthService {
             throw new CustomException(ErrorType.REFRESH_TOKEN_NOT_FOUND);
         }
 
-        refreshToken = refreshToken.replace("Bearer ", "");
         Claims claims = jwtUtil.parseToken(refreshToken);
 
         String id = claims.getSubject();
