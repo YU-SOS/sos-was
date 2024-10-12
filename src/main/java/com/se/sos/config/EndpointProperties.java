@@ -13,12 +13,19 @@ public class EndpointProperties {
     public static final String[] AMB_EP = {
             "/ambulance/**",
             "/reception",
-            "/reception/re"
+            "/reception/{receptionId}/re",
+            "/reception/{receptionId}"
+
     };
 
     public static final String[] HOS_EP = {
             "/hospital/**",
             "/reception/{receptionId}",
-            "/reception/{receptionId}/arrival"
+            "/reception/{receptionId}/arrival",
+            "/reception/{receptionId}/comment"
+    };
+
+    public static final String[] ADMIN_EP = {
+            "admin/**"
     };
 }

@@ -2,6 +2,9 @@ package com.se.sos.domain.reception.service;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
+import com.se.sos.domain.comment.dto.CommentReq;
+import com.se.sos.domain.comment.entity.Comment;
+import com.se.sos.domain.comment.repository.CommentRepository;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.paramedic.entity.Paramedic;
@@ -29,6 +32,7 @@ public class ReceptionService {
     private final HospitalRepository hospitalRepository;
     private final PatientRepository patientRepository;
     private final ParamedicRepository paramedicRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public void createReception(ReceptionCreateReq req, UUID ambulanceId) {
@@ -97,5 +101,18 @@ public class ReceptionService {
                 .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
 
         return ReceptionGuestRes.of(reception.getHospital(), reception.getAmbulance());
+    }
+
+    @Transactional
+    public void addComment(UUID receptionId, CommentReq req){
+        Reception reception = receptionRepository.findById(receptionId)
+                .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
+
+        Comment comment = Comment.builder()
+                .description(req.description())
+                .reception(reception)
+                .build();
+
+        commentRepository.save(comment);
     }
 }
