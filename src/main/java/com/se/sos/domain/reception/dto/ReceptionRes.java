@@ -1,6 +1,7 @@
 package com.se.sos.domain.reception.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.se.sos.domain.ambulance.dto.AmbulanceRes;
 import com.se.sos.domain.comment.dto.CommentRes;
 import com.se.sos.domain.hospital.dto.HospitalRes;
@@ -22,6 +23,7 @@ public record ReceptionRes(
         PatientRes patient,
         List<CommentRes> comments,
         ReceptionStatus receptionStatus,
+        @JsonProperty(value = "paramedic")
         ParamedicRes paramedicRes
 ) {
     public static ReceptionRes from(Reception reception) {
