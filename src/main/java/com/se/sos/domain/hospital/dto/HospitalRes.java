@@ -2,7 +2,7 @@ package com.se.sos.domain.hospital.dto;
 
 
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.domain.category.response.CategoryRes;
+import com.se.sos.domain.category.dto.CategoryRes;
 import com.se.sos.domain.hospital.entity.EmergencyRoomStatus;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.user.entity.Role;
