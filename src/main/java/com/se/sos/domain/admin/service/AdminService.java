@@ -1,8 +1,10 @@
 package com.se.sos.domain.admin.service;
 
 import com.se.sos.domain.admin.dto.RegSummaryRes;
+import com.se.sos.domain.ambulance.dto.AmbulanceRegRes;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
+import com.se.sos.domain.hospital.dto.HospitalRegRes;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
 import com.se.sos.domain.user.entity.Role;
@@ -57,14 +59,14 @@ public class AdminService {
                     .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
 
             return ResponseEntity.status(SuccessType.OK.getStatus())
-                    .body(SuccessRes.from(ambulance));
+                    .body(SuccessRes.from(AmbulanceRegRes.fromEntity(ambulance)));
 
         } else if(role.equals(Role.HOS_GUEST)){
             Hospital hospital = hospitalRepository.findById(id)
                     .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
 
             return ResponseEntity.status(SuccessType.OK.getStatus())
-                    .body(SuccessRes.from(hospital));
+                    .body(SuccessRes.from(HospitalRegRes.fromEntity(hospital)));
         } else {
             log.error("Role 값 불일치");
             throw new CustomException(ErrorType.BAD_REQUEST);

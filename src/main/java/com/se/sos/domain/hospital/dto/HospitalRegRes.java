@@ -1,6 +1,5 @@
 package com.se.sos.domain.hospital.dto;
 
-import com.se.sos.domain.ambulance.dto.AmbulanceRegRes;
 import com.se.sos.domain.ambulance.entity.Location;
 import com.se.sos.domain.hospital.entity.Hospital;
 import lombok.Builder;
