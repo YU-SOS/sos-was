@@ -55,14 +55,14 @@ public class AdminService {
     public ResponseEntity<?> getRegistration(Role role, UUID id){
 
         if(role.equals(Role.AMB_GUEST)){
-            Ambulance ambulance = ambulanceRepository.findById(id)
+            Ambulance ambulance = ambulanceRepository.findByIdAndRole(id, role)
                     .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
 
             return ResponseEntity.status(SuccessType.OK.getStatus())
                     .body(SuccessRes.from(AmbulanceRegRes.fromEntity(ambulance)));
 
         } else if(role.equals(Role.HOS_GUEST)){
-            Hospital hospital = hospitalRepository.findById(id)
+            Hospital hospital = hospitalRepository.findByIdAndRole(id,role)
                     .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
 
             return ResponseEntity.status(SuccessType.OK.getStatus())

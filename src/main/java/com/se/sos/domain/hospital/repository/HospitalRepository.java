@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface HospitalRepository extends JpaRepository<Hospital, UUID> {
     Optional<Hospital> findById(UUID id);
+    Optional<Hospital> findByIdAndRole(UUID id, Role role);
     Optional<Hospital> findByHospitalId(String hospitalId);
     Optional<Hospital> findByName(String name);
     List<Hospital> findByRole(Role role);
