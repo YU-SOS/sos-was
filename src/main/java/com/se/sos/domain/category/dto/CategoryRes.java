@@ -1,4 +1,4 @@
-package com.se.sos.domain.category.response;
+package com.se.sos.domain.category.dto;
 
 import com.se.sos.domain.category.entity.Category;
 

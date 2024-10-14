@@ -1,6 +1,8 @@
 package com.se.sos.domain.comment.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record CommentReq(
-        String description
+        @NotBlank String description
 ) {
 }

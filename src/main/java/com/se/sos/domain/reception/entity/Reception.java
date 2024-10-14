@@ -44,7 +44,8 @@ public class Reception {
     @JoinColumn(name = "HOSPITAL_ID")
     Hospital hospital;
 
-    @OneToOne
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "PARAMEDIC_ID")
     Paramedic paramedic;
 
     @OneToMany(mappedBy = "reception", cascade = CascadeType.ALL, orphanRemoval = true)

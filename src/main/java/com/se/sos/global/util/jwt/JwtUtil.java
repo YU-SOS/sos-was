@@ -1,7 +1,9 @@
 package com.se.sos.global.util.jwt;
 
+import com.se.sos.global.exception.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -62,6 +64,11 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+    public String resolveToken(String headerToken){
+        return headerToken.substring(7);
+    }
+
     public UUID getIdFromToken(String token){
         Claims claims = parseToken(token);
         return UUID.fromString(claims.getSubject());

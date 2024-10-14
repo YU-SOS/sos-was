@@ -1,8 +1,10 @@
 package com.se.sos.domain.reception.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.UUID;
 
 public record ReceptionReVisitReq (
-        UUID hospitalId
+        @NotBlank UUID hospitalId
 ) {
 }

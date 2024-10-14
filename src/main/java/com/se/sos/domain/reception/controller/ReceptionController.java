@@ -5,12 +5,12 @@ import com.se.sos.domain.reception.dto.ReceptionApproveReq;
 import com.se.sos.domain.reception.dto.ReceptionCreateReq;
 import com.se.sos.domain.reception.dto.ReceptionReVisitReq;
 import com.se.sos.domain.reception.service.ReceptionService;
-import com.se.sos.domain.security.form.dto.CustomUserDetails;
 import com.se.sos.global.response.success.SuccessRes;
+import com.se.sos.global.response.success.SuccessType;
 import com.se.sos.global.util.jwt.JwtUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,46 +26,51 @@ public class ReceptionController {
     @PostMapping
     public ResponseEntity<?> createReception(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody ReceptionCreateReq receptionCreateDto
+            @Valid @RequestBody ReceptionCreateReq receptionCreateDto
     ) {
         String token = authorizationHeader.substring(7);
         UUID ambulanceId = jwtUtil.getIdFromToken(token);
         receptionService.createReception(receptionCreateDto, ambulanceId);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(SuccessType.CREATED.getStatus())
+                .body(SuccessRes.from(SuccessType.CREATED));
     }
 
 
     @GetMapping("/{receptionId}")
     public ResponseEntity<?> getReception(@PathVariable(name = "receptionId") UUID id) {
-        return ResponseEntity.ok().body(receptionService.findReceptionById(id));
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(receptionService.findReceptionById(id)));
     }
 
     @GetMapping("/{receptionId}/guest")
     public ResponseEntity<?> getReceptionForGuest(@PathVariable(name = "receptionId") UUID id) {
-        return ResponseEntity.ok().body(SuccessRes.from(receptionService.findReceptionForGuest(id)));
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(receptionService.findReceptionForGuest(id)));
     }
 
     /* 병원 - 해당 reception 수락/거절 */
     @PutMapping("/{receptionId}")
     public ResponseEntity<?> handleVisitRequest(
             @PathVariable(name = "receptionId") UUID id,
-            @RequestBody ReceptionApproveReq req
+            @Valid @RequestBody ReceptionApproveReq req
     ) {
         receptionService.acceptReception(id, req.isApproved());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(SuccessType.OK));
     }
 
     /* 구급대 - 재요청 */
     @PutMapping("/{receptionId}/re")
     public ResponseEntity<?> reVisitRequest(
             @PathVariable(name = "receptionId") UUID id,
-            @RequestBody ReceptionReVisitReq req
+            @Valid @RequestBody ReceptionReVisitReq req
             ){
         receptionService.reRequestReception(id, req.hospitalId());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().
+                body(SuccessRes.from(SuccessType.OK));
     }
 
     /* 병원 - 도착 완료 */
@@ -75,19 +80,17 @@ public class ReceptionController {
     ){
         receptionService.closeReception(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().
+                body(SuccessRes.from(SuccessType.OK));
     }
 
     @PostMapping("/{receptionId}/comment")
     public ResponseEntity<?> addComment(
             @PathVariable(name = "receptionId") UUID id,
-            @RequestBody CommentReq req,
-            @AuthenticationPrincipal CustomUserDetails userDetails
-            ) {
+            @Valid @RequestBody CommentReq req
+    ) {
         receptionService.addComment(id, req);
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.getAuthorities().iterator().next().getAuthority());
-        System.out.println(userDetails.getAuthorities().iterator().next().getAuthority());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(SuccessType.COMMENT_CREATED.getStatus()).
+                body(SuccessRes.from(SuccessType.COMMENT_CREATED));
     }
 }

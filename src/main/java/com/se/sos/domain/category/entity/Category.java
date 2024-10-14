@@ -2,12 +2,16 @@ package com.se.sos.domain.category.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -16,11 +20,4 @@ public class Category {
 
     @NotNull
     String name;
-
-    public Category() {
-    }
-
-    public Category(String name) {
-        this.name = name;
-    }
 }
