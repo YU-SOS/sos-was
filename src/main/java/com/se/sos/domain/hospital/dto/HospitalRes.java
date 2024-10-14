@@ -12,13 +12,11 @@ import java.util.UUID;
 
 public record HospitalRes (
         UUID id,
-        String hospitalId,
         String name,
         String address,
         String telephoneNumber,
         String imageUrl,
         Location location,
-        Role role,
         List<CategoryRes> categories,
         EmergencyRoomStatus emergencyRoomStatus
 )
@@ -30,13 +28,11 @@ public record HospitalRes (
 
         return new HospitalRes(
                 hospital.getId(),
-                hospital.getHospitalId(),
                 hospital.getName(),
                 hospital.getAddress(),
                 hospital.getTelephoneNumber(),
                 hospital.getImageUrl(),
                 hospital.getLocation(),
-                hospital.getRole(),
                 categoryResList,
                 hospital.getEmergencyRoomStatus()
         );
