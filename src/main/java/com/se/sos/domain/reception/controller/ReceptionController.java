@@ -8,6 +8,7 @@ import com.se.sos.domain.reception.service.ReceptionService;
 import com.se.sos.domain.security.form.dto.CustomUserDetails;
 import com.se.sos.global.response.success.SuccessRes;
 import com.se.sos.global.util.jwt.JwtUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -50,7 +51,7 @@ public class ReceptionController {
     @PutMapping("/{receptionId}")
     public ResponseEntity<?> handleVisitRequest(
             @PathVariable(name = "receptionId") UUID id,
-            @RequestBody ReceptionApproveReq req
+            @Valid @RequestBody ReceptionApproveReq req
     ) {
         receptionService.acceptReception(id, req.isApproved());
 
@@ -61,7 +62,7 @@ public class ReceptionController {
     @PutMapping("/{receptionId}/re")
     public ResponseEntity<?> reVisitRequest(
             @PathVariable(name = "receptionId") UUID id,
-            @RequestBody ReceptionReVisitReq req
+            @Valid @RequestBody ReceptionReVisitReq req
             ){
         receptionService.reRequestReception(id, req.hospitalId());
 
@@ -81,13 +82,9 @@ public class ReceptionController {
     @PostMapping("/{receptionId}/comment")
     public ResponseEntity<?> addComment(
             @PathVariable(name = "receptionId") UUID id,
-            @RequestBody CommentReq req,
-            @AuthenticationPrincipal CustomUserDetails userDetails
-            ) {
+            @Valid @RequestBody CommentReq req
+    ) {
         receptionService.addComment(id, req);
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.getAuthorities().iterator().next().getAuthority());
-        System.out.println(userDetails.getAuthorities().iterator().next().getAuthority());
         return ResponseEntity.ok().build();
     }
 }
