@@ -3,11 +3,11 @@ package com.se.sos.domain.hospital.service;
 import com.se.sos.domain.category.entity.Category;
 import com.se.sos.domain.category.repository.CategoryHospitalRepository;
 import com.se.sos.domain.category.repository.CategoryRepository;
+import com.se.sos.domain.hospital.dto.HospitalReceptionRes;
 import com.se.sos.domain.hospital.dto.HospitalRes;
 import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
-import com.se.sos.domain.reception.dto.ReceptionRes;
 import com.se.sos.domain.reception.repository.ReceptionRepository;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
@@ -45,24 +45,21 @@ public class HospitalService {
     }
 
 
-    public HospitalRes findHospitalById(String id) {
-        UUID uuid = UUID.fromString(id);
-        Hospital hospital = hospitalRepository.findById(uuid).orElseThrow(
+    public HospitalRes findHospitalById(UUID id) {
+        Hospital hospital = hospitalRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         return HospitalRes.from(hospital);
     }
 
     @Transactional(readOnly = true)
-    public Page<ReceptionRes> findReceptionsById(String id, Pageable pageable) {
-        UUID hospitalId = UUID.fromString(id);
-        return receptionRepository.findByHospital_Id(hospitalId,pageable)
-                .map(ReceptionRes::from);
+    public Page<HospitalReceptionRes> findReceptionsById(UUID id, Pageable pageable) {
+        return receptionRepository.findByHospital_Id(id,pageable)
+                .map(HospitalReceptionRes::from);
     }
 
     @Transactional
-    public HospitalRes updateHospitalById(String id, HospitalUpdateReq hospitalUpdateReq) {
-        UUID hospitalId = UUID.fromString(id);
-        Hospital hospital = hospitalRepository.findById(hospitalId)
+    public HospitalRes updateHospitalById(UUID id, HospitalUpdateReq hospitalUpdateReq) {
+        Hospital hospital = hospitalRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         hospital.updateHospital(hospitalUpdateReq);
         List<Category> categories = categoryRepository.findByNameIn(hospitalUpdateReq.getCategories());
@@ -71,9 +68,8 @@ public class HospitalService {
     }
 
     @Transactional
-    public HospitalRes updateEmergencyStatus(String id, boolean emergencyStatus) {
-        UUID hospitalId = UUID.fromString(id);
-        Hospital hospital = hospitalRepository.findById(hospitalId)
+    public HospitalRes updateEmergencyStatus(UUID id, boolean emergencyStatus) {
+        Hospital hospital = hospitalRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         hospital.updateEmergencyStatus(emergencyStatus);
 
