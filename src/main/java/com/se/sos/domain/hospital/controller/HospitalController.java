@@ -2,6 +2,8 @@ package com.se.sos.domain.hospital.controller;
 
 import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.hospital.service.HospitalService;
+import com.se.sos.global.response.success.SuccessRes;
+import com.se.sos.global.response.success.SuccessType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -25,30 +28,31 @@ public class HospitalController {
     public ResponseEntity<?> getHospitals(@RequestParam(name = "categories", required = false) List<String> categories,
                                           @PageableDefault(size = 10) Pageable pageable) {
         if (categories == null || categories.isEmpty()) {
-            return ResponseEntity.ok().body(hospitalService.getAllHospitals(pageable));
+            return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.getAllHospitals(pageable)));
         }
-        return ResponseEntity.ok().body(hospitalService.getHospitalsByCategories(categories, pageable));
+        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.getHospitalsByCategories(categories, pageable)));
     }
 
     @GetMapping("/{hospitalId}")
-    public ResponseEntity<?> getHospitalDetails(@PathVariable(name = "hospitalId") String id){
-        return ResponseEntity.ok().body(hospitalService.findHospitalById(id));
+    public ResponseEntity<?> getHospitalDetails(@PathVariable(name = "hospitalId") UUID id){
+        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.findHospitalById(id)));
     }
 
     @GetMapping("/{hospitalId}/reception")
-    public ResponseEntity<?> getReceptionsByHospital(@PathVariable(name = "hospitalId") String id,
+    public ResponseEntity<?> getReceptionsByHospital(@PathVariable(name = "hospitalId") UUID id,
                                            @PageableDefault(size = 10) Pageable pageable){
-        return ResponseEntity.ok().body(hospitalService.findReceptionsById(id,pageable));
+        return ResponseEntity.ok()
+                .body(SuccessRes.of(SuccessType.OK,hospitalService.findReceptionsById(id,pageable)));
     }
 
     @PutMapping("/{hospitalId}")
-    public ResponseEntity<?> updateHospital(@PathVariable(name = "hospitalId") String id,
+    public ResponseEntity<?> updateHospital(@PathVariable(name = "hospitalId") UUID id,
                                             @RequestBody HospitalUpdateReq hospitalUpdateReq){
-        return ResponseEntity.ok().body(hospitalService.updateHospitalById(id,hospitalUpdateReq));
+        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.updateHospitalById(id,hospitalUpdateReq)));
     }
     @PutMapping("/{hospitalId}/emergencyStatus")
-    public ResponseEntity<?> updateStatus(@PathVariable(name = "hospitalId") String id,
+    public ResponseEntity<?> updateStatus(@PathVariable(name = "hospitalId") UUID id,
                                           @RequestParam(name = "emergencyStatus") boolean emergencyStatus){
-        return ResponseEntity.ok().body(hospitalService.updateEmergencyStatus(id,emergencyStatus));
+        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.updateEmergencyStatus(id,emergencyStatus)));
     }
 }

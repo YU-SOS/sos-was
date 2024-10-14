@@ -2,7 +2,6 @@ package com.se.sos.domain.ambulance.dto;
 
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.entity.Location;
-import com.se.sos.domain.user.entity.Role;
 
 import java.util.UUID;
 
@@ -11,8 +10,6 @@ public record AmbulanceRes(
         String name,
         String address,
         String telephoneNumber,
-        String ambulanceId,
-        Role role,
         Location location,
         String imageUrl
 ) {
@@ -22,8 +19,6 @@ public record AmbulanceRes(
                 ambulance.getName(),
                 ambulance.getAddress(),
                 ambulance.getTelephoneNumber(),
-                ambulance.getAmbulanceId(),
-                ambulance.getRole(),
                 ambulance.getLocation(),
                 ambulance.getImageUrl()
         );
