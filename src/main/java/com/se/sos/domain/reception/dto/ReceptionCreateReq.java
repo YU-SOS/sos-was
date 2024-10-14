@@ -24,7 +24,7 @@ public class ReceptionCreateReq {
     @NotBlank(message = "병원 이름은 필수 입력값 입니다.")
     String hospitalName;
     LocalDateTime startTime;
-    @NotBlank(message = "선탑 구급대원은 필수 전달값 입니다.")
+    @NotNull(message = "선탑 구급대원은 필수 전달값 입니다.")
     UUID paramedicId;
 
     public static Reception toEntity(ReceptionCreateReq receptionCreateReq, Ambulance ambulance , Hospital hospital, Paramedic paramedic) {
