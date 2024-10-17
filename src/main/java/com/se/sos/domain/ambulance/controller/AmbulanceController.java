@@ -20,6 +20,10 @@ public class AmbulanceController {
     public ResponseEntity<?> getAmbulance(@PathVariable(name = "ambulanceId") UUID ambulanceId) {
         return ResponseEntity.ok().body(SuccessRes.from(ambulanceService.getAmbulanceById(ambulanceId)));
     }
+    @GetMapping("/{ambulanceId}/paramedic")
+    public ResponseEntity<?> getParamedic(@PathVariable(name = "ambulanceId") UUID ambulanceId) {
+        return ResponseEntity.ok().body(SuccessRes.from(ambulanceService.getParamedicById(ambulanceId)));
+    }
 
     @PostMapping("/{ambulanceId}/member")
     public ResponseEntity<?> addParamedic(
