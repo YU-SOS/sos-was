@@ -35,7 +35,7 @@ public class ReceptionService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void createReception(ReceptionCreateReq req, UUID ambulanceId) {
+    public UUID createReception(ReceptionCreateReq req, UUID ambulanceId) {
 
         String hospitalName = req.getHospitalName();
         UUID paramedicId = req.getParamedicId();
@@ -50,6 +50,8 @@ public class ReceptionService {
         Reception reception = ReceptionCreateReq.toEntity(req, ambulance, hospital, paramedic);
         patientRepository.save(reception.getPatient());
         receptionRepository.save(reception);
+
+        return reception.getId();
     }
 
 
@@ -76,7 +78,7 @@ public class ReceptionService {
     }
 
     @Transactional
-    public void reRequestReception(UUID receptionId, UUID hospitalId){
+    public UUID reRequestReception(UUID receptionId, UUID hospitalId){
         Hospital hospital = hospitalRepository.findById(hospitalId)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
 
@@ -84,6 +86,8 @@ public class ReceptionService {
                 .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
 
         reception.updateHospital(hospital);
+
+        return reception.getId();
     }
 
     @Transactional

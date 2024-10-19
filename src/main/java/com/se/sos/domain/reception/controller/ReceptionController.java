@@ -30,10 +30,10 @@ public class ReceptionController {
     ) {
         String token = authorizationHeader.substring(7);
         UUID ambulanceId = jwtUtil.getIdFromToken(token);
-        receptionService.createReception(receptionCreateDto, ambulanceId);
+
 
         return ResponseEntity.status(SuccessType.CREATED.getStatus())
-                .body(SuccessRes.from(SuccessType.CREATED));
+                .body(SuccessRes.of(SuccessType.CREATED, receptionService.createReception(receptionCreateDto, ambulanceId)));
     }
 
 
@@ -67,10 +67,9 @@ public class ReceptionController {
             @PathVariable(name = "receptionId") UUID id,
             @Valid @RequestBody ReceptionReVisitReq req
             ){
-        receptionService.reRequestReception(id, req.hospitalId());
 
         return ResponseEntity.ok().
-                body(SuccessRes.from(SuccessType.OK));
+                body(SuccessRes.of(SuccessType.OK, receptionService.reRequestReception(id, req.hospitalId())));
     }
 
     /* 병원 - 도착 완료 */
