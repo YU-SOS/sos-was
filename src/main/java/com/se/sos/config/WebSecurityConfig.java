@@ -13,6 +13,7 @@ import com.se.sos.global.util.redis.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -68,13 +69,30 @@ public class WebSecurityConfig {
                 .formLogin(FormLoginConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeHttpRequest ->
+                .authorizeHttpRequests(authorizeHttpRequest -> {
+
+                        /* Anonymous */
                         authorizeHttpRequest
-                                .requestMatchers(PUBLIC_EP).permitAll()
-                                .requestMatchers(ADMIN_EP).hasRole("ADMIN")
+                                .requestMatchers(PUBLIC_EP).permitAll();
+
+                        /* Admin */
+                        authorizeHttpRequest
+                                .requestMatchers(ADMIN_EP).hasRole("ADMIN");
+
+                        /* Amb */
+                        authorizeHttpRequest
                                 .requestMatchers(AMB_EP).hasRole("AMB")
+                                .requestMatchers(HttpMethod.GET, "/hospital/{hospitalId}").hasRole("AMB");
+
+                        /* Hospital */
+                        authorizeHttpRequest
                                 .requestMatchers(HOS_EP).hasRole("HOS")
-                        .anyRequest().authenticated())
+                                .requestMatchers(HttpMethod.PUT, "/hospital/{hospitalId}").hasRole("HOS");
+
+                        /* Any Request needed to authenticated */
+                        authorizeHttpRequest
+                                .anyRequest().authenticated();
+                })
                 .addFilterAt(new FormLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, redisUtil, objectMapper), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository, ambulanceRepository, hospitalRepository, adminRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtExceptionFilter(objectMapper), JwtAuthenticationFilter.class)
