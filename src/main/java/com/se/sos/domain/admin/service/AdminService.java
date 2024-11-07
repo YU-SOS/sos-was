@@ -1,13 +1,16 @@
 package com.se.sos.domain.admin.service;
 
 import com.se.sos.domain.admin.dto.RegSummaryRes;
+import com.se.sos.domain.admin.dto.SystemStatusRes;
 import com.se.sos.domain.ambulance.dto.AmbulanceRegRes;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.hospital.dto.HospitalRegRes;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
+import com.se.sos.domain.reception.repository.ReceptionRepository;
 import com.se.sos.domain.user.entity.Role;
+import com.se.sos.domain.user.repository.UserRepository;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
 import com.se.sos.global.response.success.SuccessRes;
@@ -30,6 +33,8 @@ public class AdminService {
 
     private final AmbulanceRepository ambulanceRepository;;
     private final HospitalRepository hospitalRepository;
+    private final UserRepository userRepository;
+    private final ReceptionRepository receptionRepository;
 
     public ResponseEntity<?> getAllRegistration(){
 
@@ -103,5 +108,14 @@ public class AdminService {
 
         return ResponseEntity.status(SuccessType.OK.getStatus())
                 .body(SuccessRes.from(SuccessType.OK));
+    }
+
+    public SystemStatusRes getSystemStatus(){
+        return SystemStatusRes.builder()
+                .ambulanceCount(ambulanceRepository.countByRole(Role.AMB))
+                .hospitalCount(hospitalRepository.countByRole(Role.HOS))
+                .userCount(userRepository.count())
+                .receptionCount(receptionRepository.count())
+                .build();
     }
 }
