@@ -12,4 +12,6 @@ public interface ReceptionRepository extends JpaRepository<Reception, UUID> {
     Page<Reception> findByHospital_Id(UUID hospitalId, Pageable pageable);
 
     Optional<Reception> findReceptionById(UUID receptionId);
+
+    long count();
 }

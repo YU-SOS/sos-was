@@ -41,4 +41,10 @@ public class AdminController {
         return adminService.approveRegistration(role, id, regApproveReq.isApproved());
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<?> getSystemStatus(){
+        return ResponseEntity.ok()
+                .body(adminService.getSystemStatus());
+    }
+
 }

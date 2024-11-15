@@ -21,4 +21,6 @@ public interface AmbulanceRepository extends JpaRepository<Ambulance, UUID> {
     boolean existsByAmbulanceId(String ambulanceId);
 
     boolean existsByName(String name);
+
+    long countByRole(Role role);
 }

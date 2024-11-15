@@ -18,4 +18,6 @@ public interface HospitalRepository extends JpaRepository<Hospital, UUID> {
     boolean existsByHospitalId(String hospitalId);
 
     boolean existsByName(String name);
+
+    long countByRole(Role role);
 }
