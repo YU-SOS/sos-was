@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,6 +64,19 @@ public class HospitalService {
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         hospital.updateHospital(hospitalUpdateReq);
         List<Category> categories = categoryRepository.findByNameIn(hospitalUpdateReq.getCategories());
+
+        List<String> categoryNames = categories.stream().map(Category::getName).toList();
+        List<String> errorList = new ArrayList<>();
+        for(String name : categoryNames){
+            if(!categoryRepository.existsByName(name)){
+                errorList.add(name);
+            }
+        }
+
+        if(!errorList.isEmpty()){
+            throw new CustomException(ErrorType.CATEGORY_NOT_FOUND);
+        }
+
         hospital.updateCategories(categories);
         return HospitalRes.from(hospital);
     }
