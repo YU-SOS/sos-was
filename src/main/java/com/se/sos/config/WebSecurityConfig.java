@@ -82,7 +82,7 @@ public class WebSecurityConfig {
                         /* Amb */
                         authorizeHttpRequest
                                 .requestMatchers(AMB_EP).hasRole("AMB")
-                                .requestMatchers(HttpMethod.GET, "/hospital/{hospitalId}").hasRole("AMB");
+                                .requestMatchers(HttpMethod.GET, "/hospital/{hospitalId}").hasAnyRole("AMB","HOS");
 
                         /* Hospital */
                         authorizeHttpRequest
