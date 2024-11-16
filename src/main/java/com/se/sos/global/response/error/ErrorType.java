@@ -36,6 +36,7 @@ public enum ErrorType {
     RECEPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 접수 입니다."),
     PARAMEDIC_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 구급대원 입니다."),
     RECEPTION_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 접수 상태 입니다."),
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 진료과목 입니다."),
     // 데이터 충돌
     ALREADY_USED_ID(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다."),
     ALREADY_EXISTS_AMBULANCE(HttpStatus.CONFLICT, "이미 존재하는 구급대입니다."),
