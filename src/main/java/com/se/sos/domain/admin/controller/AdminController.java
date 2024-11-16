@@ -5,6 +5,7 @@ import com.se.sos.domain.admin.service.AdminService;
 import com.se.sos.domain.user.entity.Role;
 import com.se.sos.global.response.error.ErrorRes;
 import com.se.sos.global.response.error.ErrorType;
+import com.se.sos.global.response.success.SuccessRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class AdminController {
     @GetMapping("/status")
     public ResponseEntity<?> getSystemStatus(){
         return ResponseEntity.ok()
-                .body(adminService.getSystemStatus());
+                .body(SuccessRes.from(adminService.getSystemStatus()));
     }
 
 }
