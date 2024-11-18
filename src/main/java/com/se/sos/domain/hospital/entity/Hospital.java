@@ -14,6 +14,7 @@ import com.se.sos.domain.category.entity.CategoryHospital;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -105,5 +106,11 @@ public class Hospital {
     public void updateCategories(List<Category> categories) {
         this.categoryHospitals.clear();
         addCategories(categories);
+    }
+
+    public List<String> getCategories(){
+        return this.categoryHospitals.stream()
+                .map(categoryHospital -> categoryHospital.getCategory().getName())
+                .collect(Collectors.toList());
     }
 }

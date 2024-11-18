@@ -5,6 +5,8 @@ import com.se.sos.domain.admin.dto.SystemStatusRes;
 import com.se.sos.domain.ambulance.dto.AmbulanceRegRes;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
+import com.se.sos.domain.category.entity.CategoryHospital;
+import com.se.sos.domain.category.repository.CategoryRepository;
 import com.se.sos.domain.hospital.dto.HospitalRegRes;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
@@ -21,10 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -35,6 +34,7 @@ public class AdminService {
     private final HospitalRepository hospitalRepository;
     private final UserRepository userRepository;
     private final ReceptionRepository receptionRepository;
+    private final CategoryRepository categoryRepository;
 
     public ResponseEntity<?> getAllRegistration(){
 
@@ -71,7 +71,8 @@ public class AdminService {
                     .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
 
             return ResponseEntity.status(SuccessType.OK.getStatus())
-                    .body(SuccessRes.from(HospitalRegRes.fromEntity(hospital)));
+                    .body(SuccessRes.from(HospitalRegRes.fromEntity(hospital, hospital.getCategories())));
+
         } else {
             log.error("Role 값 불일치");
             throw new CustomException(ErrorType.BAD_REQUEST);
