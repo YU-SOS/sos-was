@@ -26,10 +26,14 @@ public class HospitalController {
 
     @GetMapping
     public ResponseEntity<?> getHospitals(@RequestParam(name = "categories", required = false) List<String> categories,
-                                          @PageableDefault(size = 10) Pageable pageable) {
-        if (categories == null || categories.isEmpty()) {
+                                          @PageableDefault(size = 10) Pageable pageable,
+                                          @RequestParam(name = "role", required = false) String role
+    ) {
+        if(role!= null && role.equals("user"))
+            return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK, hospitalService.getAllHospitals()));
+
+        if (categories == null || categories.isEmpty())
             return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.getAllHospitals(pageable)));
-        }
         return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.getHospitalsByCategories(categories, pageable)));
     }
 
