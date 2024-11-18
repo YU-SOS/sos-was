@@ -36,6 +36,10 @@ public class HospitalService {
         return hospitalRepository.findAll(pageable).map(HospitalRes::from);
     }
 
+    public List<HospitalRes> getAllHospitals() {
+        return hospitalRepository.findAll().stream().map(HospitalRes::from).toList();
+    }
+
     @Transactional(readOnly = true)
     public Page<HospitalRes> getHospitalsByCategories(List<String> categoryList, Pageable pageable) {
         List<Category> categories = categoryRepository.findByNameIn(categoryList);
