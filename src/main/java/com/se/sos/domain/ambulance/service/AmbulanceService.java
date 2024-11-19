@@ -4,16 +4,13 @@ import com.se.sos.domain.ambulance.dto.AmbulanceRes;
 import com.se.sos.domain.ambulance.entity.Ambulance;
 import com.se.sos.domain.ambulance.repository.AmbulanceRepository;
 import com.se.sos.domain.paramedic.dto.ParamedicReq;
-import com.se.sos.domain.paramedic.dto.ParamedicsRes;
+import com.se.sos.domain.paramedic.dto.ParamedicRes;
 import com.se.sos.domain.paramedic.entity.Paramedic;
 import com.se.sos.domain.paramedic.repository.ParamedicRepository;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
-import com.se.sos.global.response.success.SuccessRes;
-import com.se.sos.global.response.success.SuccessType;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,10 +63,13 @@ public class AmbulanceService {
 
 
     @Transactional(readOnly = true)
-    public ParamedicsRes getParamedicById(UUID id){
+    public List<ParamedicRes> getAllParamedicByAmbulanceId(UUID id){
         Ambulance ambulance = ambulanceRepository.findById(id)
                 .orElseThrow(()-> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
-        List<Paramedic> paramedics = ambulance.getParamedics();
-        return ParamedicsRes.from(paramedics);
+
+        return ambulance.getParamedics().stream()
+                .map(ParamedicRes::fromEntity)
+                .toList();
+
     }
 }
