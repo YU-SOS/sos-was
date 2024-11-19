@@ -55,28 +55,26 @@ public interface AmbulanceAPI {
                     content = @Content(
                             examples = @ExampleObject(value = """
                                     {
-                                         "status": 200,
-                                         "message": "요청이 성공했습니다.",
-                                         "data": {
-                                             "paraResList": [
-                                                 {
-                                                     "id": "09afe98f-ca3e-4d6d-888f-993df02f6bbf",
-                                                     "name": "테스트3",
-                                                     "phoneNumber": "010-0000-00003"
-                                                 },
-                                                 {
-                                                     "id": "8fddb743-1bc7-464d-8ce2-da217f578e80",
-                                                     "name": "테스트11",
-                                                     "phoneNumber": "010-0000-00003"
-                                                 },
-                                                 {
-                                                     "id": "3746c855-c453-4c03-8670-5d2db770cc2d",
-                                                     "name": "테스트12",
-                                                     "phoneNumber": "010-0000-00003"
-                                                 }
-                                             ]
-                                         }
-                                     }
+                                          "status": 200,
+                                          "message": "요청이 성공했습니다.",
+                                          "data": [
+                                              {
+                                                  "id": "094140b7-1ff8-494c-9c36-f5b66fb1000c",
+                                                  "name": "테스트",
+                                                  "phoneNumber": "010-0000-0000"
+                                              },
+                                              {
+                                                  "id": "cb649af9-fa2a-4ab8-9753-49ae74593f44",
+                                                  "name": "테스트2",
+                                                  "phoneNumber": "010-0000-00002"
+                                              },
+                                              {
+                                                  "id": "61af4259-6c93-4324-a93d-f61723ee8d23",
+                                                  "name": "테스트3",
+                                                  "phoneNumber": "010-0000-00003"
+                                              }
+                                          ]
+                                    }
                                     """)
                     )
             )
