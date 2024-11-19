@@ -37,7 +37,7 @@ public class AmbulanceService {
     }
 
     @Transactional
-    public ResponseEntity<?> addParamedic(UUID id, ParamedicReq paramedicReq) {
+    public void addParamedic(UUID id, ParamedicReq paramedicReq) {
         Ambulance ambulance = ambulanceRepository.findById(id)
                 .orElseThrow(()-> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
 
@@ -47,30 +47,21 @@ public class AmbulanceService {
 
         paramedicRepository.save(paramedic);
         ambulanceRepository.save(ambulance);
-
-        return ResponseEntity.status(SuccessType.PARAMEDIC_ADDED.getStatus())
-                .body(SuccessRes.from(SuccessType.PARAMEDIC_ADDED));
     }
 
     @Transactional
-    public ResponseEntity<?> updateParamedic(UUID ambulanceId, UUID memberId, ParamedicReq paramedicReq) {
+    public void updateParamedic(UUID ambulanceId, UUID memberId, ParamedicReq paramedicReq) {
 
         Paramedic paramedic = paramedicRepository.findByIdAndAmbulanceId(memberId, ambulanceId)
                 .orElseThrow(()-> new CustomException(ErrorType.PARAMEDIC_NOT_FOUND));
 
         paramedic.updateInfo(paramedicReq);
         paramedicRepository.save(paramedic);
-
-        return ResponseEntity.status(SuccessType.OK.getStatus())
-                .body(SuccessRes.from(SuccessType.OK));
     }
 
     @Transactional
-    public ResponseEntity<?> deleteParamedic(UUID ambulanceId, UUID memberId) {
+    public void deleteParamedic(UUID ambulanceId, UUID memberId) {
         paramedicRepository.deleteByIdAndAmbulanceId(memberId, ambulanceId);
-
-        return ResponseEntity.status(SuccessType.OK.getStatus())
-                .body(SuccessRes.from(SuccessType.OK));
     }
 
 
