@@ -42,10 +42,11 @@ public class HospitalService {
 
     @Transactional(readOnly = true)
     public Page<HospitalRes> getAllHospitalsByCategories(List<String> categoryList, Pageable pageable) {
-        List<Category> categories = categoryRepository.findByNameIn(categoryList);
-        int categorySize = categories.size();
+        List<Long> categories = categoryRepository.findByNameIn(categoryList).stream()
+                .map(Category::getId)
+                .toList();
 
-        return categoryHospitalRepository.findHospitalsByCategories(categories, categorySize, pageable)
+        return categoryHospitalRepository.findHospitalsByCategories(categories, pageable)
                 .map(HospitalRes::from);
     }
 

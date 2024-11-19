@@ -1,6 +1,8 @@
 package com.se.sos.domain.hospital.entity;
 
 import com.se.sos.domain.ambulance.entity.Location;
+import com.se.sos.domain.category.entity.Category;
+import com.se.sos.domain.category.entity.CategoryHospital;
 import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.domain.user.entity.Role;
@@ -9,8 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.se.sos.domain.category.entity.Category;
-import com.se.sos.domain.category.entity.CategoryHospital;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -54,10 +55,10 @@ public class Hospital {
     @Enumerated(EnumType.STRING)
     private EmergencyRoomStatus emergencyRoomStatus = EmergencyRoomStatus.AVAILABLE;
 
-    @OneToMany(mappedBy = "hospital")
+    @OneToMany(mappedBy = "hospital", fetch = FetchType.LAZY)
     List<Reception> receptions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "hospital",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hospital", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
     List<CategoryHospital> categoryHospitals = new ArrayList<>();
 
     @Builder
