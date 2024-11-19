@@ -1,5 +1,6 @@
 package com.se.sos.domain.auth.controller;
 
+import com.se.sos.domain.auth.api.AuthAPI;
 import com.se.sos.domain.auth.dto.*;
 import com.se.sos.domain.auth.service.AuthService;
 import com.se.sos.global.exception.CustomException;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthAPI {
 
     private final AuthService authService;
     private final JwtUtil jwtUtil;
