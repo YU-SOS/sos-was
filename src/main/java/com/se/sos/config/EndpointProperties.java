@@ -2,6 +2,9 @@ package com.se.sos.config;
 
 public class EndpointProperties {
     public static final String[] PUBLIC_EP = {
+            "swagger-ui/**",
+            "swagger-resources/**",
+            "v3/api-docs/**",
             "/login/**",
             "/signup/**",
             "/test/**",

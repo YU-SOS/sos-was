@@ -1,6 +1,7 @@
 package com.se.sos.domain.reception.controller;
 
 import com.se.sos.domain.comment.dto.CommentReq;
+import com.se.sos.domain.reception.api.ReceptionAPI;
 import com.se.sos.domain.reception.dto.ReceptionApproveReq;
 import com.se.sos.domain.reception.dto.ReceptionCreateReq;
 import com.se.sos.domain.reception.dto.ReceptionReVisitReq;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/reception")
 @RequiredArgsConstructor
-public class ReceptionController {
+public class ReceptionController implements ReceptionAPI {
     private final ReceptionService receptionService;
     private final JwtUtil jwtUtil;
 
@@ -51,7 +52,7 @@ public class ReceptionController {
 
     /* 병원 - 해당 reception 수락/거절 */
     @PutMapping("/{receptionId}")
-    public ResponseEntity<?> handleVisitRequest(
+    public ResponseEntity<?> acceptReceptionRequest(
             @PathVariable(name = "receptionId") UUID id,
             @Valid @RequestBody ReceptionApproveReq req
     ) {
@@ -63,11 +64,10 @@ public class ReceptionController {
 
     /* 구급대 - 재요청 */
     @PutMapping("/{receptionId}/re")
-    public ResponseEntity<?> reVisitRequest(
+    public ResponseEntity<?> retryReceptionRequest(
             @PathVariable(name = "receptionId") UUID id,
             @Valid @RequestBody ReceptionReVisitReq req
-            ){
-
+    ){
         return ResponseEntity.ok().
                 body(SuccessRes.of(SuccessType.OK, receptionService.reRequestReception(id, req.hospitalId())));
     }

@@ -1,5 +1,6 @@
 package com.se.sos.domain.hospital.controller;
 
+import com.se.sos.domain.hospital.api.HospitalAPI;
 import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.hospital.service.HospitalService;
 import com.se.sos.global.response.success.SuccessRes;
@@ -19,44 +20,58 @@ import static lombok.AccessLevel.PROTECTED;
 @Controller
 @RequestMapping("/hospital")
 @RequiredArgsConstructor(access = PROTECTED)
-public class HospitalController {
-    // 병원 목록 조회 , 응급실 상세 조회 , 응급실 정보 수정 - 수용 가능 불가 , 응급실 방문 신청 목록 조회
+public class HospitalController implements HospitalAPI {
 
     private final HospitalService hospitalService;
 
     @GetMapping
-    public ResponseEntity<?> getHospitals(@RequestParam(name = "categories", required = false) List<String> categories,
-                                          @PageableDefault(size = 10) Pageable pageable,
-                                          @RequestParam(name = "role", required = false) String role
-    ) {
-        if(role!= null && role.equals("user"))
-            return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK, hospitalService.getAllHospitals()));
-
+    public ResponseEntity<?> getAllHospitals(
+            @RequestParam(name = "categories", required = false) List<String> categories,
+            @PageableDefault(size = 10) Pageable pageable
+    ){
         if (categories == null || categories.isEmpty())
-            return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.getAllHospitals(pageable)));
-        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.getHospitalsByCategories(categories, pageable)));
+            return ResponseEntity.ok().body(SuccessRes.from(hospitalService.getAllHospitals(pageable)));
+        return ResponseEntity.ok().body(SuccessRes.from(hospitalService.getAllHospitalsByCategories(categories, pageable)));
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getAllHospitalsForUser(){
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(hospitalService.getAllHospitals()));
     }
 
     @GetMapping("/{hospitalId}")
     public ResponseEntity<?> getHospitalDetails(@PathVariable(name = "hospitalId") UUID id){
-        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.findHospitalById(id)));
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(hospitalService.findHospitalById(id)));
     }
 
     @GetMapping("/{hospitalId}/reception")
-    public ResponseEntity<?> getReceptionsByHospital(@PathVariable(name = "hospitalId") UUID id,
-                                           @PageableDefault(size = 10) Pageable pageable){
+    public ResponseEntity<?> getAllReceptionsByHospitalId(
+            @PathVariable(name = "hospitalId") UUID id,
+            @PageableDefault(size = 10) Pageable pageable
+    ){
         return ResponseEntity.ok()
-                .body(SuccessRes.of(SuccessType.OK,hospitalService.findReceptionsById(id,pageable)));
+                .body(SuccessRes.from(hospitalService.findReceptionsById(id,pageable)));
     }
 
     @PutMapping("/{hospitalId}")
-    public ResponseEntity<?> updateHospital(@PathVariable(name = "hospitalId") UUID id,
-                                            @RequestBody HospitalUpdateReq hospitalUpdateReq){
-        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.updateHospitalById(id,hospitalUpdateReq)));
+    public ResponseEntity<?> updateHospital(
+            @PathVariable(name = "hospitalId") UUID id,
+            @RequestBody HospitalUpdateReq hospitalUpdateReq
+    ){
+        hospitalService.updateHospitalById(id,hospitalUpdateReq);
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(SuccessType.OK));
     }
+
     @PutMapping("/{hospitalId}/emergencyStatus")
-    public ResponseEntity<?> updateStatus(@PathVariable(name = "hospitalId") UUID id,
-                                          @RequestParam(name = "emergencyStatus") boolean emergencyStatus){
-        return ResponseEntity.ok().body(SuccessRes.of(SuccessType.OK,hospitalService.updateEmergencyStatus(id,emergencyStatus)));
+    public ResponseEntity<?> updateStatus(
+            @PathVariable(name = "hospitalId") UUID id,
+            @RequestParam(name = "emergencyStatus") boolean emergencyStatus
+    ){
+        hospitalService.updateEmergencyStatus(id,emergencyStatus);
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(SuccessType.OK));
     }
 }

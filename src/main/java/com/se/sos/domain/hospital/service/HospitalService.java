@@ -41,18 +41,18 @@ public class HospitalService {
     }
 
     @Transactional(readOnly = true)
-    public Page<HospitalRes> getHospitalsByCategories(List<String> categoryList, Pageable pageable) {
+    public Page<HospitalRes> getAllHospitalsByCategories(List<String> categoryList, Pageable pageable) {
         List<Category> categories = categoryRepository.findByNameIn(categoryList);
         int categorySize = categories.size();
 
-        return categoryHospitalRepository.findHospitalsByCategories(categories, categorySize,pageable)
+        return categoryHospitalRepository.findHospitalsByCategories(categories, categorySize, pageable)
                 .map(HospitalRes::from);
     }
 
-
+    @Transactional(readOnly = true)
     public HospitalRes findHospitalById(UUID id) {
-        Hospital hospital = hospitalRepository.findById(id).orElseThrow(
-                () -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
+        Hospital hospital = hospitalRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
         return HospitalRes.from(hospital);
     }
 
@@ -63,34 +63,32 @@ public class HospitalService {
     }
 
     @Transactional
-    public HospitalRes updateHospitalById(UUID id, HospitalUpdateReq hospitalUpdateReq) {
+    public void updateHospitalById(UUID id, HospitalUpdateReq hospitalUpdateReq) {
         Hospital hospital = hospitalRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
-        hospital.updateHospital(hospitalUpdateReq);
+
         List<Category> categories = categoryRepository.findByNameIn(hospitalUpdateReq.getCategories());
 
-        List<String> categoryNames = categories.stream().map(Category::getName).toList();
-        List<String> errorList = new ArrayList<>();
-        for(String name : categoryNames){
-            if(!categoryRepository.existsByName(name)){
-                errorList.add(name);
-            }
-        }
-
-        if(!errorList.isEmpty()){
+        if(!isValidCategories(categories))
             throw new CustomException(ErrorType.CATEGORY_NOT_FOUND);
-        }
 
+        hospital.updateHospital(hospitalUpdateReq);
         hospital.updateCategories(categories);
-        return HospitalRes.from(hospital);
+    }
+
+    private boolean isValidCategories(List<Category> categories) {
+        for(Category category : categories){
+            if(!categoryRepository.existsByName(category.getName()))
+                return false;
+        }
+        return true;
     }
 
     @Transactional
-    public HospitalRes updateEmergencyStatus(UUID id, boolean emergencyStatus) {
+    public void updateEmergencyStatus(UUID id, boolean emergencyStatus) {
         Hospital hospital = hospitalRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
-        hospital.updateEmergencyStatus(emergencyStatus);
 
-        return HospitalRes.from(hospital);
+        hospital.updateEmergencyStatus(emergencyStatus);
     }
 }

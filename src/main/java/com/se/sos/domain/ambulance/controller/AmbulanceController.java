@@ -1,8 +1,10 @@
 package com.se.sos.domain.ambulance.controller;
 
+import com.se.sos.domain.ambulance.api.AmbulanceAPI;
 import com.se.sos.domain.ambulance.service.AmbulanceService;
 import com.se.sos.domain.paramedic.dto.ParamedicReq;
 import com.se.sos.global.response.success.SuccessRes;
+import com.se.sos.global.response.success.SuccessType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ambulance")
-public class AmbulanceController {
+public class AmbulanceController implements AmbulanceAPI {
     private final AmbulanceService ambulanceService;
 
     @GetMapping("/{ambulanceId}")
@@ -21,8 +23,8 @@ public class AmbulanceController {
         return ResponseEntity.ok().body(SuccessRes.from(ambulanceService.getAmbulanceById(ambulanceId)));
     }
     @GetMapping("/{ambulanceId}/paramedic")
-    public ResponseEntity<?> getParamedic(@PathVariable(name = "ambulanceId") UUID ambulanceId) {
-        return ResponseEntity.ok().body(SuccessRes.from(ambulanceService.getParamedicById(ambulanceId)));
+    public ResponseEntity<?> getAllParamedic(@PathVariable(name = "ambulanceId") UUID ambulanceId) {
+        return ResponseEntity.ok().body(SuccessRes.from(ambulanceService.getAllParamedicByAmbulanceId(ambulanceId)));
     }
 
     @PostMapping("/{ambulanceId}/member")
@@ -30,7 +32,8 @@ public class AmbulanceController {
             @PathVariable(name = "ambulanceId") UUID id,
             @Valid @RequestBody ParamedicReq paramedicReq
     ) {
-        return ambulanceService.addParamedic(id, paramedicReq);
+        ambulanceService.addParamedic(id, paramedicReq);
+        return ResponseEntity.ok().body(SuccessRes.from(SuccessType.OK));
     }
 
     @PutMapping("/{ambulanceId}/member/{memberId}")
@@ -39,7 +42,8 @@ public class AmbulanceController {
             @PathVariable(name = "memberId") UUID memberId,
             @Valid @RequestBody ParamedicReq paramedicReq
     ) {
-        return ambulanceService.updateParamedic(ambulanceId, memberId, paramedicReq);
+        ambulanceService.updateParamedic(ambulanceId, memberId, paramedicReq);
+        return ResponseEntity.ok().body(SuccessRes.from(SuccessType.OK));
     }
 
     @DeleteMapping("/{ambulanceId}/member/{memberId}")
@@ -47,6 +51,7 @@ public class AmbulanceController {
             @PathVariable(name = "ambulanceId") UUID ambulanceId,
             @PathVariable(name = "memberId") UUID memberId
     ) {
-        return ambulanceService.deleteParamedic(ambulanceId, memberId);
+        ambulanceService.deleteParamedic(ambulanceId, memberId);
+        return ResponseEntity.ok().body(SuccessRes.from(SuccessType.OK));
     }
 }

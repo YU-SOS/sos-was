@@ -9,11 +9,12 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
 
     // 400 잘못된 요청
+    ROLE_MISMATCH(HttpStatus.BAD_REQUEST,"Role 값을 잘못 입력하였습니다."),
     LOGOUT_FAILED(HttpStatus.BAD_REQUEST,"로그아웃 실패되었습니다."),
     REISSUE_TOKEN_FAILED(HttpStatus.BAD_REQUEST, "토큰 재발급에 실패했습니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "리프레시 토큰이 없습니다."),
     INVALID_RECEPTION_STATUS(HttpStatus.BAD_REQUEST, "잘못된 접수 상태입니다."),
-    BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효성 검증 실패. 잘못된 요청입니다."), // 400
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효성 검증 실패. 잘못된 요청입니다."),
 
     // 인증
     // 401
