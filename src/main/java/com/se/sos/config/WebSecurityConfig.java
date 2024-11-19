@@ -31,7 +31,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import static com.se.sos.config.EndpointProperties.*;
 
 @Configuration
-@EnableWebSecurity(debug=true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
