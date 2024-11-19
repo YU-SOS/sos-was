@@ -25,3 +25,8 @@ jwt:
 --- #cookie
 cookie:
   refresh-expirtaion: ${COOKIE_REFRESH_EXPIRATION}
+
+--- # swagger
+springdoc:
+  swagger-ui:
+    operations-sorter: method
