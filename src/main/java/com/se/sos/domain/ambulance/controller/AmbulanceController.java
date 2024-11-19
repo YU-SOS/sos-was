@@ -1,5 +1,6 @@
 package com.se.sos.domain.ambulance.controller;
 
+import com.se.sos.domain.ambulance.api.AmbulanceAPI;
 import com.se.sos.domain.ambulance.service.AmbulanceService;
 import com.se.sos.domain.paramedic.dto.ParamedicReq;
 import com.se.sos.global.response.success.SuccessRes;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ambulance")
-public class AmbulanceController {
+public class AmbulanceController implements AmbulanceAPI {
     private final AmbulanceService ambulanceService;
 
     @GetMapping("/{ambulanceId}")

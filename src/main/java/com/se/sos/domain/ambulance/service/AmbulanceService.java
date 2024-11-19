@@ -33,6 +33,17 @@ public class AmbulanceService {
         return AmbulanceRes.from(ambulance);
     }
 
+    @Transactional(readOnly = true)
+    public List<ParamedicRes> getAllParamedicByAmbulanceId(UUID id){
+        Ambulance ambulance = ambulanceRepository.findById(id)
+                .orElseThrow(()-> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
+
+        return ambulance.getParamedics().stream()
+                .map(ParamedicRes::fromEntity)
+                .toList();
+
+    }
+
     @Transactional
     public void addParamedic(UUID id, ParamedicReq paramedicReq) {
         Ambulance ambulance = ambulanceRepository.findById(id)
@@ -62,14 +73,5 @@ public class AmbulanceService {
     }
 
 
-    @Transactional(readOnly = true)
-    public List<ParamedicRes> getAllParamedicByAmbulanceId(UUID id){
-        Ambulance ambulance = ambulanceRepository.findById(id)
-                .orElseThrow(()-> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
 
-        return ambulance.getParamedics().stream()
-                .map(ParamedicRes::fromEntity)
-                .toList();
-
-    }
 }
