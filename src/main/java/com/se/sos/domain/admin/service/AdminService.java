@@ -36,7 +36,7 @@ public class AdminService {
     private final ReceptionRepository receptionRepository;
     private final CategoryRepository categoryRepository;
 
-    public ResponseEntity<?> getAllRegistration(){
+    public Map<String, List<RegSummaryRes>> getAllRegistration(){
 
         List<RegSummaryRes> ambulanceList = ambulanceRepository.findByRole(Role.AMB_GUEST)
                 .stream()
@@ -48,39 +48,30 @@ public class AdminService {
                 .map(hos -> RegSummaryRes.fromHospital(hos))
                 .toList();
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, List<RegSummaryRes>> map = new HashMap<>();
 
         map.put("ambulanceList", ambulanceList);
         map.put("hospitalList", hospitalList);
 
-        return ResponseEntity.status(SuccessType.OK.getStatus())
-                .body(SuccessRes.from(map));
+        return map;
     }
 
-    public ResponseEntity<?> getRegistration(Role role, UUID id){
+    public AmbulanceRegRes getAmbulanceRegistration(UUID id){
+        Ambulance ambulance = ambulanceRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
 
-        if(role.equals(Role.AMB_GUEST)){
-            Ambulance ambulance = ambulanceRepository.findByIdAndRole(id, role)
-                    .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
+        return AmbulanceRegRes.fromEntity(ambulance);
+    }
 
-            return ResponseEntity.status(SuccessType.OK.getStatus())
-                    .body(SuccessRes.from(AmbulanceRegRes.fromEntity(ambulance)));
+    public HospitalRegRes getHospitalRegistration(UUID id){
+        Hospital hospital = hospitalRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
 
-        } else if(role.equals(Role.HOS_GUEST)){
-            Hospital hospital = hospitalRepository.findByIdAndRole(id,role)
-                    .orElseThrow(() -> new CustomException(ErrorType.HOSPITAL_NOT_FOUND));
-
-            return ResponseEntity.status(SuccessType.OK.getStatus())
-                    .body(SuccessRes.from(HospitalRegRes.fromEntity(hospital, hospital.getCategories())));
-
-        } else {
-            log.error("Role 값 불일치");
-            throw new CustomException(ErrorType.BAD_REQUEST);
-        }
+        return HospitalRegRes.fromEntity(hospital, hospital.getCategories());
     }
 
     @Transactional
-    public ResponseEntity<?> approveRegistration(Role role, UUID id, boolean isApproved){
+    public void approveRegistration(Role role, UUID id, boolean isApproved){
         if(role.equals(Role.AMB_GUEST)){
             Ambulance ambulance = ambulanceRepository.findById(id)
                     .orElseThrow(() -> new CustomException(ErrorType.AMBULANCE_NOT_FOUND));
@@ -107,8 +98,6 @@ public class AdminService {
             throw new CustomException(ErrorType.BAD_REQUEST);
         }
 
-        return ResponseEntity.status(SuccessType.OK.getStatus())
-                .body(SuccessRes.from(SuccessType.OK));
     }
 
     public SystemStatusRes getSystemStatus(){
