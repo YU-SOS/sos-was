@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/reception")
 @RequiredArgsConstructor
 public class ReceptionController implements ReceptionAPI {

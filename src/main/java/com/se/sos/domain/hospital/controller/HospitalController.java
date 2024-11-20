@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Controller
+@RestController
 @RequestMapping("/hospital")
 @RequiredArgsConstructor(access = PROTECTED)
 public class HospitalController implements HospitalAPI {
