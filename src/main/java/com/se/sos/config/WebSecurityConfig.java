@@ -74,21 +74,26 @@ public class WebSecurityConfig {
                         authorizeHttpRequest
                                 .requestMatchers(PUBLIC_EP).permitAll();
 
+                        /* Common */
+                        authorizeHttpRequest
+                                .requestMatchers(HttpMethod.GET, "/reception/{receptionId}").hasAnyRole("HOS","USER")
+                                .requestMatchers(HttpMethod.GET, "/hospital/{hospitalId}").hasAnyRole("AMB","HOS")
+                                .requestMatchers(HttpMethod.GET, "/hospital").hasAnyRole("AMB", "USER");
+
                         /* Admin */
                         authorizeHttpRequest
                                 .requestMatchers(ADMIN_EP).hasRole("ADMIN");
 
                         /* Amb */
                         authorizeHttpRequest
-                                .requestMatchers(AMB_EP).hasRole("AMB")
-                                .requestMatchers(HttpMethod.GET, "/hospital/{hospitalId}").hasAnyRole("AMB","HOS")
-                                .requestMatchers(HttpMethod.GET, "/hospital").hasAnyRole("AMB", "USER");
+                                .requestMatchers(AMB_EP).hasRole("AMB");
 
                         /* Hospital */
                         authorizeHttpRequest
                                 .requestMatchers(HOS_EP).hasRole("HOS")
-                                .requestMatchers(HttpMethod.PUT, "/hospital/{hospitalId}").hasRole("HOS")
-                                .requestMatchers(HttpMethod.GET, "/reception/{receptionId}").hasAnyRole("HOS","USER");
+                                .requestMatchers(HttpMethod.PUT, "/hospital/{hospitalId}").hasRole("HOS");
+
+
 
                         /* Any Request needed to authenticated */
                         authorizeHttpRequest
