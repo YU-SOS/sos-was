@@ -76,7 +76,7 @@ public class WebSecurityConfig {
 
                         /* Common */
                         authorizeHttpRequest
-                                .requestMatchers(HttpMethod.GET, "/reception/{receptionId}").hasAnyRole("HOS","USER")
+                                .requestMatchers(HttpMethod.GET, "/reception/{receptionId}").hasAnyRole("HOS","USER","AMB")
                                 .requestMatchers(HttpMethod.GET, "/hospital/{hospitalId}").hasAnyRole("AMB","HOS")
                                 .requestMatchers(HttpMethod.GET, "/hospital").hasAnyRole("AMB", "USER");
 
