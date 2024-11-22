@@ -17,8 +17,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,9 +26,7 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -70,21 +66,19 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
 
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
+
         String id = userDetails.getId(); // 고유 번호
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        if(role.equals(Role.AMB_GUEST.getValue()) || role.equals(Role.HOS_GUEST.getValue())){
+            setResponse(response, ErrorType.GUEST);
+            return;
+        }
+
         if(userDetails.hasRole(Role.BLACKLIST)){
-            ErrorType e = ErrorType.BLACKLIST;
-
-            Map<String, Object> map = new HashMap<>();
-            map.put("status", e.getStatusCode());
-            map.put("message", e.getMessage());
-            map.put("data", id);
-
-            response.setStatus(e.getStatusCode());
-            response.getWriter().write(objectMapper.writeValueAsString(map));
+            setResponse(response, ErrorType.BLACKLIST);
             return;
         }
 
@@ -118,5 +112,12 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         cookie.setHttpOnly(true);
 
         return cookie;
+    }
+
+    private void setResponse(HttpServletResponse response, ErrorType errorType) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(errorType.getStatusCode());
+        response.setContentType("application/json");
+        response.getWriter().write(objectMapper.writeValueAsString(ErrorRes.from(errorType)));
     }
 }

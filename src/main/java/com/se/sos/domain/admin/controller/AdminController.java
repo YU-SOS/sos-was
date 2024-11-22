@@ -47,6 +47,7 @@ public class AdminController implements AdminAPI {
             @RequestParam(name = "id") UUID id,
             @RequestBody RegApproveReq regApproveReq
     ){
+        adminService.approveRegistration(role, id, regApproveReq.isApproved());
         return ResponseEntity.ok().body(SuccessRes.from(SuccessType.OK));
     }
 
