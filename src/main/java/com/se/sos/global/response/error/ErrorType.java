@@ -27,7 +27,8 @@ public enum ErrorType {
     // 인가
     // 403
     UN_AUTHORIZATION(HttpStatus.FORBIDDEN, "허용되지 않은 접근입니다."),
-    BLACKLIST(HttpStatus.FORBIDDEN, "블랙리스트된 사용자입니다."),
+    GUEST(HttpStatus.FORBIDDEN, "GUEST"),
+    BLACKLIST(HttpStatus.FORBIDDEN, "BLACKLIST"),
 
     // 데이터
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 사용자입니다."),        // 404
