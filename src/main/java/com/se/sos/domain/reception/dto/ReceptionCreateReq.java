@@ -27,13 +27,14 @@ public class ReceptionCreateReq {
     @NotNull(message = "선탑 구급대원은 필수 전달값 입니다.")
     UUID paramedicId;
 
-    public static Reception toEntity(ReceptionCreateReq receptionCreateReq, Ambulance ambulance , Hospital hospital, Paramedic paramedic) {
+    public static Reception toEntity(ReceptionCreateReq receptionCreateReq, Ambulance ambulance , Hospital hospital, Paramedic paramedic, String number) {
         return Reception.builder()
                 .startTime(receptionCreateReq.getStartTime())
                 .patient(PatientReq.toEntity(receptionCreateReq.getPatientReq()))
                 .ambulance(ambulance)
                 .hospital(hospital)
                 .paramedic(paramedic)
+                .number(number)
                 .build();
     }
 }

@@ -22,6 +22,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.UUID;
 
 @Service
@@ -47,13 +48,31 @@ public class ReceptionService {
         Paramedic paramedic = paramedicRepository.findById(paramedicId)
                 .orElseThrow(() -> new CustomException(ErrorType.PARAMEDIC_NOT_FOUND));
 
-        Reception reception = ReceptionCreateReq.toEntity(req, ambulance, hospital, paramedic);
+        String number;
+        do {
+            number = generateReceptionNumber();
+        } while(receptionRepository.existsByNumber(number));
+
+        Reception reception = ReceptionCreateReq.toEntity(req, ambulance, hospital, paramedic, number);
         patientRepository.save(reception.getPatient());
         receptionRepository.save(reception);
 
         return reception.getId();
     }
 
+    private String generateReceptionNumber(){
+        final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        final int LENGTH = 6;
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0 ; i < LENGTH ; i++){
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+
+        return sb.toString();
+    }
 
     public ReceptionRes findReceptionById(UUID id) {
         Reception reception = receptionRepository.findReceptionById(id)
@@ -100,11 +119,11 @@ public class ReceptionService {
         receptionRepository.save(reception);
     }
 
-    public ReceptionGuestRes findReceptionForGuest(UUID id){
-        Reception reception = receptionRepository.findById(id)
+    public ReceptionGuestRes findReceptionForGuest(String number){
+        Reception reception = receptionRepository.findByNumber(number)
                 .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
 
-        return ReceptionGuestRes.of(reception.getHospital(), reception.getAmbulance());
+        return ReceptionGuestRes.of(reception.getNumber(), reception.getHospital(), reception.getAmbulance());
     }
 
     @Transactional

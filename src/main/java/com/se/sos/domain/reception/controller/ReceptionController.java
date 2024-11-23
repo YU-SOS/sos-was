@@ -44,10 +44,10 @@ public class ReceptionController implements ReceptionAPI {
                 .body(SuccessRes.from(receptionService.findReceptionById(id)));
     }
 
-    @GetMapping("/{receptionId}/guest")
-    public ResponseEntity<?> getReceptionForGuest(@PathVariable(name = "receptionId") UUID id) {
+    @GetMapping("/{receptionNumber}/guest")
+    public ResponseEntity<?> getReceptionForGuest(@PathVariable(name = "receptionNumber") String number) {
         return ResponseEntity.ok()
-                .body(SuccessRes.from(receptionService.findReceptionForGuest(id)));
+                .body(SuccessRes.from(receptionService.findReceptionForGuest(number)));
     }
 
     /* 병원 - 해당 reception 수락/거절 */

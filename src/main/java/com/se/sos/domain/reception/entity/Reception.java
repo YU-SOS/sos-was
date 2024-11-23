@@ -29,6 +29,10 @@ public class Reception {
     ReceptionStatus receptionStatus = ReceptionStatus.PENDING;
 
     @NotNull
+    @Column(length = 6, unique = true)
+    String number;
+
+    @NotNull
     LocalDateTime startTime; // 이송 시작 시간
     LocalDateTime endTime; // 이송 완료 시간
 
@@ -57,12 +61,14 @@ public class Reception {
             Ambulance ambulance,
             Hospital hospital,
             Patient patient,
-            Paramedic paramedic) {
+            Paramedic paramedic,
+            String number) {
         this.startTime = startTime;
         this.ambulance = ambulance;
         this.patient = patient;
         this.hospital = hospital;
         this.paramedic = paramedic;
+        this.number = number;
     }
 
     public void updateReceptionStatus(ReceptionStatus status) {
