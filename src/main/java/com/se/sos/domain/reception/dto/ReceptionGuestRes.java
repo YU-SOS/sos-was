@@ -8,11 +8,13 @@ import lombok.Builder;
 
 @Builder
 public record ReceptionGuestRes(
-    HospitalGuestRes hospital,
-    AmbulanceGuestRes ambulance
+        String number,
+        HospitalGuestRes hospital,
+        AmbulanceGuestRes ambulance
 ) {
-    public static ReceptionGuestRes of(Hospital hospital, Ambulance ambulance) {
+    public static ReceptionGuestRes of(String number, Hospital hospital, Ambulance ambulance) {
         return ReceptionGuestRes.builder()
+                .number(number)
                 .hospital(HospitalGuestRes.fromEntity(hospital))
                 .ambulance(AmbulanceGuestRes.fromEntity(ambulance))
                 .build();

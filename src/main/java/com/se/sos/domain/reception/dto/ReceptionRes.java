@@ -6,16 +6,20 @@ import com.se.sos.domain.ambulance.dto.AmbulanceRes;
 import com.se.sos.domain.comment.dto.CommentRes;
 import com.se.sos.domain.hospital.dto.HospitalRes;
 import com.se.sos.domain.paramedic.dto.ParamedicRes;
+import com.se.sos.domain.patient.dto.PatientReq;
 import com.se.sos.domain.reception.entity.Reception;
 import com.se.sos.domain.reception.entity.ReceptionStatus;
 import com.se.sos.domain.patient.dto.PatientRes;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 public record ReceptionRes(
         UUID id,
+        String number,
         LocalDateTime startTime,
         LocalDateTime endTime,
         AmbulanceRes ambulance,
@@ -32,16 +36,17 @@ public record ReceptionRes(
                 .map(CommentRes::from)
                 .toList();
 
-        return new ReceptionRes(
-                reception.getId(),
-                reception.getStartTime(),
-                reception.getEndTime(),
-                AmbulanceRes.from(reception.getAmbulance()),
-                HospitalRes.from(reception.getHospital()),
-                PatientRes.from(reception.getPatient()),
-                commentResList,
-                reception.getReceptionStatus(),
-                ParamedicRes.fromEntity(reception.getParamedic())
-        );
+        return ReceptionRes.builder()
+                .id(reception.getId())
+                .number(reception.getNumber())
+                .startTime(reception.getStartTime())
+                .endTime(reception.getEndTime())
+                .ambulance(AmbulanceRes.from(reception.getAmbulance()))
+                .hospital(HospitalRes.from(reception.getHospital()))
+                .patient(PatientRes.from(reception.getPatient()))
+                .comments(commentResList)
+                .receptionStatus(reception.getReceptionStatus())
+                .paramedicRes(ParamedicRes.fromEntity(reception.getParamedic()))
+                .build();
     }
 }
