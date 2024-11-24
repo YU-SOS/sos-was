@@ -63,7 +63,7 @@ public class Hospital {
 
     @Builder
     public Hospital(String hospitalId, String password, Role role, String name, String address, String telephoneNumber,
-                    String imageUrl, Location location, EmergencyRoomStatus emergencyRoomStatus) {
+                    String imageUrl, Location location) {
         this.hospitalId = hospitalId;
         this.password = password;
         this.role = role;
@@ -72,7 +72,6 @@ public class Hospital {
         this.telephoneNumber = telephoneNumber;
         this.imageUrl = imageUrl;
         this.location = location;
-        this.emergencyRoomStatus = emergencyRoomStatus;
     }
     public void addCategories(List<Category> categories) {
         for (Category category : categories) {
