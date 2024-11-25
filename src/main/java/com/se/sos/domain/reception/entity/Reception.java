@@ -83,8 +83,4 @@ public class Reception {
         this.receptionStatus = ReceptionStatus.ARRIVAL;
     }
 
-    public void deleteHospital(){
-        this.hospital = null;
-    }
-
 }

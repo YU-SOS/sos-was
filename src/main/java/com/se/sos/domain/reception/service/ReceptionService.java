@@ -96,10 +96,8 @@ public class ReceptionService {
 
         if(isApproved)
             reception.updateReceptionStatus(ReceptionStatus.MOVE);
-        else{
+        else
             reception.updateReceptionStatus(ReceptionStatus.REJECTED);
-            reception.deleteHospital();
-        }
     }
 
     @Transactional
