@@ -38,10 +38,12 @@ public class Patient {  // 환자
     @Enumerated(EnumType.STRING)
     Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    Severity severity;
 
     @Builder
     public Patient(String name, int age, String phoneNumber, String symptom,
-                   String medication, String reference, Gender gender)
+                   String medication, String reference, Gender gender,Severity severity)
     {
         this.name = name;
         this.age = age;
@@ -50,5 +52,6 @@ public class Patient {  // 환자
         this.medication = medication;
         this.reference = reference;
         this.gender = gender;
+        this.severity = severity;
     }
 }
