@@ -2,6 +2,7 @@ package com.se.sos.domain.patient.dto;
 
 import com.se.sos.domain.patient.entity.Gender;
 import com.se.sos.domain.patient.entity.Patient;
+import com.se.sos.domain.patient.entity.Severity;
 import jakarta.validation.constraints.NotBlank;
 
 public record PatientReq(
@@ -12,7 +13,8 @@ public record PatientReq(
         String symptom,
         String medication,
         String reference,
-        Gender gender
+        Gender gender,
+        Severity severity
 ) {
     public static Patient toEntity(PatientReq patientReq){
         return Patient.builder()
@@ -23,6 +25,7 @@ public record PatientReq(
                 .medication(patientReq.medication())
                 .reference(patientReq.reference())
                 .gender(patientReq.gender())
+                .severity(patientReq.severity())
                 .build();
     }
 }
