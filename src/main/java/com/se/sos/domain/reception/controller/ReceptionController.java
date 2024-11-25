@@ -44,6 +44,12 @@ public class ReceptionController implements ReceptionAPI {
                 .body(SuccessRes.from(receptionService.findReceptionById(id)));
     }
 
+    @GetMapping("/{receptionNumber}/user")
+    public ResponseEntity<?> getReceptionForUser(@PathVariable(name = "receptionNumber") String number){
+        return ResponseEntity.ok()
+                .body(SuccessRes.from(receptionService.findReceptionByNumber(number)));
+    }
+
     @GetMapping("/{receptionNumber}/guest")
     public ResponseEntity<?> getReceptionForGuest(@PathVariable(name = "receptionNumber") String number) {
         return ResponseEntity.ok()

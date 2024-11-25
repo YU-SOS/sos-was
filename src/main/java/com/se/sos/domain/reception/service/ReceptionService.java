@@ -81,6 +81,12 @@ public class ReceptionService {
         return ReceptionRes.from(reception);
     }
 
+    public ReceptionRes findReceptionByNumber(String number){
+        Reception reception = receptionRepository.findByNumber(number)
+                .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
+
+        return ReceptionRes.from(reception);
+    }
 
     @Transactional
     public void acceptReception(UUID receptionId, boolean isApproved){
