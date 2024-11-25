@@ -8,6 +8,8 @@ import com.se.sos.domain.hospital.dto.HospitalRes;
 import com.se.sos.domain.hospital.dto.HospitalUpdateReq;
 import com.se.sos.domain.hospital.entity.Hospital;
 import com.se.sos.domain.hospital.repository.HospitalRepository;
+import com.se.sos.domain.reception.entity.Reception;
+import com.se.sos.domain.reception.entity.ReceptionStatus;
 import com.se.sos.domain.reception.repository.ReceptionRepository;
 import com.se.sos.global.exception.CustomException;
 import com.se.sos.global.response.error.ErrorType;
@@ -38,6 +40,12 @@ public class HospitalService {
 
     public List<HospitalRes> getAllHospitals() {
         return hospitalRepository.findAll().stream().map(HospitalRes::from).toList();
+    }
+    public List<HospitalReceptionRes> getReceptionByHospitalAndStatus(UUID id){
+        List<ReceptionStatus> receptionStatuses = List.of(ReceptionStatus.MOVE,ReceptionStatus.ARRIVAL);
+        return receptionRepository.findByHospital_IdAndReceptionStatusIn(id,receptionStatuses)
+                .stream().map(HospitalReceptionRes::from)
+                .toList();
     }
 
     @Transactional(readOnly = true)
