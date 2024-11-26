@@ -109,6 +109,75 @@ public interface ReceptionAPI {
     })
     public ResponseEntity<?> getReception(@PathVariable(name = "receptionId") UUID id);
 
+    @Operation(summary = "일반 사용자 접수 조회", description = "일반 사용자 접수 조회 API")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "접수 조회 성공",
+                    content = @Content(examples = @ExampleObject(value = """
+                            {
+                                  "status": 200,
+                                  "message": "요청이 성공했습니다.",
+                                  "data": {
+                                      "id": "378f8f40-cc5f-46a9-8c91-992197e5f939",
+                                      "number": "abc123",
+                                      "startTime": "2024-10-03T15:30:00",
+                                      "endTime": null,
+                                      "ambulance": {
+                                          "id": "e509c8ef-cd32-492a-842f-1dcf6b7ddfbd",
+                                          "name": "ambtest",
+                                          "address": "ambtest",
+                                          "telephoneNumber": "321232",
+                                          "location": {
+                                              "longitude": "32.123485",
+                                              "latitude": "18.456347"
+                                          },
+                                          "imageUrl": "test.com/test.png"
+                                      },
+                                      "hospital": {
+                                          "id": "2ca469cc-2c8a-4015-b0ca-25dfb094b33b",
+                                          "name": "hostest2",
+                                          "address": "hostest2",
+                                          "telephoneNumber": "123423452",
+                                          "imageUrl": "test.com/test.png",
+                                          "location": {
+                                              "longitude": "32.123485",
+                                              "latitude": "18.456347"
+                                          },
+                                          "categories": [
+                                              {
+                                                  "id": 1,
+                                                  "name": "내과"
+                                              },
+                                              {
+                                                  "id": 2,
+                                                  "name": "정형외과"
+                                              }
+                                          ],
+                                          "emergencyRoomStatus": null
+                                      },
+                                      "patient": {
+                                          "name": "홍길동2",
+                                          "age": 21,
+                                          "phoneNumber": "010-0900-0000",
+                                          "medication": "need_to_type_change_list",
+                                          "reference": "x",
+                                          "gender": "male"
+                                      },
+                                      "comments": [],
+                                      "receptionStatus": "PENDING",
+                                      "paramedic": {
+                                          "id": "094140b7-1ff8-494c-9c36-f5b66fb1000c",
+                                          "name": "테스트",
+                                          "phoneNumber": "010-0000-0000"
+                                      }
+                                  }
+                              }
+                            """))
+            )
+    })
+    public ResponseEntity<?> getReceptionForUser(@PathVariable(name = "receptionNumber") String number);
+
     @Operation(summary = "게스트 접수 조회", description = "게스트 접수 조회 API")
     @ApiResponses({
             @ApiResponse(

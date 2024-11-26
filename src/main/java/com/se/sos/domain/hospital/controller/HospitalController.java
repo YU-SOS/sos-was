@@ -45,7 +45,7 @@ public class HospitalController implements HospitalAPI {
                 .body(SuccessRes.from(hospitalService.findHospitalById(id)));
     }
     @GetMapping("/{hospitalId}/reception/accept")
-    public ResponseEntity<?> getHospitalReceptionAccept(@PathVariable(name = "hospitalId") UUID id){
+    public ResponseEntity<?> getAllHospitalReceptionAccept(@PathVariable(name = "hospitalId") UUID id){
         return ResponseEntity.ok()
                 .body(SuccessRes.from(hospitalService.getReceptionByHospitalAndStatus(id)));
     }
