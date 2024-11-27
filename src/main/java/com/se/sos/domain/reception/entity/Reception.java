@@ -76,6 +76,7 @@ public class Reception {
     }
 
     public void updateHospital(Hospital hospital){
+        this.receptionStatus = ReceptionStatus.PENDING;
         this.hospital = hospital;
     }
 
