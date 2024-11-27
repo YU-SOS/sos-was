@@ -9,6 +9,7 @@ public record HospitalGuestRes(
         String name,
         String address,
         String imageUrl,
+        String telephoneNumber,
         Location location
 ) {
     public static HospitalGuestRes fromEntity(Hospital hospital){
@@ -16,6 +17,7 @@ public record HospitalGuestRes(
                 .name(hospital.getName())
                 .address(hospital.getAddress())
                 .imageUrl(hospital.getImageUrl())
+                .telephoneNumber(hospital.getTelephoneNumber())
                 .location(hospital.getLocation())
                 .build();
     }

@@ -127,7 +127,7 @@ public class ReceptionService {
         Reception reception = receptionRepository.findByNumber(number)
                 .orElseThrow(() -> new CustomException(ErrorType.RECEPTION_NOT_FOUND));
 
-        return ReceptionGuestRes.of(reception.getNumber(), reception.getHospital(), reception.getAmbulance());
+        return ReceptionGuestRes.of(reception.getNumber(), reception.getHospital(), reception.getAmbulance(), reception.getPatient());
     }
 
     @Transactional
