@@ -30,3 +30,7 @@ cookie:
 springdoc:
   swagger-ui:
     operations-sorter: method
+
+--- # domain
+domain:
+  web: ${WEB_DOMAIN}
