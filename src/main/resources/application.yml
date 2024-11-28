@@ -34,3 +34,4 @@ springdoc:
 --- # domain
 domain:
   web: ${WEB_DOMAIN}
+  web-ip : ${WEB_IP}

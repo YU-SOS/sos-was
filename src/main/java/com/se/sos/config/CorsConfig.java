@@ -14,14 +14,17 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
+    @Value("${domain.web-ip}")
+    String WEB_IP;
+
     @Value("${domain.web}")
-    String web;
+    String WEB_DOMAIN;
 
     @Bean
     @Primary
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", web));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", WEB_DOMAIN, WEB_IP));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setExposedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.SET_COOKIE));
         configuration.setAllowedHeaders(List.of("*"));
